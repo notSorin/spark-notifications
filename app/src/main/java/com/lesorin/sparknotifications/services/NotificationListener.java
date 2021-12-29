@@ -11,120 +11,152 @@ import android.hardware.TriggerEventListener;
 import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-
 import com.lesorin.sparknotifications.helpers.AppHelper;
 import com.lesorin.sparknotifications.helpers.ScreenController;
 
-
 public class NotificationListener extends NotificationListenerService implements SensorEventListener,
-        SharedPreferences.OnSharedPreferenceChangeListener {
-
+        SharedPreferences.OnSharedPreferenceChangeListener
+{
     private String mLastNotifyingPackage;
 
     @Override
-    public void onCreate() {
+    public void onCreate()
+    {
         super.onCreate();
 
-        PreferenceManager.getDefaultSharedPreferences(this)
-                .registerOnSharedPreferenceChangeListener(this);
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         super.onDestroy();
-
-        PreferenceManager.getDefaultSharedPreferences(this)
-                .unregisterOnSharedPreferenceChangeListener(this);
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override
-    public void onNotificationPosted(StatusBarNotification sbn) {
-        if (sbn.isOngoing()) {
+    public void onNotificationPosted(StatusBarNotification sbn)
+    {
+        if(sbn.isOngoing())
+        {
             return;
         }
 
         AppHelper.recordNotificationFromApp(sbn.getPackageName());
-        if (!AppHelper.isAppEnabled(sbn.getPackageName())) {
+
+        if(!AppHelper.isAppEnabled(sbn.getPackageName()))
+        {
             return;
         }
 
-        //LoggerFactory.getLogger("NotificationListener")
-                //.debug("Got a non-ongoing notification for an enabled app. " + sbn.getPackageName());
+        //LoggerFactory.getLogger("NotificationListener").debug("Got a non-ongoing notification for an enabled app. " + sbn.getPackageName());
+
         mLastNotifyingPackage = sbn.getPackageName();
-        if (isProximitySensorEnabled()) {
-            if (!registerProximitySensorListener()) {
+
+        if(isProximitySensorEnabled())
+        {
+            if(!registerProximitySensorListener())
+            {
                 new ScreenController(this, false).handleNotification(mLastNotifyingPackage);
             }
-        } else {
+        }
+        else
+        {
             new ScreenController(this, false).handleNotification(mLastNotifyingPackage);
         }
     }
 
     @Override
-    public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
+    public void onSensorChanged(SensorEvent event)
+    {
+        if(event.sensor.getType() == Sensor.TYPE_PROXIMITY)
+        {
             unregisterProximitySensorListener();
 
             boolean close = event.values[0] < event.sensor.getMaximumRange();
+
             new ScreenController(this, close).handleNotification(mLastNotifyingPackage);
         }
     }
 
-    private boolean isProximitySensorEnabled() {
+    private boolean isProximitySensorEnabled()
+    {
         return !PreferenceManager.getDefaultSharedPreferences(this).getBoolean("proxSensor", true);
     }
 
-    private boolean registerProximitySensorListener() {
+    private boolean registerProximitySensorListener()
+    {
         SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         Sensor proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
 
-        if (proximitySensor == null) {
+        if(proximitySensor == null)
+        {
             return false;
-        } else {
+        }
+        else
+        {
             sensorManager.registerListener(this, proximitySensor, SensorManager.SENSOR_DELAY_NORMAL);
+
             return true;
         }
     }
 
-    private void unregisterProximitySensorListener() {
-        ((SensorManager) getSystemService(Context.SENSOR_SERVICE)).unregisterListener(this);
+    private void unregisterProximitySensorListener()
+    {
+        ((SensorManager)getSystemService(Context.SENSOR_SERVICE)).unregisterListener(this);
     }
 
-    private boolean isWakeOnPickupEnabled() {
+    private boolean isWakeOnPickupEnabled()
+    {
         return PreferenceManager.getDefaultSharedPreferences(this).getBoolean("wake_on_pickup", false);
     }
 
-    private void registerPickupListener() {
-        SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+    private void registerPickupListener()
+    {
+        SensorManager sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         Sensor pickupSensor = sensorManager.getDefaultSensor(25);
-        if (pickupSensor != null) {
-            sensorManager.requestTriggerSensor(new TriggerEventListener() {
+
+        if(pickupSensor != null)
+        {
+            sensorManager.requestTriggerSensor(new TriggerEventListener()
+            {
                 @Override
-                public void onTrigger(TriggerEvent triggerEvent) {
+                public void onTrigger(TriggerEvent triggerEvent)
+                {
                     new ScreenController(NotificationListener.this, false).handlePickup();
 
-                    if (isWakeOnPickupEnabled()) {
+                    if(isWakeOnPickupEnabled())
+                    {
                         registerPickupListener();
                     }
                 }
             }, pickupSensor);
-        } else {
+        }
+        else
+        {
             //LoggerFactory.getLogger("NotificationListener").debug("No pickup listener available");
         }
     }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-        if (key.equals("wake_on_pickup")) {
-            if (isWakeOnPickupEnabled()) {
+    public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
+    {
+        if(key.equals("wake_on_pickup"))
+        {
+            if(isWakeOnPickupEnabled())
+            {
                 registerPickupListener();
             }
         }
     }
 
     @Override
-    public void onNotificationRemoved(StatusBarNotification sbn) {}
+    public void onNotificationRemoved(StatusBarNotification sbn)
+    {
+    }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+    public void onAccuracyChanged(Sensor sensor, int accuracy)
+    {
+    }
 }
