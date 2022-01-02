@@ -2,22 +2,20 @@ package com.lesorin.sparknotifications.helpers;
 
 import com.lesorin.sparknotifications.models.App;
 import com.lesorin.sparknotifications.models.RecentApp;
-
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
-public class AppHelper {
-
-    public static boolean isAppEnabled(String packageName) {
+public class AppHelper
+{
+    public static boolean isAppEnabled(String packageName)
+    {
         Realm realm = Realm.getDefaultInstance();
-
-        App existingApp = realm.where(App.class)
-                .equalTo("packageName", packageName)
-                .findFirst();
-
+        App existingApp = realm.where(App.class).equalTo("packageName", packageName).findFirst();
         boolean enabled = false;
-        if (existingApp != null) {
+
+        if(existingApp != null)
+        {
             enabled = existingApp.getEnabled();
         }
 
@@ -26,44 +24,46 @@ public class AppHelper {
         return enabled;
     }
 
-    public static void recordNotificationFromApp(String packageName) {
+    public static void recordNotificationFromApp(String packageName)
+    {
         Realm realm = Realm.getDefaultInstance();
+        App existingApp = realm.where(App.class).equalTo("packageName", packageName).findFirst();
 
-        App existingApp = realm.where(App.class)
-                .equalTo("packageName", packageName)
-                .findFirst();
-
-        if (existingApp == null) {
+        if(existingApp == null)
+        {
             realm.beginTransaction();
 
             App app = realm.createObject(App.class);
+
             app.setPackageName(packageName);
             app.setEnabled(true);
-
             realm.commitTransaction();
         }
 
         realm.close();
     }
 
-    public static void recordScreenWakeFromApp(String packageName) {
+    public static void recordScreenWakeFromApp(String packageName)
+    {
         Realm realm = Realm.getDefaultInstance();
+
         realm.beginTransaction();
 
         RecentApp recentApp = realm.createObject(RecentApp.class);
+
         recentApp.setPackageName(packageName);
         recentApp.setTimestamp(System.currentTimeMillis());
-
         realm.commitTransaction();
         realm.close();
     }
 
-    public static RealmResults<RecentApp> getRecentNotifyingApps() {
+    public static RealmResults<RecentApp> getRecentNotifyingApps()
+    {
         return Realm.getDefaultInstance().where(RecentApp.class).findAll().sort("timestamp", Sort.DESCENDING);
     }
 
-    public static RealmResults<App> getNotifyingApps() {
-        return Realm.getDefaultInstance().where(App.class)
-                .findAll();
+    public static RealmResults<App> getNotifyingApps()
+    {
+        return Realm.getDefaultInstance().where(App.class).findAll();
     }
 }
