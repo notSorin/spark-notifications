@@ -29,7 +29,6 @@ android {
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.0'
-    //implementation 'com.lukekorth:mailable_log:0.1.6'
     implementation 'fr.nicolaspomepuy:discreetapprate:2.0.4@aar'
 
 }
