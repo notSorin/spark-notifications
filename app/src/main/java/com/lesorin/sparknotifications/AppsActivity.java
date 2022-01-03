@@ -16,7 +16,7 @@ public class AppsActivity extends AppCompatActivity
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.apps);
+		setContentView(R.layout.apps_layout);
 
 		if(getSupportActionBar() != null)
 		{
