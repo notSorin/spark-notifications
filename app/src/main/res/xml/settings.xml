@@ -4,11 +4,10 @@
     android:layout_height="match_parent">
 
     <PreferenceCategory android:title="@string/service">
-        <CheckBoxPreference
+        <SwitchPreference
             android:key="service"
             android:summary="@string/service_summary"
-            android:title="@string/service_title"
-            android:widgetLayout="@layout/preference_switch_layout" />
+            android:title="@string/service_title" />
 
         <Preference
             android:key="app"
@@ -22,11 +21,10 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/options">
-        <CheckBoxPreference
+        <SwitchPreference
             android:key="device_admin"
             android:summary="@string/admin_summary"
-            android:title="@string/admin_title"
-            android:widgetLayout="@layout/preference_switch_layout" />
+            android:title="@string/admin_title" />
 
         <Preference
             android:key="wake_length"
@@ -36,42 +34,37 @@
             android:key="delay"
             android:title="@string/delay_title" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="bright"
             android:summary="@string/full_brightness_summary"
-            android:title="@string/full_brightness"
-            android:widgetLayout="@layout/preference_switch_layout" />
+            android:title="@string/full_brightness" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="proxSensor"
             android:summary="@string/disable_sensor_summary"
-            android:title="@string/disable_sensor"
-            android:widgetLayout="@layout/preference_switch_layout" />
+            android:title="@string/disable_sensor" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="wake_on_pickup"
             android:summary="@string/wake_on_pickup_summary"
-            android:title="@string/wake_on_pickup"
-            android:widgetLayout="@layout/preference_switch_layout" />
+            android:title="@string/wake_on_pickup" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="status-bar"
             android:summary="@string/statusBarSum"
-            android:title="@string/statusBar"
-            android:widgetLayout="@layout/preference_switch_layout" />
+            android:title="@string/statusBar" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/quiet_time">
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="quiet"
             android:summary="@string/quietSum"
-            android:title="@string/quietHours"
-            android:widgetLayout="@layout/preference_switch_layout" />
+            android:title="@string/quietHours" />
 
         <com.lesorin.sparknotifications.views.TimePreference
             android:defaultValue="22:00"

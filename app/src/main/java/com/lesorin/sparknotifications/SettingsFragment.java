@@ -7,10 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.SwitchPreference;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,10 +26,10 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     private static final int REQUEST_CODE_ENABLE_ADMIN = 1;
     private SharedPreferences mPrefs;
     private boolean mServiceActive;
-    private CheckBoxPreference mServicePreference;
+    private SwitchPreference mServicePreference;
     private DevicePolicyManager mDPM;
     private ComponentName mDeviceAdmin;
-    private CheckBoxPreference mDeviceAdminPreference;
+    private SwitchPreference mDeviceAdminPreference;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -66,7 +66,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     private void initializeService()
     {
-        mServicePreference = (CheckBoxPreference)findPreference("service");
+        mServicePreference = (SwitchPreference)findPreference("service");
 
         mServicePreference.setOnPreferenceClickListener(preference ->
         {
@@ -96,7 +96,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     {
         mDPM = (DevicePolicyManager)getActivity().getSystemService(Context.DEVICE_POLICY_SERVICE);
         mDeviceAdmin = new ComponentName(getActivity(), ScreenNotificationsDeviceAdminReceiver.class);
-        mDeviceAdminPreference = (CheckBoxPreference)findPreference("device_admin");
+        mDeviceAdminPreference = (SwitchPreference)findPreference("device_admin");
 
         mDeviceAdminPreference.setOnPreferenceChangeListener((preference, newValue) ->
         {
