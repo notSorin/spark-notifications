@@ -24,7 +24,7 @@ public class AppsActivity extends AppCompatActivity
 		}
 
         mAdapter = new AppAdapter(this);
-		ListView listView = (ListView)findViewById(R.id.apps_list);
+		ListView listView = findViewById(R.id.apps_list);
 
 		listView.setAdapter(mAdapter);
         startService(new Intent(this, AppScanningService.class));
