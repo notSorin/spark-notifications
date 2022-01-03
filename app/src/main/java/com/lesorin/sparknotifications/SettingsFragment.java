@@ -178,7 +178,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         {
             LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View numberPickerView = inflater.inflate(R.layout.number_picker_dialog, null);
-            final NumberPicker numberPicker = (NumberPicker)numberPickerView.findViewById(R.id.number_picker);
+            final NumberPicker numberPicker = numberPickerView.findViewById(R.id.NumberPicker);
 
             numberPicker.setMinValue(1);
             numberPicker.setMaxValue(900);
@@ -199,13 +199,13 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         {
             LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View numberPickerView = inflater.inflate(R.layout.number_picker_dialog, null);
-            final NumberPicker numberPicker = (NumberPicker) numberPickerView.findViewById(R.id.number_picker);
+            final NumberPicker numberPicker = numberPickerView.findViewById(R.id.NumberPicker);
 
             numberPicker.setMinValue(0);
             numberPicker.setMaxValue(900);
             numberPicker.setValue(mPrefs.getInt("delay", 0));
 
-            new AlertDialog.Builder(getActivity()).setTitle(R.string.delay_title).setView(numberPickerView).
+            new AlertDialog.Builder(getActivity()).setTitle(R.string.delay_title).setView(numberPicker).
                     setPositiveButton(android.R.string.ok, (dialog, whichButton) ->
                     {
                         mPrefs.edit().putInt("delay", numberPicker.getValue()).apply();
