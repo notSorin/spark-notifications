@@ -8,81 +8,94 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.lesorin.sparknotifications.BuildConfig;
 import com.lesorin.sparknotifications.R;
 import com.lesorin.sparknotifications.helpers.AppHelper;
 import com.lesorin.sparknotifications.models.RecentApp;
-
 import io.realm.RealmResults;
 
-public class RecentAppsAdapter extends BaseAdapter {
-
+public class RecentAppsAdapter extends BaseAdapter
+{
     private Context mContext;
     private LayoutInflater mInflater;
     private RealmResults<RecentApp> mApps;
 
-    public RecentAppsAdapter(Context context) {
+    public RecentAppsAdapter(Context context)
+    {
         mContext = context;
-        mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mInflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mApps = AppHelper.getRecentNotifyingApps();
     }
 
     @Override
-    public int getCount() {
-        if (mApps.size() > 50) {
-            return 50;
-        } else {
-            return mApps.size();
-        }
+    public int getCount()
+    {
+        return Math.min(mApps.size(), 50);
     }
 
     @Override
-    public String getItem(int position) {
+    public String getItem(int position)
+    {
         return mApps.get(position).getPackageName();
     }
 
     @Override
-    public long getItemId(int position) {
+    public long getItemId(int position)
+    {
         return position;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
         final ViewHolder holder;
-        if (convertView == null) {
+
+        if(convertView == null)
+        {
             convertView = mInflater.inflate(R.layout.recent_app, null);
             holder = new ViewHolder();
-            holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-            holder.name = (TextView) convertView.findViewById(R.id.name);
-            holder.notificationTime = (TextView) convertView.findViewById(R.id.notification_time);
+            holder.icon = convertView.findViewById(R.id.icon);
+            holder.name = convertView.findViewById(R.id.name);
+            holder.notificationTime = convertView.findViewById(R.id.notification_time);
+
             convertView.setTag(holder);
-        } else {
+        }
+        else
+        {
             holder = (ViewHolder) convertView.getTag();
         }
 
         final RecentApp app = mApps.get(position);
+
         RecentApp.fetchInformation(app, mContext);
-        if (app.isInstalled()) {
+
+        if(app.isInstalled())
+        {
             holder.icon.setImageDrawable(app.getIcon());
 
-            if (app.getPackageName().equals(BuildConfig.APPLICATION_ID)) {
+            if(app.getPackageName().equals(BuildConfig.APPLICATION_ID))
+            {
                 holder.name.setText(R.string.picked_up);
-            } else {
+            }
+            else
+            {
                 holder.name.setText(app.getName());
             }
 
-            holder.notificationTime.setText(DateUtils.getRelativeTimeSpanString(app.getTimestamp(), System.currentTimeMillis(), 0));
-        } else {
+        }
+        else
+        {
             holder.icon.setImageResource(R.drawable.ic_launcher);
             holder.name.setText(R.string.uninstalled_app);
-            holder.notificationTime.setText(DateUtils.getRelativeTimeSpanString(app.getTimestamp(), System.currentTimeMillis(), 0));
         }
+
+        holder.notificationTime.setText(DateUtils.getRelativeTimeSpanString(app.getTimestamp(), System.currentTimeMillis(), 0));
 
         return convertView;
     }
 
-    static class ViewHolder {
+    static class ViewHolder
+    {
         ImageView icon;
         TextView name;
         TextView notificationTime;
