@@ -44,11 +44,11 @@ public class App extends RealmObject
     }
 
     @Nullable
-    public static Drawable getIcon(App app, PackageManager packageManager)
+    public Drawable getIcon(PackageManager packageManager)
     {
         try
         {
-            return packageManager.getApplicationInfo(app.getPackageName(), 0).loadIcon(packageManager);
+            return packageManager.getApplicationInfo(getPackageName(), 0).loadIcon(packageManager);
         }
         catch(PackageManager.NameNotFoundException | NullPointerException | OutOfMemoryError e)
         {

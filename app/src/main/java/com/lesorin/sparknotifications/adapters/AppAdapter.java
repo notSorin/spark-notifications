@@ -6,11 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
+import androidx.appcompat.widget.SwitchCompat;
 import com.lesorin.sparknotifications.R;
 import com.lesorin.sparknotifications.models.App;
 import io.realm.Realm;
@@ -92,7 +90,7 @@ public class AppAdapter extends BaseAdapter implements RealmChangeListener<Realm
 
 		final App app = mApps.get(position);
 
-		holder.icon.setImageDrawable(getIcon(app));
+		holder.icon.setImageDrawable(getAppIcon(app));
 		holder.name.setText(app.getName());
 		holder.selected.setOnCheckedChangeListener((buttonView, isChecked) ->
 		{
@@ -106,9 +104,9 @@ public class AppAdapter extends BaseAdapter implements RealmChangeListener<Realm
 		return convertView;
 	}
 
-    private Drawable getIcon(App app)
+    private Drawable getAppIcon(App app)
 	{
-        Drawable icon = App.getIcon(app, mContext.getPackageManager());
+        Drawable icon = app.getIcon(mContext.getPackageManager());
 
         if(icon == null)
         {
@@ -118,10 +116,10 @@ public class AppAdapter extends BaseAdapter implements RealmChangeListener<Realm
         return icon;
     }
 
-    private static class ViewHolder
+    private class ViewHolder
 	{
 		ImageView icon;
 		TextView name;
-		Switch selected;
+		SwitchCompat selected;
 	}
 }
