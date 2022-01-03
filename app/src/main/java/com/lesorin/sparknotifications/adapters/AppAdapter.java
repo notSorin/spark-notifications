@@ -75,7 +75,7 @@ public class AppAdapter extends BaseAdapter implements RealmChangeListener<Realm
 
 		if(convertView == null)
 		{
-			convertView = mInflater.inflate(R.layout.app, null);
+			convertView = mInflater.inflate(R.layout.app_layout, null);
 			holder = new ViewHolder();
 			holder.icon = convertView.findViewById(R.id.AppIcon);
 			holder.name = convertView.findViewById(R.id.AppName);
