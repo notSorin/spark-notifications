@@ -30,5 +30,4 @@ android {
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'fr.nicolaspomepuy:discreetapprate:2.0.4@aar'
-
 }

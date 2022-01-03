@@ -1,49 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-     <PreferenceCategory android:title="@string/donate" >
-
-         <Preference
-            android:key="donate"
-            android:title="@string/donate"
-            android:summary="@string/donate_summary" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/service" >
-
+    <PreferenceCategory android:title="@string/service">
         <CheckBoxPreference
             android:key="service"
-            android:title="@string/service_title"
             android:summary="@string/service_summary"
+            android:title="@string/service_title"
             android:widgetLayout="@layout/preference_switch_layout" />
-
-        <CheckBoxPreference
-            android:key="device_admin"
-            android:title="@string/admin_title"
-            android:summary="@string/admin_summary"
-            android:widgetLayout="@layout/preference_switch_layout" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/apps" >
 
         <Preference
             android:key="app"
-            android:title="@string/select_apps"
-            android:summary="@string/select_apps_summary">
-                 <intent
-                     android:action="android.intent.action.VIEW"
-                     android:targetPackage="com.lesorin.sparknotifications"
-                     android:targetClass="com.lesorin.sparknotifications.AppsActivity" />
-            </Preference>
-
+            android:summary="@string/select_apps_summary"
+            android:title="@string/select_apps">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.lesorin.sparknotifications.AppsActivity"
+                android:targetPackage="com.lesorin.sparknotifications" />
+        </Preference>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/options" >
+    <PreferenceCategory android:title="@string/options">
+        <CheckBoxPreference
+            android:key="device_admin"
+            android:summary="@string/admin_summary"
+            android:title="@string/admin_title"
+            android:widgetLayout="@layout/preference_switch_layout" />
 
         <Preference
             android:key="wake_length"
@@ -56,28 +39,33 @@
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="bright"
-            android:title="@string/full_brightness"
             android:summary="@string/full_brightness_summary"
+            android:title="@string/full_brightness"
             android:widgetLayout="@layout/preference_switch_layout" />
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="proxSensor"
-            android:title="@string/disable_sensor"
             android:summary="@string/disable_sensor_summary"
+            android:title="@string/disable_sensor"
             android:widgetLayout="@layout/preference_switch_layout" />
 
         <CheckBoxPreference
-            android:key="wake_on_pickup"
-            android:title="@string/wake_on_pickup"
-            android:summary="@string/wake_on_pickup_summary"
             android:defaultValue="false"
-            android:widgetLayout="@layout/preference_switch_layout"/>
+            android:key="wake_on_pickup"
+            android:summary="@string/wake_on_pickup_summary"
+            android:title="@string/wake_on_pickup"
+            android:widgetLayout="@layout/preference_switch_layout" />
 
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="status-bar"
+            android:summary="@string/statusBarSum"
+            android:title="@string/statusBar"
+            android:widgetLayout="@layout/preference_switch_layout" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/quiet_time">
-
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="quiet"
@@ -96,36 +84,28 @@
             android:key="stopTime"
             android:showDefault="true"
             android:title="@string/stopTime" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/experimental">
-
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="status-bar"
-            android:summary="@string/statusBarSum"
-            android:title="@string/statusBar"
-            android:widgetLayout="@layout/preference_switch_layout" />
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/help">
-
         <Preference
             android:key="recent_apps"
-            android:title="@string/recent_apps"
-            android:summary="@string/recent_apps_summary" />
+            android:summary="@string/recent_apps_summary"
+            android:title="@string/recent_apps" />
 
         <Preference
             android:key="contact"
-            android:title="@string/contact"
-            android:summary="@string/contact_summary" />
+            android:summary="@string/contact_summary"
+            android:title="@string/contact" />
 
         <Preference
             android:key="version"
             android:title="@string/version" />
-
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/donate">
+        <Preference
+            android:key="donate"
+            android:summary="@string/donate_summary"
+            android:title="@string/donate" />
+    </PreferenceCategory>
 </PreferenceScreen>
