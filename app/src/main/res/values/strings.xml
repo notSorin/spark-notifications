@@ -47,8 +47,6 @@
     <string name="recent_apps_summary">Display a list of apps that have recently turned on the screen</string>
     <string name="no_recent_apps">No app has created a notification yet. Check back later.</string>
     <string name="uninstalled_app">Uninstalled App</string>
-    <string name="contact">Contact Developer</string>
-    <string name="contact_summary">If you are having problems, click here to contact the developer</string>
     <string name="version">Version</string>
     <string name="select">Select Apps</string>
     <string name="inverse">Inverse</string>
@@ -77,4 +75,8 @@
     </string>
     <string name="RecentAppTitle">App\'s title.</string>
     <string name="RecentAppNotificationTime">Notification time.</string>
+
+    <!--Preferences-->
+    <string name="ContactDeveloperTitle">Contact Developer</string>
+    <string name="ContactDeveloperSummary">Use this option to send an email to contact.lesorin@gmail.com.</string>
 </resources>

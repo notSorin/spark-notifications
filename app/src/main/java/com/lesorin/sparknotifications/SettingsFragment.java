@@ -38,7 +38,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         findPreference("recent_apps").setOnPreferenceClickListener(this);
-        findPreference("contact").setOnPreferenceClickListener(this);
+        findPreference("ContactDeveloperKey").setOnPreferenceClickListener(this);
         findPreference("version").setSummary(BuildConfig.VERSION_NAME);
         initializeService();
         initializeDeviceAdmin();
@@ -254,7 +254,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     @Override
     public boolean onPreferenceClick(Preference preference)
     {
-        if(preference.getKey().equals("contact"))
+        if(preference.getKey().equals("ContactDeveloperKey"))
         {
             new LogReporting(getActivity()).collectAndSendLogs();
 

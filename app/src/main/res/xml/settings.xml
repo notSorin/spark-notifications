@@ -86,9 +86,9 @@
             android:title="@string/recent_apps" />
 
         <Preference
-            android:key="contact"
-            android:summary="@string/contact_summary"
-            android:title="@string/contact" />
+            android:key="ContactDeveloperKey"
+            android:summary="@string/ContactDeveloperSummary"
+            android:title="@string/ContactDeveloperTitle" />
 
         <Preference
             android:key="version"
