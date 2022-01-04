@@ -48,6 +48,17 @@ public class SettingsFragment extends PreferenceFragment
         //initializeDonations();
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
+        super.onActivityCreated(savedInstanceState);
+
+        View rootView = getView();
+        ListView list = rootView.findViewById(android.R.id.list);
+
+        list.setDivider(null);
+    }
+
     private void initializeAppVersion()
     {
         Preference versionPreference = findPreference("version");
