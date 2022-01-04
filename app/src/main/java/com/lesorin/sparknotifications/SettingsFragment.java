@@ -125,7 +125,7 @@ public class SettingsFragment extends PreferenceFragment
     {
         mDPM = (DevicePolicyManager)getActivity().getSystemService(Context.DEVICE_POLICY_SERVICE);
         mDeviceAdmin = new ComponentName(getActivity(), ScreenNotificationsDeviceAdminReceiver.class);
-        mDeviceAdminPreference = (SwitchPreference)findPreference("device_admin");
+        mDeviceAdminPreference = (SwitchPreference)findPreference("DeviceAdminKey");
 
         mDeviceAdminPreference.setOnPreferenceChangeListener((preference, newValue) ->
         {
@@ -161,24 +161,24 @@ public class SettingsFragment extends PreferenceFragment
 
     private void enableScreenTimeoutOption(boolean enable)
     {
-        Preference wakeLength = findPreference("wake_length");
+        Preference wakeLength = findPreference("ScreenTimeoutKey");
 
         wakeLength.setEnabled(enable);
+        setScreenTimeoutSummary();
+    }
 
-        if(enable)
+    private void setScreenTimeoutSummary()
+    {
+        Preference wakeLength = findPreference("ScreenTimeoutKey");
+
+        if(wakeLength.isEnabled())
         {
-            setWakeLengthSummary();
+            wakeLength.setSummary(String.format(getString(R.string.ScreenTimeoutSummaryEnabled), mPrefs.getInt("ScreenTimeoutKey", 10)));
         }
         else
         {
-            wakeLength.setSummary(R.string.disabled_wake_length);
+            wakeLength.setSummary(R.string.ScreenTimeoutSummaryDisabled);
         }
-    }
-
-    private void setWakeLengthSummary()
-    {
-        findPreference("wake_length").setSummary(getString(R.string.wake_length_summary) + " " +
-                mPrefs.getInt("wake_length", 10) + " " + getString(R.string.wake_length_summary_2));
     }
 
     private void setDelaySummary()
@@ -203,7 +203,7 @@ public class SettingsFragment extends PreferenceFragment
         start.setOnPreferenceChangeListener(listener);
         stop.setOnPreferenceChangeListener(listener);
 
-        findPreference("wake_length").setOnPreferenceClickListener(preference ->
+        findPreference("ScreenTimeoutKey").setOnPreferenceClickListener(preference ->
         {
             LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View numberPickerView = inflater.inflate(R.layout.number_picker_dialog, null);
@@ -211,13 +211,13 @@ public class SettingsFragment extends PreferenceFragment
 
             numberPicker.setMinValue(1);
             numberPicker.setMaxValue(900);
-            numberPicker.setValue(mPrefs.getInt("wake_length", 10));
+            numberPicker.setValue(mPrefs.getInt("ScreenTimeoutKey", 10));
 
-            new AlertDialog.Builder(getActivity()).setTitle(R.string.wake_length).setView(numberPickerView).
+            new AlertDialog.Builder(getActivity()).setTitle(R.string.ScreenTimeoutKey).setView(numberPickerView).
                     setPositiveButton(android.R.string.ok, (dialog, whichButton) ->
                     {
-                        mPrefs.edit().putInt("wake_length", numberPicker.getValue()).apply();
-                        setWakeLengthSummary();
+                        mPrefs.edit().putInt("ScreenTimeoutKey", numberPicker.getValue()).apply();
+                        setScreenTimeoutSummary();
                         dialog.dismiss();
                     }).setNegativeButton(android.R.string.cancel, (dialog, whichButton) -> dialog.dismiss()).show();
 
@@ -249,7 +249,7 @@ public class SettingsFragment extends PreferenceFragment
     private void enableOptions(boolean enable)
     {
         findPreference("EnabledAppsKey").setEnabled(enable);
-        findPreference("wake_length").setEnabled(enable);
+        findPreference("ScreenTimeoutKey").setEnabled(enable);
         findPreference("delay").setEnabled(enable);
         findPreference("bright").setEnabled(enable);
         findPreference("proxSensor").setEnabled(enable);

@@ -20,7 +20,7 @@
         </Preference>
 
         <Preference
-            android:key="RecentApps"
+            android:key="RecentAppsKey"
             android:summary="@string/RecentAppsSummary"
             android:title="@string/RecentAppsTitle">
             <intent
@@ -30,15 +30,15 @@
         </Preference>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/options">
+    <PreferenceCategory android:title="@string/PreferenceCategoryOptions">
         <SwitchPreference
-            android:key="device_admin"
-            android:summary="@string/admin_summary"
-            android:title="@string/admin_title" />
+            android:key="DeviceAdminKey"
+            android:summary="@string/DeviceAdminSummary"
+            android:title="@string/DeviceAdminTitle" />
 
         <Preference
-            android:key="wake_length"
-            android:title="@string/wake_length" />
+            android:key="ScreenTimeoutKey"
+            android:title="@string/ScreenTimeoutKey" />
 
         <Preference
             android:key="delay"
