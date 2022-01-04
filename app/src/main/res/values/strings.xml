@@ -11,8 +11,6 @@
         Android will warn you that the app may capture your private data, Screen Notifications never reads the content of notifications.</string>
     <string name="device_admin_explanation">Screen Notifications needs device admin access to turn off your screen after a notification</string>
     <string name="ok">OK</string>
-    <string name="donate">Donate</string>
-    <string name="donate_summary">Donate to help support app development</string>
     <string name="select_an_amount">Select a donation amount</string>
     <string name="there_was_a_problem">There was a problem</string>
     <string name="failed_billing">There was a problem trying to make a donation, your device may not support in app billing or there may be a problem communicating with the server. Please try again later</string>
@@ -22,10 +20,8 @@
     <string name="picked_up">Device picked up</string>
     <string name="quiet_time">Quiet Time</string>
     <string name="experimental">Experimental</string>
-    <string name="help">Help</string>
     <string name="no_recent_apps">No app has created a notification yet. Check back later.</string>
     <string name="uninstalled_app">Uninstalled App</string>
-    <string name="version">Version</string>
     <string name="EnabledAppsActivityTitle">Enabled Apps</string>
     <string name="inverse">Inverse</string>
     <string name="uncheck_all">Uncheck all</string>
@@ -51,6 +47,7 @@
     <!--Preferences Categories-->
     <string name="PreferenceCategoryService">Service</string>
     <string name="PreferenceCategoryOptions">Options</string>
+    <string name="PreferenceCategoryOther">Other</string>
 
     <!--Preferences-->
     <string name="ContactDeveloperTitle">Contact Developer</string>
@@ -81,7 +78,7 @@
     <string name="ProximitySensorTitle">Use Proximity Sensor</string>
     <string name="ProximitySensorSummary">When enabled, the screen will not turn on when the device is in your pocket.</string>
 
-    <string name="DetectPickUpTitle">Detect Pick Up</string>
+    <string name="DetectPickUpTitle">Detect Device Pick Up</string>
     <string name="DetectPickUpSummary">When enabled, the screen will turn on when the device is picked up.</string>
 
     <string name="OpenNotificationsDrawerTitle">Open Notifications Drawer</string>
@@ -93,4 +90,9 @@
     <string name="QuietHoursStartTitle">Quiet Hours Start</string>
 
     <string name="QuietHoursStopTitle">Quiet Hours Stop</string>
+
+    <string name="DonateTitle">Support App Development</string>
+    <string name="DonateSummary">Donate to help support the app\'s development.</string>
+
+    <string name="VersionTitle">App Version</string>
 </resources>

@@ -62,7 +62,8 @@ public class SettingsFragment extends PreferenceFragment
 
     private void initializeAppVersion()
     {
-        Preference versionPreference = findPreference("version");
+        //TODO open an activity showing the update logs when the version is pressed.
+        Preference versionPreference = findPreference("VersionKey");
 
         versionPreference.setSummary(BuildConfig.VERSION_NAME);
     }

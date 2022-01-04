@@ -88,21 +88,19 @@
             android:title="@string/QuietHoursStopTitle" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/help">
+    <PreferenceCategory android:title="@string/PreferenceCategoryOther">
         <Preference
             android:key="ContactDeveloperKey"
             android:summary="@string/ContactDeveloperSummary"
             android:title="@string/ContactDeveloperTitle" />
 
         <Preference
-            android:key="version"
-            android:title="@string/version" />
-    </PreferenceCategory>
+            android:key="DonateKey"
+            android:summary="@string/DonateSummary"
+            android:title="@string/DonateTitle" />
 
-    <PreferenceCategory android:title="@string/donate">
         <Preference
-            android:key="donate"
-            android:summary="@string/donate_summary"
-            android:title="@string/donate" />
+            android:key="VersionKey"
+            android:title="@string/VersionTitle" />
     </PreferenceCategory>
 </PreferenceScreen>
