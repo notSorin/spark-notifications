@@ -3,16 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <PreferenceCategory android:title="@string/service">
+    <PreferenceCategory android:title="@string/PreferenceCategoryService">
         <SwitchPreference
-            android:key="service"
-            android:summary="@string/service_summary"
-            android:title="@string/service_title" />
+            android:key="SparkNotificationsServiceKey"
+            android:summary="@string/SparkNotificationsServiceSummary"
+            android:title="@string/SparkNotificationsServiceTitle" />
 
         <Preference
-            android:key="app"
-            android:summary="@string/select_apps_summary"
-            android:title="@string/select_apps">
+            android:key="EnabledAppsKey"
+            android:summary="@string/EnabledAppsSummary"
+            android:title="@string/EnabledAppsTitle">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:targetClass="com.lesorin.sparknotifications.AppsActivity"
@@ -20,9 +20,14 @@
         </Preference>
 
         <Preference
-            android:key="recent_apps"
-            android:summary="@string/recent_apps_summary"
-            android:title="@string/recent_apps" />
+            android:key="RecentApps"
+            android:summary="@string/RecentAppsSummary"
+            android:title="@string/RecentAppsTitle">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.lesorin.sparknotifications.RecentAppsActivity"
+                android:targetPackage="com.lesorin.sparknotifications" />
+        </Preference>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/options">

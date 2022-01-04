@@ -15,7 +15,9 @@ import android.preference.SwitchPreference;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.NumberPicker;
+import androidx.annotation.Nullable;
 import com.lesorin.sparknotifications.helpers.NotificationServiceHelper;
 import com.lesorin.sparknotifications.receivers.ScreenNotificationsDeviceAdminReceiver;
 
@@ -37,7 +39,6 @@ public class SettingsFragment extends PreferenceFragment
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        initializeRecentApps();
         initializeContactDeveloper();
         initializeAppVersion();
         initializeService();
@@ -52,17 +53,6 @@ public class SettingsFragment extends PreferenceFragment
         Preference versionPreference = findPreference("version");
 
         versionPreference.setSummary(BuildConfig.VERSION_NAME);
-        versionPreference.setEnabled(false);
-    }
-
-    private void initializeRecentApps()
-    {
-        findPreference("recent_apps").setOnPreferenceClickListener(preference ->
-        {
-            startActivity(new Intent(getActivity(), RecentAppsActivity.class));
-
-            return true;
-        });
     }
 
     private void initializeContactDeveloper()
@@ -94,7 +84,7 @@ public class SettingsFragment extends PreferenceFragment
 
     private void initializeService()
     {
-        mServicePreference = (SwitchPreference)findPreference("service");
+        mServicePreference = (SwitchPreference)findPreference("SparkNotificationsServiceKey");
 
         mServicePreference.setOnPreferenceClickListener(preference ->
         {
@@ -247,7 +237,7 @@ public class SettingsFragment extends PreferenceFragment
 
     private void enableOptions(boolean enable)
     {
-        findPreference("app").setEnabled(enable);
+        findPreference("EnabledAppsKey").setEnabled(enable);
         findPreference("wake_length").setEnabled(enable);
         findPreference("delay").setEnabled(enable);
         findPreference("bright").setEnabled(enable);

@@ -16,16 +16,11 @@
     <string name="select_an_amount">Select a donation amount</string>
     <string name="there_was_a_problem">There was a problem</string>
     <string name="failed_billing">There was a problem trying to make a donation, your device may not support in app billing or there may be a problem communicating with the server. Please try again later</string>
-    <string name="service">Service</string>
-    <string name="service_title">Screen Notifications Service</string>
-    <string name="service_summary">Enable to turn on Screen Notifications</string>
     <string name="admin_title">Device Administrator</string>
     <string name="admin_summary">Enable this option allow for custom screen timeouts. This option must be disabled to be able to uninstall Spark Notifications.</string>
     <string name="apps">Apps</string>
-    <string name="select_apps">Select Apps</string>
     <string name="more_apps">More apps will appear as notifications are received</string>
     <string name="no_apps">No app has created a notification yet. Check back later to enable or disable an app. By default any notification will turn the screen on unless the app is disabled here.</string>
-    <string name="select_apps_summary">Enable and disable apps to turn the screen on for notifications. Apps that create a notification for the first time will automatically turn the screen on.</string>
     <string name="options">Options</string>
     <string name="wake_length">Screen wake length</string>
     <string name="wake_length_summary">Keep screen on for</string>
@@ -43,8 +38,6 @@
     <string name="quiet_time">Quiet Time</string>
     <string name="experimental">Experimental</string>
     <string name="help">Help</string>
-    <string name="recent_apps">Recent Apps</string>
-    <string name="recent_apps_summary">Display a list of apps that have recently turned on the screen</string>
     <string name="no_recent_apps">No app has created a notification yet. Check back later.</string>
     <string name="uninstalled_app">Uninstalled App</string>
     <string name="version">Version</string>
@@ -76,7 +69,16 @@
     <string name="RecentAppTitle">App\'s title.</string>
     <string name="RecentAppNotificationTime">Notification time.</string>
 
+    <!--Preferences Categories-->
+    <string name="PreferenceCategoryService">Service</string>
+
     <!--Preferences-->
     <string name="ContactDeveloperTitle">Contact Developer</string>
     <string name="ContactDeveloperSummary">Use this option to send an email to contact.lesorin@gmail.com.</string>
+    <string name="SparkNotificationsServiceTitle">Spark Notifications Service</string>
+    <string name="SparkNotificationsServiceSummary">When the service is enabled, the devices\'s screen will turn on when notifications are received.</string>
+    <string name="EnabledAppsTitle">Enabled Apps</string>
+    <string name="EnabledAppsSummary">Select which apps can turn on the screen when they receive notifications.</string>
+    <string name="RecentAppsTitle">Recent Apps</string>
+    <string name="RecentAppsSummary">Display a list of apps that have recently turned on the screen.</string>
 </resources>

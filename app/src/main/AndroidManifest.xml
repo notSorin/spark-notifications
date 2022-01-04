@@ -34,7 +34,7 @@
 
         <activity
             android:name="com.lesorin.sparknotifications.RecentAppsActivity"
-            android:label="@string/recent_apps" />
+            android:label="@string/RecentAppsTitle" />
 
         <service android:name="com.lesorin.sparknotifications.services.AppScanningService" />
 
