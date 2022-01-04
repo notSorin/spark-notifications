@@ -75,4 +75,6 @@
 		If you have issues or enhancements, fork me on github:
 		https://github.com/lkorth/screen-notifications
     </string>
+    <string name="RecentAppTitle">App\'s title.</string>
+    <string name="RecentAppNotificationTime">Notification time.</string>
 </resources>

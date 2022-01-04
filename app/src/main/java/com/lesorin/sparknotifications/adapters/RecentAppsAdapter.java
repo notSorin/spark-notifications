@@ -54,11 +54,12 @@ public class RecentAppsAdapter extends BaseAdapter
         {
             convertView = mInflater.inflate(R.layout.recent_app, null);
             holder = new ViewHolder();
-            holder.icon = convertView.findViewById(R.id.icon);
-            holder.name = convertView.findViewById(R.id.name);
-            holder.notificationTime = convertView.findViewById(R.id.notification_time);
+            holder.icon = convertView.findViewById(R.id.AppIcon);
+            holder.name = convertView.findViewById(R.id.AppName);
+            holder.notificationTime = convertView.findViewById(R.id.NotificationTime);
 
             convertView.setTag(holder);
+            convertView.setClickable(true);
         }
         else
         {
