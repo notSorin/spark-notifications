@@ -196,11 +196,11 @@ public class SettingsFragment extends PreferenceFragment
             return true;
         };
 
-        Preference start = findPreference("startTime");
-        Preference stop = findPreference("stopTime");
+        Preference start = findPreference("QuietHoursStartKey");
+        Preference stop = findPreference("QuietHoursStopKey");
 
-        start.setSummary(handleTime(mPrefs.getString("startTime", "22:00")));
-        stop.setSummary(handleTime(mPrefs.getString("stopTime", "08:00")));
+        start.setSummary(handleTime(mPrefs.getString("QuietHoursStartKey", "22:00")));
+        stop.setSummary(handleTime(mPrefs.getString("QuietHoursStopKey", "08:00")));
         start.setOnPreferenceChangeListener(listener);
         stop.setOnPreferenceChangeListener(listener);
 
@@ -255,9 +255,9 @@ public class SettingsFragment extends PreferenceFragment
         findPreference("FullBrightnessKey").setEnabled(enable);
         findPreference("ProximitySensorKey").setEnabled(enable);
         findPreference("DetectPickUpKey").setEnabled(enable);
-        findPreference("quiet").setEnabled(enable);
-        findPreference("startTime").setEnabled(enable);
-        findPreference("stopTime").setEnabled(enable);
+        findPreference("QuietHoursKey").setEnabled(enable);
+        findPreference("QuietHoursStartKey").setEnabled(enable);
+        findPreference("QuietHoursStopKey").setEnabled(enable);
         findPreference("NotificationsTrayKey").setEnabled(enable);
     }
 

@@ -30,10 +30,7 @@
     <string name="inverse">Inverse</string>
     <string name="uncheck_all">Uncheck all</string>
     <string name="loading">Loading. Please wait...</string>
-    <string name="quietHours">Enable quiet hours</string>
-    <string name="quietSum">Do not turn the screen on between the hours below</string>
-    <string name="startTime">Start quiet hours</string>
-    <string name="stopTime">Stop quiet hours</string>
+
     <string name="set">Set</string>
 
     <string name="market_description">
@@ -57,7 +54,7 @@
 
     <!--Preferences-->
     <string name="ContactDeveloperTitle">Contact Developer</string>
-    <string name="ContactDeveloperSummary">Use this option to send an email to contact.lesorin@gmail.com.</string>
+    <string name="ContactDeveloperSummary">Send an email to contact.lesorin@gmail.com.</string>
 
     <string name="SparkNotificationsServiceTitle">Spark Notifications Service</string>
     <string name="SparkNotificationsServiceSummary">When the service is enabled, the screen will turn on when notifications are received.</string>
@@ -89,4 +86,11 @@
 
     <string name="OpenNotificationsDrawerTitle">Open Notifications Drawer</string>
     <string name="OpenNotificationsDrawerSummary">When enabled, the notifications drawer will open when the screen is turned on for notifications.</string>
+
+    <string name="QuietHoursTitle">Quiet Hours</string>
+    <string name="QuietHoursSummary">When enabled, the screen will not turn on between the hours below.</string>
+
+    <string name="QuietHoursStartTitle">Quiet Hours Start</string>
+
+    <string name="QuietHoursStopTitle">Quiet Hours Stop</string>
 </resources>

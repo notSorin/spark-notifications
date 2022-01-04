@@ -179,10 +179,10 @@ public class ScreenController
     {
         boolean quietTime = false;
 
-        if(mPrefs.getBoolean("quiet", false))
+        if(mPrefs.getBoolean("QuietHoursKey", false))
         {
-            String startTime = mPrefs.getString("startTime", "22:00");
-            String stopTime = mPrefs.getString("stopTime", "08:00");
+            String startTime = mPrefs.getString("QuietHoursStartKey", "22:00");
+            String stopTime = mPrefs.getString("QuietHoursStopKey", "08:00");
             SimpleDateFormat sdfDate = new SimpleDateFormat("H:mm");
             String currentTimeStamp = sdfDate.format(new Date());
             int currentHour = Integer.parseInt(currentTimeStamp.split("[:]+")[0]);
