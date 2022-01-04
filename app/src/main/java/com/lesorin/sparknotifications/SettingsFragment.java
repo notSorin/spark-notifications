@@ -18,8 +18,6 @@ import android.widget.NumberPicker;
 import com.lesorin.sparknotifications.helpers.LogReporting;
 import com.lesorin.sparknotifications.helpers.NotificationServiceHelper;
 import com.lesorin.sparknotifications.receivers.ScreenNotificationsDeviceAdminReceiver;
-import fr.nicolaspomepuy.discreetapprate.AppRate;
-import fr.nicolaspomepuy.discreetapprate.RetryPolicy;
 
 public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener
 {
@@ -47,14 +45,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         initializeTime();
         setDelaySummary();
         //initializeDonations();
-    }
-
-    @Override
-    public void onStart()
-    {
-        super.onStart();
-        AppRate.with(getActivity()).text(R.string.rate).initialLaunchCount(9).
-                retryPolicy(RetryPolicy.EXPONENTIAL).checkAndShow();
     }
 
     public void onResume()
