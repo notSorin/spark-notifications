@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -15,11 +16,10 @@ import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
-import com.lesorin.sparknotifications.helpers.LogReporting;
 import com.lesorin.sparknotifications.helpers.NotificationServiceHelper;
 import com.lesorin.sparknotifications.receivers.ScreenNotificationsDeviceAdminReceiver;
 
-public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener
+public class SettingsFragment extends PreferenceFragment
 {
     private static final int REQUEST_CODE_ENABLE_ADMIN = 1;
     private SharedPreferences mPrefs;
@@ -37,14 +37,52 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        findPreference("recent_apps").setOnPreferenceClickListener(this);
-        findPreference("ContactDeveloperKey").setOnPreferenceClickListener(this);
-        findPreference("version").setSummary(BuildConfig.VERSION_NAME);
+        initializeRecentApps();
+        initializeContactDeveloper();
+        initializeAppVersion();
         initializeService();
         initializeDeviceAdmin();
         initializeTime();
         setDelaySummary();
         //initializeDonations();
+    }
+
+    private void initializeAppVersion()
+    {
+        Preference versionPreference = findPreference("version");
+
+        versionPreference.setSummary(BuildConfig.VERSION_NAME);
+        versionPreference.setEnabled(false);
+    }
+
+    private void initializeRecentApps()
+    {
+        findPreference("recent_apps").setOnPreferenceClickListener(preference ->
+        {
+            startActivity(new Intent(getActivity(), RecentAppsActivity.class));
+
+            return true;
+        });
+    }
+
+    private void initializeContactDeveloper()
+    {
+        findPreference("ContactDeveloperKey").setOnPreferenceClickListener(preference ->
+        {
+            String[] emails = {"contact.lesorin@gmail.com"};
+            Intent intent = new Intent(Intent.ACTION_SENDTO);
+
+            intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+            intent.putExtra(Intent.EXTRA_EMAIL, emails);
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Spark Notifications");
+
+            if(intent.resolveActivity(getActivity().getPackageManager()) != null)
+            {
+                getActivity().startActivity(intent);
+            }
+
+            return true;
+        });
     }
 
     public void onResume()
@@ -249,24 +287,5 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                     alertDialog.cancel();
                     startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
                 }).show();
-    }
-
-    @Override
-    public boolean onPreferenceClick(Preference preference)
-    {
-        if(preference.getKey().equals("ContactDeveloperKey"))
-        {
-            new LogReporting(getActivity()).collectAndSendLogs();
-
-            return true;
-        }
-        else if(preference.getKey().equals("recent_apps"))
-        {
-            startActivity(new Intent(getActivity(), RecentAppsActivity.class));
-
-            return true;
-        }
-
-        return false;
     }
 }
