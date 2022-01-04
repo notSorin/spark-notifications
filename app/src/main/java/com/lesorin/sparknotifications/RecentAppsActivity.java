@@ -13,7 +13,7 @@ public class RecentAppsActivity extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.recent_apps);
+        setContentView(R.layout.recent_apps_layout);
 
         if(getSupportActionBar() != null)
         {
