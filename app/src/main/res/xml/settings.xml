@@ -18,6 +18,11 @@
                 android:targetClass="com.lesorin.sparknotifications.AppsActivity"
                 android:targetPackage="com.lesorin.sparknotifications" />
         </Preference>
+
+        <Preference
+            android:key="recent_apps"
+            android:summary="@string/recent_apps_summary"
+            android:title="@string/recent_apps" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/options">
@@ -80,11 +85,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/help">
-        <Preference
-            android:key="recent_apps"
-            android:summary="@string/recent_apps_summary"
-            android:title="@string/recent_apps" />
-
         <Preference
             android:key="ContactDeveloperKey"
             android:summary="@string/ContactDeveloperSummary"
