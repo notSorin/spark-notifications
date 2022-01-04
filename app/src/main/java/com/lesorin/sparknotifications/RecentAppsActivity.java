@@ -20,10 +20,10 @@ public class RecentAppsActivity extends AppCompatActivity
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        ListView listView = ((ListView) findViewById(R.id.recentAppsList));
+        ListView listView = findViewById(R.id.RecentAppsList);
 
         listView.setAdapter(new RecentAppsAdapter(this));
-        listView.setEmptyView(findViewById(R.id.no_apps));
+        listView.setEmptyView(findViewById(R.id.NoRecentAppsText));
     }
 
     @Override
