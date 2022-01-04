@@ -53,6 +53,7 @@ public class NotificationListener extends NotificationListenerService implements
 
         mLastNotifyingPackage = sbn.getPackageName();
 
+        //TODO make sure this logic is correct because the logic of the sensor changed.
         if(isProximitySensorEnabled())
         {
             if(!registerProximitySensorListener())
@@ -81,7 +82,8 @@ public class NotificationListener extends NotificationListenerService implements
 
     private boolean isProximitySensorEnabled()
     {
-        return !PreferenceManager.getDefaultSharedPreferences(this).getBoolean("proxSensor", true);
+        //TODO make sure this logic is correct because the logic of the sensor changed.
+        return PreferenceManager.getDefaultSharedPreferences(this).getBoolean("ProximitySensorKey", true);
     }
 
     private boolean registerProximitySensorListener()
@@ -108,7 +110,7 @@ public class NotificationListener extends NotificationListenerService implements
 
     private boolean isWakeOnPickupEnabled()
     {
-        return PreferenceManager.getDefaultSharedPreferences(this).getBoolean("wake_on_pickup", false);
+        return PreferenceManager.getDefaultSharedPreferences(this).getBoolean("DetectPickUpKey", false);
     }
 
     private void registerPickupListener()
@@ -141,7 +143,7 @@ public class NotificationListener extends NotificationListenerService implements
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
-        if(key.equals("wake_on_pickup"))
+        if(key.equals("DetectPickUpKey"))
         {
             if(isWakeOnPickupEnabled())
             {

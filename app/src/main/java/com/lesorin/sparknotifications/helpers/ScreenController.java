@@ -56,7 +56,7 @@ public class ScreenController
 
             int flag;
 
-            if(mPrefs.getBoolean("bright", false))
+            if(mPrefs.getBoolean("FullBrightnessKey", false))
             {
                 flag = PowerManager.SCREEN_BRIGHT_WAKE_LOCK;
             }
@@ -86,7 +86,7 @@ public class ScreenController
 
         int flag;
 
-        if(mPrefs.getBoolean("bright", false))
+        if(mPrefs.getBoolean("FullBrightnessKey", false))
         {
             flag = PowerManager.SCREEN_BRIGHT_WAKE_LOCK;
         }
@@ -99,7 +99,7 @@ public class ScreenController
 
         wakeLock.acquire();
 
-        if(mPrefs.getBoolean("status-bar", false))
+        if(mPrefs.getBoolean("NotificationsTrayKey", false))
         {
             expandStatusBar();
         }
@@ -166,7 +166,7 @@ public class ScreenController
     {
         boolean turnOnScreen = !isInQuietTime() && !isInCall() && !mPowerManager.isScreenOn();
 
-        if(!mPrefs.getBoolean("proxSensor", false))
+        if(!mPrefs.getBoolean("ProximitySensorKey", false)) //TODO make sure this logic is correct because the logic of the sensor changed.
         {
             turnOnScreen = turnOnScreen && !mCloseToProximitySensor;
         }

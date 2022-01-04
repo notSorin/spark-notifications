@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import com.lesorin.sparknotifications.helpers.NotificationServiceHelper;
 import com.lesorin.sparknotifications.receivers.ScreenNotificationsDeviceAdminReceiver;
 
+//TODO make the preferences keys constants.
 public class SettingsFragment extends PreferenceFragment
 {
     private static final int REQUEST_CODE_ENABLE_ADMIN = 1;
@@ -183,7 +184,7 @@ public class SettingsFragment extends PreferenceFragment
 
     private void setDelaySummary()
     {
-        findPreference("delay").setSummary(getString(R.string.delay_summary, mPrefs.getInt("delay", 0)));
+        findPreference("ScreenOnDelayKey").setSummary(getString(R.string.ScreenOnDelaySummary, mPrefs.getInt("ScreenOnDelayKey", 0)));
     }
 
     private void initializeTime()
@@ -224,7 +225,7 @@ public class SettingsFragment extends PreferenceFragment
             return true;
         });
 
-        findPreference("delay").setOnPreferenceClickListener(preference ->
+        findPreference("ScreenOnDelayKey").setOnPreferenceClickListener(preference ->
         {
             LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View numberPickerView = inflater.inflate(R.layout.number_picker_dialog, null);
@@ -232,12 +233,12 @@ public class SettingsFragment extends PreferenceFragment
 
             numberPicker.setMinValue(0);
             numberPicker.setMaxValue(900);
-            numberPicker.setValue(mPrefs.getInt("delay", 0));
+            numberPicker.setValue(mPrefs.getInt("ScreenOnDelayKey", 0));
 
-            new AlertDialog.Builder(getActivity()).setTitle(R.string.delay_title).setView(numberPicker).
+            new AlertDialog.Builder(getActivity()).setTitle(R.string.ScreenOnDelayTitle).setView(numberPicker).
                     setPositiveButton(android.R.string.ok, (dialog, whichButton) ->
                     {
-                        mPrefs.edit().putInt("delay", numberPicker.getValue()).apply();
+                        mPrefs.edit().putInt("ScreenOnDelayKey", numberPicker.getValue()).apply();
                         setDelaySummary();
                         dialog.dismiss();
                     }).setNegativeButton(android.R.string.cancel, (dialog, whichButton) -> dialog.dismiss()).show();
@@ -250,14 +251,14 @@ public class SettingsFragment extends PreferenceFragment
     {
         findPreference("EnabledAppsKey").setEnabled(enable);
         findPreference("ScreenTimeoutKey").setEnabled(enable);
-        findPreference("delay").setEnabled(enable);
-        findPreference("bright").setEnabled(enable);
-        findPreference("proxSensor").setEnabled(enable);
-        findPreference("wake_on_pickup").setEnabled(enable);
+        findPreference("ScreenOnDelayKey").setEnabled(enable);
+        findPreference("FullBrightnessKey").setEnabled(enable);
+        findPreference("ProximitySensorKey").setEnabled(enable);
+        findPreference("DetectPickUpKey").setEnabled(enable);
         findPreference("quiet").setEnabled(enable);
         findPreference("startTime").setEnabled(enable);
         findPreference("stopTime").setEnabled(enable);
-        findPreference("status-bar").setEnabled(enable);
+        findPreference("NotificationsTrayKey").setEnabled(enable);
     }
 
     private String handleTime(String time)

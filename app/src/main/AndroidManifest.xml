@@ -30,7 +30,7 @@
 
         <activity
             android:name="com.lesorin.sparknotifications.AppsActivity"
-            android:label="@string/select" />
+            android:label="@string/EnabledAppsActivityTitle" />
 
         <activity
             android:name="com.lesorin.sparknotifications.RecentAppsActivity"
