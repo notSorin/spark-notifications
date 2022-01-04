@@ -11,7 +11,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings);
+        setContentView(R.layout.main_activity_layout);
         startService(new Intent(this, AppScanningService.class));
     }
 }
