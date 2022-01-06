@@ -88,33 +88,30 @@ public class AppAdapter extends BaseAdapter implements RealmChangeListener<Realm
 			holder = (ViewHolder)convertView.getTag();
 		}
 
-		final App app = mApps.get(position);
+		App app = mApps.get(position);
 
-		holder.icon.setImageDrawable(getAppIcon(app));
-		holder.name.setText(app.getName());
-		holder.selected.setOnCheckedChangeListener((buttonView, isChecked) ->
+		if(app != null)
 		{
-			mRealm.beginTransaction();
-			app.setEnabled(isChecked);
-			mRealm.commitTransaction();
-		});
-		
-		holder.selected.setChecked(app.getEnabled());
+			Drawable appIcon = app.getIcon(mContext.getPackageManager());
+
+			if(appIcon != null)
+			{
+				holder.icon.setImageDrawable(appIcon);
+			}
+
+			holder.name.setText(app.getName());
+			holder.selected.setOnCheckedChangeListener((buttonView, isChecked) ->
+			{
+				mRealm.beginTransaction();
+				app.setEnabled(isChecked);
+				mRealm.commitTransaction();
+			});
+
+			holder.selected.setChecked(app.getEnabled());
+		}
 		
 		return convertView;
 	}
-
-    private Drawable getAppIcon(App app)
-	{
-        Drawable icon = app.getIcon(mContext.getPackageManager());
-
-        if(icon == null)
-        {
-            icon = mContext.getResources().getDrawable(R.drawable.sym_def_app_icon);
-        }
-
-        return icon;
-    }
 
     private class ViewHolder
 	{
