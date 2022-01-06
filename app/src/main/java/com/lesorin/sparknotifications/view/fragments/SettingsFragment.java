@@ -1,5 +1,7 @@
 package com.lesorin.sparknotifications.view.fragments;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
@@ -20,8 +22,8 @@ import android.widget.NumberPicker;
 import androidx.annotation.Nullable;
 import com.lesorin.sparknotifications.BuildConfig;
 import com.lesorin.sparknotifications.R;
-import com.lesorin.sparknotifications.view.NotificationServiceHelper;
 import com.lesorin.sparknotifications.view.receivers.ScreenNotificationsDeviceAdminReceiver;
+import com.lesorin.sparknotifications.view.services.NotificationListener;
 
 //TODO make the preferences keys constants.
 public class SettingsFragment extends PreferenceFragment
@@ -119,10 +121,25 @@ public class SettingsFragment extends PreferenceFragment
 
     private void checkForRunningService()
     {
-        mServiceActive = NotificationServiceHelper.isServiceRunning(getActivity());
+        mServiceActive = isServiceRunning(getActivity());
 
         mServicePreference.setChecked(mServiceActive);
         enableOptions(mServiceActive);
+    }
+
+    public boolean isServiceRunning(Context context)
+    {
+        ActivityManager manager = (ActivityManager)context.getSystemService(Activity.ACTIVITY_SERVICE);
+
+        for(ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE))
+        {
+            if(NotificationListener.class.getName().equals(service.service.getClassName()))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void initializeDeviceAdmin()
@@ -289,7 +306,6 @@ public class SettingsFragment extends PreferenceFragment
         new AlertDialog.Builder(getActivity()).setMessage(message).setCancelable(false).
                 setPositiveButton(android.R.string.ok, (alertDialog, id) ->
                 {
-                    alertDialog.cancel();
                     startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
                 }).show();
     }
