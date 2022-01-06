@@ -1,4 +1,4 @@
-package com.lesorin.sparknotifications.views;
+package com.lesorin.sparknotifications.view.activities;
 
 import android.os.Bundle;
 import android.view.MenuItem;
