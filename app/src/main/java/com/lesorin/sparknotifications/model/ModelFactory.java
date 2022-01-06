@@ -1,11 +1,12 @@
 package com.lesorin.sparknotifications.model;
 
+import android.content.Context;
 import com.lesorin.sparknotifications.presenter.Contract;
 
 public class ModelFactory
 {
-    public static Contract.Model getRealmModel()
+    public static Contract.Model getRealmModel(Context context)
     {
-        return new RealmModel();
+        return new RealmModel(context);
     }
 }
