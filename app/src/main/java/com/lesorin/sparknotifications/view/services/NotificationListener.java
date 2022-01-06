@@ -116,7 +116,7 @@ public class NotificationListener extends NotificationListenerService implements
     private void registerPickupListener()
     {
         SensorManager sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
-        Sensor pickupSensor = sensorManager.getDefaultSensor(25);
+        Sensor pickupSensor = sensorManager.getDefaultSensor(25); //TODO 25 which is Sensor.TYPE_PICK_UP_GESTURE may not work on Android 11 and later.
 
         if(pickupSensor != null)
         {
