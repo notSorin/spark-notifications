@@ -1,4 +1,4 @@
-package com.lesorin.sparknotifications.views;
+package com.lesorin.sparknotifications.view;
 
 import android.app.Application;
 import com.lesorin.sparknotifications.helpers.DatabaseMigrations;
