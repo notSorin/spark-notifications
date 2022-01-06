@@ -1,4 +1,4 @@
-package com.lesorin.sparknotifications.views;
+package com.lesorin.sparknotifications.view.fragments;
 
 import android.app.AlertDialog;
 import android.app.admin.DevicePolicyManager;

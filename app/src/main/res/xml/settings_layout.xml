@@ -75,13 +75,13 @@
             android:summary="@string/QuietHoursSummary"
             android:title="@string/QuietHoursTitle" />
 
-        <com.lesorin.sparknotifications.views.TimePreference
+        <com.lesorin.sparknotifications.view.TimePreference
             android:defaultValue="22:00"
             android:key="QuietHoursStartKey"
             android:showDefault="true"
             android:title="@string/QuietHoursStartTitle" />
 
-        <com.lesorin.sparknotifications.views.TimePreference
+        <com.lesorin.sparknotifications.view.TimePreference
             android:defaultValue="08:00"
             android:key="QuietHoursStopKey"
             android:showDefault="true"

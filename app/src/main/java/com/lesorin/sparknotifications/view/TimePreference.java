@@ -1,4 +1,4 @@
-package com.lesorin.sparknotifications.views;
+package com.lesorin.sparknotifications.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
