@@ -1,11 +1,11 @@
-package com.lesorin.sparknotifications.view;
+package com.lesorin.sparknotifications;
 
 import android.app.Application;
 import com.lesorin.sparknotifications.model.DatabaseMigrations;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
-public class ScreenNotificationsApplication extends Application
+public class MainApplication extends Application
 {
     @Override
     public void onCreate()
