@@ -9,6 +9,7 @@ import com.lesorin.sparknotifications.R;
 import com.lesorin.sparknotifications.view.adapters.AppAdapter;
 import com.lesorin.sparknotifications.view.services.AppScanningService;
 
+//TODO remove this activity and use a fragment.
 public class AppsActivity extends AppCompatActivity
 {
     private AppAdapter mAdapter;

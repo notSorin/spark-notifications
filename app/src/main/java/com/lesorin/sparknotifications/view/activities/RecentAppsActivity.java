@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.lesorin.sparknotifications.R;
 import com.lesorin.sparknotifications.view.adapters.RecentAppsAdapter;
 
+//TODO remove this activity and use a fragment.
 public class RecentAppsActivity extends AppCompatActivity
 {
     @Override
