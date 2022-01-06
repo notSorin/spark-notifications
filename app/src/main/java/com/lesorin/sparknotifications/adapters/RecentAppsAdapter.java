@@ -12,6 +12,7 @@ import com.lesorin.sparknotifications.BuildConfig;
 import com.lesorin.sparknotifications.R;
 import com.lesorin.sparknotifications.helpers.AppHelper;
 import com.lesorin.sparknotifications.models.RecentApp;
+import java.text.SimpleDateFormat;
 import io.realm.RealmResults;
 
 public class RecentAppsAdapter extends BaseAdapter
@@ -90,7 +91,10 @@ public class RecentAppsAdapter extends BaseAdapter
             holder.name.setText(R.string.uninstalled_app);
         }
 
-        holder.notificationTime.setText(DateUtils.getRelativeTimeSpanString(app.getTimestamp(), System.currentTimeMillis(), 0));
+        String relativeTime = DateUtils.getRelativeTimeSpanString(app.getTimestamp(), System.currentTimeMillis(), 0).toString();
+        String formattedDate = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss").format(app.getTimestamp());
+
+        holder.notificationTime.setText(relativeTime + " (" + formattedDate + ")"); //TODO fix after switching to MVP.
 
         return convertView;
     }
