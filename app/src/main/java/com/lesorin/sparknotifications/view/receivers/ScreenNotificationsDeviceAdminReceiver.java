@@ -1,4 +1,4 @@
-package com.lesorin.sparknotifications.receivers;
+package com.lesorin.sparknotifications.view.receivers;
 
 import android.app.admin.DeviceAdminReceiver;
 import android.app.admin.DevicePolicyManager;

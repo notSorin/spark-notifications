@@ -1,7 +1,7 @@
 package com.lesorin.sparknotifications.helpers;
 
-import com.lesorin.sparknotifications.models.App;
-import com.lesorin.sparknotifications.models.RecentApp;
+import com.lesorin.sparknotifications.presenter.App;
+import com.lesorin.sparknotifications.presenter.RecentApp;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;

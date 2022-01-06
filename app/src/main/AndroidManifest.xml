@@ -36,10 +36,10 @@
             android:name="com.lesorin.sparknotifications.view.activities.RecentAppsActivity"
             android:label="@string/RecentAppsTitle" />
 
-        <service android:name="com.lesorin.sparknotifications.services.AppScanningService" />
+        <service android:name=".view.services.AppScanningService" />
 
         <service
-            android:name="com.lesorin.sparknotifications.services.NotificationListener"
+            android:name=".view.services.NotificationListener"
             android:exported="false"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
@@ -50,7 +50,7 @@
         </service>
 
         <receiver
-            android:name="com.lesorin.sparknotifications.receivers.ScreenNotificationsDeviceAdminReceiver"
+            android:name=".view.receivers.ScreenNotificationsDeviceAdminReceiver"
             android:exported="false"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_DEVICE_ADMIN">
@@ -65,7 +65,7 @@
         </receiver>
 
         <receiver
-            android:name="com.lesorin.sparknotifications.receivers.UserPresentReceiver"
+            android:name=".view.receivers.UserPresentReceiver"
             android:exported="false">
 
             <intent-filter>

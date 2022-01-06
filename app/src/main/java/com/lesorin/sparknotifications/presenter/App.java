@@ -1,4 +1,4 @@
-package com.lesorin.sparknotifications.models;
+package com.lesorin.sparknotifications.presenter;
 
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;

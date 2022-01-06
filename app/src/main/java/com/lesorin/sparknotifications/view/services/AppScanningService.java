@@ -1,10 +1,10 @@
-package com.lesorin.sparknotifications.services;
+package com.lesorin.sparknotifications.view.services;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import com.lesorin.sparknotifications.models.App;
+import com.lesorin.sparknotifications.presenter.App;
 import java.util.ArrayList;
 import java.util.List;
 import io.realm.Realm;

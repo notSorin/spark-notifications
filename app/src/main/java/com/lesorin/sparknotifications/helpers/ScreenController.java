@@ -11,7 +11,7 @@ import android.os.PowerManager;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import com.lesorin.sparknotifications.BuildConfig;
-import com.lesorin.sparknotifications.receivers.ScreenNotificationsDeviceAdminReceiver;
+import com.lesorin.sparknotifications.view.receivers.ScreenNotificationsDeviceAdminReceiver;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Date;

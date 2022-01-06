@@ -1,4 +1,4 @@
-package com.lesorin.sparknotifications.receivers;
+package com.lesorin.sparknotifications.view.receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

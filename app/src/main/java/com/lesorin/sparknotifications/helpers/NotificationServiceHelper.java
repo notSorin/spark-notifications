@@ -5,7 +5,7 @@ import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.provider.Settings;
-import com.lesorin.sparknotifications.services.NotificationListener;
+import com.lesorin.sparknotifications.view.services.NotificationListener;
 
 public class NotificationServiceHelper
 {

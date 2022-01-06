@@ -21,7 +21,7 @@ import androidx.annotation.Nullable;
 import com.lesorin.sparknotifications.BuildConfig;
 import com.lesorin.sparknotifications.R;
 import com.lesorin.sparknotifications.helpers.NotificationServiceHelper;
-import com.lesorin.sparknotifications.receivers.ScreenNotificationsDeviceAdminReceiver;
+import com.lesorin.sparknotifications.view.receivers.ScreenNotificationsDeviceAdminReceiver;
 
 //TODO make the preferences keys constants.
 public class SettingsFragment extends PreferenceFragment

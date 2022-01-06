@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.widget.SwitchCompat;
 import com.lesorin.sparknotifications.R;
-import com.lesorin.sparknotifications.models.App;
+import com.lesorin.sparknotifications.presenter.App;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;

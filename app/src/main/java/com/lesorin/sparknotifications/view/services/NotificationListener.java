@@ -1,4 +1,4 @@
-package com.lesorin.sparknotifications.services;
+package com.lesorin.sparknotifications.view.services;
 
 import android.content.Context;
 import android.content.SharedPreferences;

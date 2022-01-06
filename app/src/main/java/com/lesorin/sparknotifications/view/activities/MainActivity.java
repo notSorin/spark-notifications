@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import com.lesorin.sparknotifications.R;
-import com.lesorin.sparknotifications.services.AppScanningService;
+import com.lesorin.sparknotifications.view.services.AppScanningService;
 
 public class MainActivity extends AppCompatActivity
 {

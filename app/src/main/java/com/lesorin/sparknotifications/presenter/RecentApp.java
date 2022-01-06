@@ -1,4 +1,4 @@
-package com.lesorin.sparknotifications.models;
+package com.lesorin.sparknotifications.presenter;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
