@@ -6,7 +6,7 @@ import android.widget.ListView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.lesorin.sparknotifications.R;
-import com.lesorin.sparknotifications.adapters.RecentAppsAdapter;
+import com.lesorin.sparknotifications.view.adapters.RecentAppsAdapter;
 
 public class RecentAppsActivity extends AppCompatActivity
 {

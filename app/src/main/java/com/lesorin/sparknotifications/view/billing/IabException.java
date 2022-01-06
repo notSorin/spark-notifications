@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.lesorin.sparknotifications.billing;
+package com.lesorin.sparknotifications.view.billing;
 
 /**
  * Exception thrown when something went wrong with in-app billing.

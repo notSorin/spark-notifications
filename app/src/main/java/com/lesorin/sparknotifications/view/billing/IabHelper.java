@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.lesorin.sparknotifications.billing;
+package com.lesorin.sparknotifications.view.billing;
 
 import android.app.Activity;
 import android.app.PendingIntent;

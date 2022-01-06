@@ -1,4 +1,4 @@
-package com.lesorin.sparknotifications.adapters;
+package com.lesorin.sparknotifications.view.adapters;
 
 import android.content.Context;
 import android.text.format.DateUtils;
@@ -19,7 +19,7 @@ public class RecentAppsAdapter extends BaseAdapter
 {
     private Context mContext;
     private LayoutInflater mInflater;
-    private RealmResults<RecentApp> mApps;
+    private RealmResults<RecentApp> mApps; //TODO must this be of type RealmResults? Use list instead?
 
     public RecentAppsAdapter(Context context)
     {

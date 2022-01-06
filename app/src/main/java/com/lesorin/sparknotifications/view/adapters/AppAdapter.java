@@ -1,4 +1,4 @@
-package com.lesorin.sparknotifications.adapters;
+package com.lesorin.sparknotifications.view.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -15,6 +15,7 @@ import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
+//TODO try to make it so the adapter doesn't need to implement RealmChangeListener.
 public class AppAdapter extends BaseAdapter implements RealmChangeListener<RealmResults<App>>
 {
     private Context mContext;
@@ -40,7 +41,7 @@ public class AppAdapter extends BaseAdapter implements RealmChangeListener<Realm
 	{
         mApps = mRealm.where(App.class).findAll().sort("name");
 
-        mApps.addChangeListener(this);
+        mApps.addChangeListener(this); //TODO is this call really necessary?
         notifyDataSetChanged();
     }
 

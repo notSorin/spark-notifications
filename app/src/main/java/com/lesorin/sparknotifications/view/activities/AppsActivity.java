@@ -6,7 +6,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.lesorin.sparknotifications.R;
-import com.lesorin.sparknotifications.adapters.AppAdapter;
+import com.lesorin.sparknotifications.view.adapters.AppAdapter;
 import com.lesorin.sparknotifications.view.services.AppScanningService;
 
 public class AppsActivity extends AppCompatActivity
