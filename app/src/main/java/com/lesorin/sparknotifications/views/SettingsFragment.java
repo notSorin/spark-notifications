@@ -1,4 +1,4 @@
-package com.lesorin.sparknotifications;
+package com.lesorin.sparknotifications.views;
 
 import android.app.AlertDialog;
 import android.app.admin.DevicePolicyManager;
@@ -18,6 +18,8 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import androidx.annotation.Nullable;
+import com.lesorin.sparknotifications.BuildConfig;
+import com.lesorin.sparknotifications.R;
 import com.lesorin.sparknotifications.helpers.NotificationServiceHelper;
 import com.lesorin.sparknotifications.receivers.ScreenNotificationsDeviceAdminReceiver;
 

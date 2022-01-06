@@ -1,8 +1,9 @@
-package com.lesorin.sparknotifications;
+package com.lesorin.sparknotifications.views;
 
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import com.lesorin.sparknotifications.R;
 import com.lesorin.sparknotifications.services.AppScanningService;
 
 public class MainActivity extends AppCompatActivity
