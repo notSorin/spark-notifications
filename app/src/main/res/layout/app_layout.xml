@@ -10,7 +10,7 @@
         android:layout_centerVertical="true"
         android:layout_margin="8dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_launcher" />
+        android:src="@mipmap/ic_launcher" />
 
     <TextView
         android:id="@+id/AppName"
