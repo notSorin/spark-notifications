@@ -15,7 +15,7 @@
             android:title="@string/EnabledAppsTitle">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:targetClass="com.lesorin.sparknotifications.AppsActivity"
+                android:targetClass="com.lesorin.sparknotifications.views.AppsActivity"
                 android:targetPackage="com.lesorin.sparknotifications" />
         </Preference>
 
@@ -25,7 +25,7 @@
             android:title="@string/RecentAppsTitle">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:targetClass="com.lesorin.sparknotifications.RecentAppsActivity"
+                android:targetClass="com.lesorin.sparknotifications.views.RecentAppsActivity"
                 android:targetPackage="com.lesorin.sparknotifications" />
         </Preference>
     </PreferenceCategory>
