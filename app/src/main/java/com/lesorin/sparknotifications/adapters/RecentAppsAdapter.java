@@ -86,7 +86,7 @@ public class RecentAppsAdapter extends BaseAdapter
         }
         else
         {
-            holder.icon.setImageResource(R.drawable.ic_launcher);
+            holder.icon.setImageResource(R.mipmap.ic_launcher);
             holder.name.setText(R.string.uninstalled_app);
         }
 
