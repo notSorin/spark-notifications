@@ -1,4 +1,4 @@
-package com.lesorin.sparknotifications.helpers;
+package com.lesorin.sparknotifications.view;
 
 import android.app.KeyguardManager;
 import android.app.admin.DevicePolicyManager;
@@ -11,6 +11,7 @@ import android.os.PowerManager;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import com.lesorin.sparknotifications.BuildConfig;
+import com.lesorin.sparknotifications.model.AppHelper;
 import com.lesorin.sparknotifications.view.receivers.ScreenNotificationsDeviceAdminReceiver;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
@@ -18,6 +19,7 @@ import java.util.Date;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 
+//TODO figure out where the methods from this class go.
 public class ScreenController
 {
     private static AtomicLong sLastNotificationTime = new AtomicLong();

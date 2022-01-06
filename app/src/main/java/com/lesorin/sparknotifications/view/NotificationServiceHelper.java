@@ -1,4 +1,4 @@
-package com.lesorin.sparknotifications.helpers;
+package com.lesorin.sparknotifications.view;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -7,6 +7,7 @@ import android.content.Context;
 import android.provider.Settings;
 import com.lesorin.sparknotifications.view.services.NotificationListener;
 
+//TODO figure out where the methods from this class go.
 public class NotificationServiceHelper
 {
     public static boolean isServiceEnabled(Context context)

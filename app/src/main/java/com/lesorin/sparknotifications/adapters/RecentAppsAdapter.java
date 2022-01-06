@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.lesorin.sparknotifications.BuildConfig;
 import com.lesorin.sparknotifications.R;
-import com.lesorin.sparknotifications.helpers.AppHelper;
+import com.lesorin.sparknotifications.model.AppHelper;
 import com.lesorin.sparknotifications.presenter.RecentApp;
 import java.text.SimpleDateFormat;
 import io.realm.RealmResults;

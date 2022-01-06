@@ -1,4 +1,4 @@
-package com.lesorin.sparknotifications.helpers;
+package com.lesorin.sparknotifications.model;
 
 import com.lesorin.sparknotifications.presenter.App;
 import com.lesorin.sparknotifications.presenter.RecentApp;

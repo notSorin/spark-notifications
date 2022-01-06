@@ -1,7 +1,7 @@
 package com.lesorin.sparknotifications.view;
 
 import android.app.Application;
-import com.lesorin.sparknotifications.helpers.DatabaseMigrations;
+import com.lesorin.sparknotifications.model.DatabaseMigrations;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 

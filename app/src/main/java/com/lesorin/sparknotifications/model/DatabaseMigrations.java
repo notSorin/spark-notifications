@@ -1,4 +1,4 @@
-package com.lesorin.sparknotifications.helpers;
+package com.lesorin.sparknotifications.model;
 
 import io.realm.DynamicRealm;
 import io.realm.RealmMigration;

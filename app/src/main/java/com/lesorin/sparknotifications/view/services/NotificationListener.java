@@ -11,8 +11,8 @@ import android.hardware.TriggerEventListener;
 import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import com.lesorin.sparknotifications.helpers.AppHelper;
-import com.lesorin.sparknotifications.helpers.ScreenController;
+import com.lesorin.sparknotifications.model.AppHelper;
+import com.lesorin.sparknotifications.view.ScreenController;
 
 public class NotificationListener extends NotificationListenerService implements SensorEventListener,
         SharedPreferences.OnSharedPreferenceChangeListener
