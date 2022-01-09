@@ -38,8 +38,8 @@ public class SettingsFragment extends PreferenceFragment
             _screenDelayPreference;
     private TimePreference _quietHoursStartPreference, _quietHoursStopPreference;
 
-    private DevicePolicyManager mDPM;
-    private ComponentName mDeviceAdmin;
+    private DevicePolicyManager _devicePolicyManager;
+    private ComponentName _adminComponent;
     private MainActivity _activity;
 
     @Override
@@ -49,6 +49,8 @@ public class SettingsFragment extends PreferenceFragment
         addPreferencesFromResource(R.xml.settings_layout);
 
         _activity = (MainActivity)getActivity();
+        _devicePolicyManager = (DevicePolicyManager)_activity.getSystemService(Context.DEVICE_POLICY_SERVICE);
+        _adminComponent = new ComponentName(_activity, ScreenNotificationsDeviceAdminReceiver.class);
 
         initializeAllPreferences();
     }
@@ -330,18 +332,16 @@ public class SettingsFragment extends PreferenceFragment
 
     private void initializeDeviceAdmin()
     {
-        mDPM = (DevicePolicyManager)getActivity().getSystemService(Context.DEVICE_POLICY_SERVICE);
-        mDeviceAdmin = new ComponentName(getActivity(), ScreenNotificationsDeviceAdminReceiver.class);
         _deviceAdminPreference = (SwitchPreference)findPreference("DeviceAdminKey");
 
         _deviceAdminPreference.setOnPreferenceChangeListener((preference, newValue) ->
         {
             if((Boolean)newValue)
             {
-                //Launch the activity to have the user enable our admin.
+                //Launch the activity to have the user enable the admin option.
                 Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
 
-                intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, mDeviceAdmin);
+                intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, _adminComponent);
                 startActivity(intent);
 
                 //Don't update checkbox until we're really active.
@@ -349,7 +349,7 @@ public class SettingsFragment extends PreferenceFragment
             }
             else
             {
-                mDPM.removeActiveAdmin(mDeviceAdmin);
+                _devicePolicyManager.removeActiveAdmin(_adminComponent);
                 enableScreenTimeout(false);
 
                 return true;
@@ -359,7 +359,7 @@ public class SettingsFragment extends PreferenceFragment
 
     private void checkForActiveDeviceAdmin()
     {
-        boolean adminActive = mDPM.isAdminActive(mDeviceAdmin);
+        boolean adminActive = _devicePolicyManager.isAdminActive(_adminComponent);
 
         _deviceAdminPreference.setChecked(adminActive);
         enableScreenTimeout(adminActive);
