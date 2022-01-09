@@ -14,6 +14,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
+import android.provider.Settings;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -309,7 +310,7 @@ public class SettingsFragment extends PreferenceFragment
         dialogBuilder.setTitle(R.string.Notice);
         dialogBuilder.setMessage(messageId);
         dialogBuilder.setPositiveButton(R.string.IUnderstand, (alertDialog, id) ->
-                startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS")));
+                startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)));
         dialogBuilder.setCancelable(false);
 
         dialogBuilder.show();
