@@ -23,6 +23,9 @@ import android.widget.NumberPicker;
 import androidx.annotation.Nullable;
 import com.lesorin.sparknotifications.BuildConfig;
 import com.lesorin.sparknotifications.R;
+import com.lesorin.sparknotifications.view.activities.AppsActivity;
+import com.lesorin.sparknotifications.view.activities.MainActivity;
+import com.lesorin.sparknotifications.view.activities.RecentAppsActivity;
 import com.lesorin.sparknotifications.view.receivers.ScreenNotificationsDeviceAdminReceiver;
 import com.lesorin.sparknotifications.view.services.NotificationListener;
 
@@ -33,9 +36,11 @@ public class SettingsFragment extends PreferenceFragment
     private SharedPreferences mPrefs;
     private boolean _serviceActive;
     private SwitchPreference _servicePreference;
+    private Preference _enabledAppsPreference, _recentActivityPreference;
     private DevicePolicyManager mDPM;
     private ComponentName mDeviceAdmin;
     private SwitchPreference mDeviceAdminPreference;
+    private MainActivity _activity;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -43,8 +48,11 @@ public class SettingsFragment extends PreferenceFragment
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.settings_layout);
 
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        _activity = (MainActivity)getActivity();
 
+        initializeService();
+        initializeEnabledApps();
+        initializeRecentActivity();
         initializeContactDeveloper();
         initializeAppVersion();
         initializeService();
@@ -52,6 +60,30 @@ public class SettingsFragment extends PreferenceFragment
         initializeTime();
         setDelaySummary();
         //initializeDonations();
+    }
+
+    private void initializeRecentActivity()
+    {
+        _recentActivityPreference = findPreference("RecentAppsKey");
+
+        _recentActivityPreference.setOnPreferenceClickListener(preference ->
+        {
+            startActivity(new Intent(_activity, RecentAppsActivity.class));
+
+            return true;
+        });
+    }
+
+    private void initializeEnabledApps()
+    {
+        _enabledAppsPreference = findPreference("EnabledAppsKey");
+
+        _enabledAppsPreference.setOnPreferenceClickListener(preference ->
+        {
+            startActivity(new Intent(_activity, AppsActivity.class));
+
+            return true;
+        });
     }
 
     @Override
