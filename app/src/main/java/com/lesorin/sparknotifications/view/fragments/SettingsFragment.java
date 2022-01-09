@@ -132,9 +132,9 @@ public class SettingsFragment extends PreferenceFragment
     {
         ActivityManager manager = (ActivityManager)context.getSystemService(Activity.ACTIVITY_SERVICE);
 
-        for(ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE))
+        for(ActivityManager.RunningServiceInfo serviceInfo : manager.getRunningServices(Integer.MAX_VALUE))
         {
-            if(NotificationListener.class.getName().equals(service.service.getClassName()))
+            if(serviceInfo.service.getClassName().equals(NotificationListener.class.getName()))
             {
                 return true;
             }
