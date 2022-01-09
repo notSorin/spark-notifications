@@ -32,7 +32,8 @@ public class SettingsFragment extends PreferenceFragment
 {
     private boolean _serviceActive;
     private SwitchPreference _servicePreference;
-    private Preference _enabledAppsPreference, _recentActivityPreference, _screenTimeoutPreference;
+    private Preference _enabledAppsPreference, _recentActivityPreference, _screenTimeoutPreference,
+            _screenDelayPreference;
     private DevicePolicyManager mDPM;
     private ComponentName mDeviceAdmin;
     private SwitchPreference mDeviceAdminPreference;
@@ -54,13 +55,39 @@ public class SettingsFragment extends PreferenceFragment
         //Options.
         initializeDeviceAdmin();
         initializeScreenTimeout();
+        initializeScreenDelay();
         initializeTime();
-        setDelaySummary();
 
         //Other.
         initializeContactDeveloper();
         //initializeDonations();
         initializeAppVersion();
+    }
+
+    private void initializeScreenDelay()
+    {
+        _screenDelayPreference = findPreference("ScreenOnDelayKey");
+
+
+        _screenDelayPreference.setOnPreferenceClickListener(preference ->
+        {
+            LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View numberPickerView = inflater.inflate(R.layout.number_picker_dialog, null);
+            final NumberPicker numberPicker = numberPickerView.findViewById(R.id.NumberPicker);
+
+            numberPicker.setMinValue(0);
+            numberPicker.setMaxValue(10);
+            //numberPicker.setValue(mPrefs.getInt("ScreenOnDelayKey", 0));
+
+            new AlertDialog.Builder(getActivity()).setTitle(R.string.ScreenOnDelayTitle).setView(numberPicker).
+                    setPositiveButton(android.R.string.ok, (dialog, whichButton) ->
+                    {
+                        //mPrefs.edit().putInt("ScreenOnDelayKey", numberPicker.getValue()).apply();
+                        //setScreenDelaySummary(); //TODO this will be called by the main ac
+                    }).setNegativeButton(android.R.string.cancel, (dialog, whichButton) -> dialog.dismiss()).show();
+
+            return true;
+        });
     }
 
     private void initializeScreenTimeout()
@@ -258,7 +285,7 @@ public class SettingsFragment extends PreferenceFragment
         }
     }
 
-    private void setDelaySummary()
+    private void setScreenDelaySummary()
     {
         //findPreference("ScreenOnDelayKey").setSummary(getString(R.string.ScreenOnDelaySummary, mPrefs.getInt("ScreenOnDelayKey", 0)));
     }
@@ -279,34 +306,13 @@ public class SettingsFragment extends PreferenceFragment
         //stop.setSummary(handleTime(mPrefs.getString("QuietHoursStopKey", "08:00")));
         start.setOnPreferenceChangeListener(listener);
         stop.setOnPreferenceChangeListener(listener);
-
-        findPreference("ScreenOnDelayKey").setOnPreferenceClickListener(preference ->
-        {
-            LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View numberPickerView = inflater.inflate(R.layout.number_picker_dialog, null);
-            final NumberPicker numberPicker = numberPickerView.findViewById(R.id.NumberPicker);
-
-            numberPicker.setMinValue(0);
-            numberPicker.setMaxValue(900);
-            //numberPicker.setValue(mPrefs.getInt("ScreenOnDelayKey", 0));
-
-            new AlertDialog.Builder(getActivity()).setTitle(R.string.ScreenOnDelayTitle).setView(numberPicker).
-                    setPositiveButton(android.R.string.ok, (dialog, whichButton) ->
-                    {
-                        //mPrefs.edit().putInt("ScreenOnDelayKey", numberPicker.getValue()).apply();
-                        setDelaySummary();
-                        dialog.dismiss();
-                    }).setNegativeButton(android.R.string.cancel, (dialog, whichButton) -> dialog.dismiss()).show();
-
-            return true;
-        });
     }
 
     private void enableOptions(boolean enable)
     {
         _enabledAppsPreference.setEnabled(enable);
         _screenTimeoutPreference.setEnabled(enable);
-        findPreference("ScreenOnDelayKey").setEnabled(enable);
+        _screenDelayPreference.setEnabled(enable);
         findPreference("FullBrightnessKey").setEnabled(enable);
         findPreference("ProximitySensorKey").setEnabled(enable);
         findPreference("DetectPickUpKey").setEnabled(enable);
