@@ -13,20 +13,12 @@
             android:key="EnabledAppsKey"
             android:summary="@string/EnabledAppsSummary"
             android:title="@string/EnabledAppsTitle">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:targetClass="com.lesorin.sparknotifications.view.activities.AppsActivity"
-                android:targetPackage="com.lesorin.sparknotifications" />
         </Preference>
 
         <Preference
             android:key="RecentAppsKey"
             android:summary="@string/RecentAppsSummary"
             android:title="@string/RecentAppsTitle">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:targetClass="com.lesorin.sparknotifications.view.activities.RecentAppsActivity"
-                android:targetPackage="com.lesorin.sparknotifications" />
         </Preference>
     </PreferenceCategory>
 
