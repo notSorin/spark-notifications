@@ -55,7 +55,6 @@ public class SettingsFragment extends PreferenceFragment
         initializeRecentActivity();
         initializeContactDeveloper();
         initializeAppVersion();
-        initializeService();
         initializeDeviceAdmin();
         initializeTime();
         setDelaySummary();
@@ -190,8 +189,7 @@ public class SettingsFragment extends PreferenceFragment
                 Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
 
                 intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, mDeviceAdmin);
-                intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, R.string.device_admin_explanation);
-                startActivityForResult(intent, REQUEST_CODE_ENABLE_ADMIN);
+                startActivity(intent);
 
                 //Don't update checkbox until we're really active.
                 return false;
