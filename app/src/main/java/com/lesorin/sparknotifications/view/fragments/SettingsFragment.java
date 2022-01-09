@@ -31,7 +31,8 @@ import com.lesorin.sparknotifications.view.services.NotificationListener;
 public class SettingsFragment extends PreferenceFragment
 {
     private boolean _serviceActive;
-    private SwitchPreference _servicePreference, _fullBrightnessPreference, _notificationsDrawerPreference;
+    private SwitchPreference _servicePreference, _fullBrightnessPreference, _notificationsDrawerPreference,
+        _proximitySensorPreference;
     private Preference _enabledAppsPreference, _recentActivityPreference, _screenTimeoutPreference,
             _screenDelayPreference;
     private DevicePolicyManager mDPM;
@@ -102,7 +103,13 @@ public class SettingsFragment extends PreferenceFragment
 
     private void initializeProximitySensor()
     {
-        //todo
+        _proximitySensorPreference = (SwitchPreference)findPreference("ProximitySensorKey");
+
+        _proximitySensorPreference.setOnPreferenceClickListener(preference ->
+        {
+           //todo
+            return true;
+        });
     }
 
     private void initializeNotificationsDrawer()
@@ -377,7 +384,7 @@ public class SettingsFragment extends PreferenceFragment
         _screenTimeoutPreference.setEnabled(enable);
         _screenDelayPreference.setEnabled(enable);
         _fullBrightnessPreference.setEnabled(enable);
-        findPreference("ProximitySensorKey").setEnabled(enable);
+        _proximitySensorPreference.setEnabled(enable);
         findPreference("DetectPickUpKey").setEnabled(enable);
         findPreference("QuietHoursKey").setEnabled(enable);
         findPreference("QuietHoursStartKey").setEnabled(enable);
