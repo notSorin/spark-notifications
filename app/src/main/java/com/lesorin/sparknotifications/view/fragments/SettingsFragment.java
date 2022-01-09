@@ -32,7 +32,7 @@ import com.lesorin.sparknotifications.view.services.NotificationListener;
 public class SettingsFragment extends PreferenceFragment
 {
     private boolean _serviceActive;
-    private SwitchPreference mDeviceAdminPreference, _servicePreference, _fullBrightnessPreference, _notificationsDrawerPreference,
+    private SwitchPreference _deviceAdminPreference, _servicePreference, _fullBrightnessPreference, _notificationsDrawerPreference,
         _proximitySensorPreference, _detectPickUpPreference, _quietHoursPreference;
     private Preference _enabledAppsPreference, _recentActivityPreference, _screenTimeoutPreference,
             _screenDelayPreference;
@@ -332,9 +332,9 @@ public class SettingsFragment extends PreferenceFragment
     {
         mDPM = (DevicePolicyManager)getActivity().getSystemService(Context.DEVICE_POLICY_SERVICE);
         mDeviceAdmin = new ComponentName(getActivity(), ScreenNotificationsDeviceAdminReceiver.class);
-        mDeviceAdminPreference = (SwitchPreference)findPreference("DeviceAdminKey");
+        _deviceAdminPreference = (SwitchPreference)findPreference("DeviceAdminKey");
 
-        mDeviceAdminPreference.setOnPreferenceChangeListener((preference, newValue) ->
+        _deviceAdminPreference.setOnPreferenceChangeListener((preference, newValue) ->
         {
             if((Boolean)newValue)
             {
@@ -361,7 +361,7 @@ public class SettingsFragment extends PreferenceFragment
     {
         boolean adminActive = mDPM.isAdminActive(mDeviceAdmin);
 
-        mDeviceAdminPreference.setChecked(adminActive);
+        _deviceAdminPreference.setChecked(adminActive);
         enableScreenTimeout(adminActive);
     }
 
