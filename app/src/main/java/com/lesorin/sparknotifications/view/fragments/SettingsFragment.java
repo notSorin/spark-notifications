@@ -21,6 +21,7 @@ import android.widget.NumberPicker;
 import androidx.annotation.Nullable;
 import com.lesorin.sparknotifications.BuildConfig;
 import com.lesorin.sparknotifications.R;
+import com.lesorin.sparknotifications.view.TimePreference;
 import com.lesorin.sparknotifications.view.activities.AppsActivity;
 import com.lesorin.sparknotifications.view.activities.MainActivity;
 import com.lesorin.sparknotifications.view.activities.RecentAppsActivity;
@@ -31,13 +32,14 @@ import com.lesorin.sparknotifications.view.services.NotificationListener;
 public class SettingsFragment extends PreferenceFragment
 {
     private boolean _serviceActive;
-    private SwitchPreference _servicePreference, _fullBrightnessPreference, _notificationsDrawerPreference,
+    private SwitchPreference mDeviceAdminPreference, _servicePreference, _fullBrightnessPreference, _notificationsDrawerPreference,
         _proximitySensorPreference, _detectPickUpPreference, _quietHoursPreference;
     private Preference _enabledAppsPreference, _recentActivityPreference, _screenTimeoutPreference,
             _screenDelayPreference;
+    private TimePreference _quietHoursStartPreference, _quietHoursStopPreference;
+
     private DevicePolicyManager mDPM;
     private ComponentName mDeviceAdmin;
-    private SwitchPreference mDeviceAdminPreference;
     private MainActivity _activity;
 
     @Override
@@ -83,12 +85,26 @@ public class SettingsFragment extends PreferenceFragment
 
     private void initializeQuietHoursStop()
     {
-        //todo
+        _quietHoursStopPreference = (TimePreference)findPreference("QuietHoursStopKey");
+
+        _quietHoursStopPreference.setOnPreferenceChangeListener((preference, newValue) ->
+        {
+            preference.setSummary(handleTime(newValue.toString()));
+
+            return true;
+        });
     }
 
     private void initializeQuietHoursStart()
     {
-        //todo
+        _quietHoursStartPreference = (TimePreference)findPreference("QuietHoursStartKey");
+
+        _quietHoursStartPreference.setOnPreferenceChangeListener((preference, newValue) ->
+        {
+            preference.setSummary(handleTime(newValue.toString()));
+
+            return true;
+        });
     }
 
     private void initializeQuietHours()
@@ -372,24 +388,6 @@ public class SettingsFragment extends PreferenceFragment
         //findPreference("ScreenOnDelayKey").setSummary(getString(R.string.ScreenOnDelaySummary, mPrefs.getInt("ScreenOnDelayKey", 0)));
     }
 
-    private void initializeTime()
-    {
-        Preference.OnPreferenceChangeListener listener = (preference, newValue) ->
-        {
-            preference.setSummary(handleTime(newValue.toString()));
-
-            return true;
-        };
-
-        Preference start = findPreference("QuietHoursStartKey");
-        Preference stop = findPreference("QuietHoursStopKey");
-
-        //start.setSummary(handleTime(mPrefs.getString("QuietHoursStartKey", "22:00")));
-        //stop.setSummary(handleTime(mPrefs.getString("QuietHoursStopKey", "08:00")));
-        start.setOnPreferenceChangeListener(listener);
-        stop.setOnPreferenceChangeListener(listener);
-    }
-
     private void enableOptions(boolean enable)
     {
         _enabledAppsPreference.setEnabled(enable);
@@ -399,8 +397,8 @@ public class SettingsFragment extends PreferenceFragment
         _proximitySensorPreference.setEnabled(enable);
         _detectPickUpPreference.setEnabled(enable);
         _quietHoursPreference.setEnabled(enable);
-        findPreference("QuietHoursStartKey").setEnabled(enable);
-        findPreference("QuietHoursStopKey").setEnabled(enable);
+        _quietHoursStartPreference.setEnabled(enable);
+        _quietHoursStopPreference.setEnabled(enable);
         _notificationsDrawerPreference.setEnabled(enable);
     }
 
