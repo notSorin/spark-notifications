@@ -32,7 +32,7 @@ public class SettingsFragment extends PreferenceFragment
 {
     private boolean _serviceActive;
     private SwitchPreference _servicePreference;
-    private Preference _enabledAppsPreference, _recentActivityPreference;
+    private Preference _enabledAppsPreference, _recentActivityPreference, _screenTimeoutPreference;
     private DevicePolicyManager mDPM;
     private ComponentName mDeviceAdmin;
     private SwitchPreference mDeviceAdminPreference;
@@ -46,15 +46,47 @@ public class SettingsFragment extends PreferenceFragment
 
         _activity = (MainActivity)getActivity();
 
+        //Service.
         initializeService();
         initializeEnabledApps();
         initializeRecentActivity();
-        initializeContactDeveloper();
-        initializeAppVersion();
+
+        //Options.
         initializeDeviceAdmin();
+        initializeScreenTimeout();
         initializeTime();
         setDelaySummary();
+
+        //Other.
+        initializeContactDeveloper();
         //initializeDonations();
+        initializeAppVersion();
+    }
+
+    private void initializeScreenTimeout()
+    {
+        _screenTimeoutPreference = findPreference("ScreenTimeoutKey");
+
+        _screenTimeoutPreference.setOnPreferenceClickListener(preference ->
+        {
+            LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View numberPickerView = inflater.inflate(R.layout.number_picker_dialog, null);
+            final NumberPicker numberPicker = numberPickerView.findViewById(R.id.NumberPicker);
+
+            numberPicker.setMinValue(3);
+            numberPicker.setMaxValue(30);
+            //numberPicker.setValue(mPrefs.getInt("ScreenTimeoutKey", 10));
+
+            new AlertDialog.Builder(getActivity()).setTitle(R.string.ScreenTimeoutKey).setView(numberPickerView).
+                    setPositiveButton(android.R.string.ok, (dialog, whichButton) ->
+                    {
+                        //mPrefs.edit().putInt("ScreenTimeoutKey", numberPicker.getValue()).apply();
+                        setScreenTimeoutSummary();
+                        dialog.dismiss();
+                    }).setNegativeButton(android.R.string.cancel, (dialog, whichButton) -> dialog.dismiss()).show();
+
+            return true;
+        });
     }
 
     private void initializeRecentActivity()
@@ -193,7 +225,7 @@ public class SettingsFragment extends PreferenceFragment
             else
             {
                 mDPM.removeActiveAdmin(mDeviceAdmin);
-                enableScreenTimeoutOption(false);
+                enableScreenTimeout(false);
 
                 return true;
             }
@@ -205,28 +237,24 @@ public class SettingsFragment extends PreferenceFragment
         boolean adminActive = mDPM.isAdminActive(mDeviceAdmin);
 
         mDeviceAdminPreference.setChecked(adminActive);
-        enableScreenTimeoutOption(adminActive);
+        enableScreenTimeout(adminActive);
     }
 
-    private void enableScreenTimeoutOption(boolean enable)
+    private void enableScreenTimeout(boolean enabled)
     {
-        Preference wakeLength = findPreference("ScreenTimeoutKey");
-
-        wakeLength.setEnabled(enable);
+        _screenTimeoutPreference.setEnabled(enabled);
         setScreenTimeoutSummary();
     }
 
     private void setScreenTimeoutSummary()
     {
-        Preference wakeLength = findPreference("ScreenTimeoutKey");
-
-        if(wakeLength.isEnabled())
+        if(_screenTimeoutPreference.isEnabled())
         {
             //wakeLength.setSummary(String.format(getString(R.string.ScreenTimeoutSummaryEnabled), mPrefs.getInt("ScreenTimeoutKey", 10)));
         }
         else
         {
-            wakeLength.setSummary(R.string.ScreenTimeoutSummaryDisabled);
+            _screenTimeoutPreference.setSummary(R.string.ScreenTimeoutSummaryDisabled);
         }
     }
 
@@ -252,27 +280,6 @@ public class SettingsFragment extends PreferenceFragment
         start.setOnPreferenceChangeListener(listener);
         stop.setOnPreferenceChangeListener(listener);
 
-        findPreference("ScreenTimeoutKey").setOnPreferenceClickListener(preference ->
-        {
-            LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View numberPickerView = inflater.inflate(R.layout.number_picker_dialog, null);
-            final NumberPicker numberPicker = numberPickerView.findViewById(R.id.NumberPicker);
-
-            numberPicker.setMinValue(1);
-            numberPicker.setMaxValue(900);
-            //numberPicker.setValue(mPrefs.getInt("ScreenTimeoutKey", 10));
-
-            new AlertDialog.Builder(getActivity()).setTitle(R.string.ScreenTimeoutKey).setView(numberPickerView).
-                    setPositiveButton(android.R.string.ok, (dialog, whichButton) ->
-                    {
-                        //mPrefs.edit().putInt("ScreenTimeoutKey", numberPicker.getValue()).apply();
-                        setScreenTimeoutSummary();
-                        dialog.dismiss();
-                    }).setNegativeButton(android.R.string.cancel, (dialog, whichButton) -> dialog.dismiss()).show();
-
-            return true;
-        });
-
         findPreference("ScreenOnDelayKey").setOnPreferenceClickListener(preference ->
         {
             LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -297,8 +304,8 @@ public class SettingsFragment extends PreferenceFragment
 
     private void enableOptions(boolean enable)
     {
-        findPreference("EnabledAppsKey").setEnabled(enable);
-        findPreference("ScreenTimeoutKey").setEnabled(enable);
+        _enabledAppsPreference.setEnabled(enable);
+        _screenTimeoutPreference.setEnabled(enable);
         findPreference("ScreenOnDelayKey").setEnabled(enable);
         findPreference("FullBrightnessKey").setEnabled(enable);
         findPreference("ProximitySensorKey").setEnabled(enable);
