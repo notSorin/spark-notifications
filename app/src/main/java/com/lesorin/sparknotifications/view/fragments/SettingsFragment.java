@@ -112,13 +112,18 @@ public class SettingsFragment extends PreferenceFragment
 
     private void initializeFullBrightness()
     {
-        //todo
+        _fullBrightnessPreference = (SwitchPreference)findPreference("FullBrightnessKey");
+
+        _fullBrightnessPreference.setOnPreferenceClickListener(preference ->
+        {
+            //todo
+            return true;
+        });
     }
 
     private void initializeScreenDelay()
     {
         _screenDelayPreference = findPreference("ScreenOnDelayKey");
-
 
         _screenDelayPreference.setOnPreferenceClickListener(preference ->
         {
@@ -364,7 +369,7 @@ public class SettingsFragment extends PreferenceFragment
         _enabledAppsPreference.setEnabled(enable);
         _screenTimeoutPreference.setEnabled(enable);
         _screenDelayPreference.setEnabled(enable);
-        findPreference("FullBrightnessKey").setEnabled(enable);
+        _fullBrightnessPreference.setEnabled(enable);
         findPreference("ProximitySensorKey").setEnabled(enable);
         findPreference("DetectPickUpKey").setEnabled(enable);
         findPreference("QuietHoursKey").setEnabled(enable);
