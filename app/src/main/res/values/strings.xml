@@ -4,11 +4,7 @@
     <string name="rate">Rate Screen Notifications</string>
     <string name="description">Screen Notifications will turn your screen on when you get a 
         notification from the selected apps. The screen will not turn on if your device is in your pocket.</string>
-    <string name="notification_listener_launch">You will be now taken to the notification settings.
-        If you wish to stop Screen Notifications, simply turn it off.</string>
-    <string name="notification_listener_warning">Clicking ok will take you to the notification settings.
-        For this app to work you will need to turn on Screen Notifications.
-        Android will warn you that the app may capture your private data, Screen Notifications never reads the content of notifications.</string>
+
     <string name="device_admin_explanation">Screen Notifications needs device admin access to turn off your screen after a notification</string>
     <string name="ok">OK</string>
     <string name="select_an_amount">Select a donation amount</string>
@@ -56,10 +52,23 @@
     <string name="SparkNotificationsServiceTitle">Spark Notifications Service</string>
     <string name="SparkNotificationsServiceSummary">When the service is enabled, the screen will turn on when notifications are received.</string>
 
+    <string name="ServiceDisableInfo">You will now be taken to your device\'s <i>Notification Access</i> screen.\n
+        \n
+        If you wish to stop Spark Notifications, disable its notifications access.</string>
+    <string name="ServiceEnableInfo">You will now be taken to your device\'s <i>Notification Access</i> screen.\n
+        \n
+        For this app to work, it is required to enable its access to
+        notifications in order to wake the screen when notifications are received.\n
+        \n
+        Spark Notifications never reads the content of your notifications. This is an open-source app,
+        which means that anyone can see exactly what the app does by looking at its source code,
+        available at <b>github.com/notSorin/spark-notifications</b> .
+    </string>
+
     <string name="EnabledAppsTitle">Enabled Apps</string>
     <string name="EnabledAppsSummary">Select which apps can turn the screen on when notifications are received.</string>
 
-    <string name="RecentAppsTitle">Recent Apps</string>
+    <string name="RecentAppsTitle">Recent Activity</string>
     <string name="RecentAppsSummary">Displays a list of apps that have recently turned the screen on.</string>
 
     <string name="DeviceAdminTitle">Device Administrator</string>
@@ -95,4 +104,6 @@
     <string name="DonateSummary">Donate to help support the app\'s development.</string>
 
     <string name="VersionTitle">App Version</string>
+    <string name="IUnderstand">I understand</string>
+    <string name="Notice">Notice</string>
 </resources>

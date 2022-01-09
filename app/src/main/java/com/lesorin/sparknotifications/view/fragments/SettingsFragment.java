@@ -30,8 +30,8 @@ public class SettingsFragment extends PreferenceFragment
 {
     private static final int REQUEST_CODE_ENABLE_ADMIN = 1;
     private SharedPreferences mPrefs;
-    private boolean mServiceActive;
-    private SwitchPreference mServicePreference;
+    private boolean _serviceActive;
+    private SwitchPreference _servicePreference;
     private DevicePolicyManager mDPM;
     private ComponentName mDeviceAdmin;
     private SwitchPreference mDeviceAdminPreference;
@@ -101,30 +101,31 @@ public class SettingsFragment extends PreferenceFragment
 
     private void initializeService()
     {
-        mServicePreference = (SwitchPreference)findPreference("SparkNotificationsServiceKey");
+        _servicePreference = (SwitchPreference)findPreference("SparkNotificationsServiceKey");
 
-        mServicePreference.setOnPreferenceClickListener(preference ->
+        _servicePreference.setOnPreferenceClickListener(preference ->
         {
-            if(mServiceActive)
+            if(_serviceActive)
             {
-                showServiceDialog(R.string.notification_listener_launch);
+                showServiceDialog(R.string.ServiceDisableInfo);
             }
             else
             {
-                showServiceDialog(R.string.notification_listener_warning);
+                showServiceDialog(R.string.ServiceEnableInfo);
             }
 
-            //Don't update checkbox until we're really active.
+            //The state of the preference will update when checkForRunningService() is called later.
+
             return false;
         });
     }
 
     private void checkForRunningService()
     {
-        mServiceActive = isServiceRunning(getActivity());
+        _serviceActive = isServiceRunning(getActivity());
 
-        mServicePreference.setChecked(mServiceActive);
-        enableOptions(mServiceActive);
+        _servicePreference.setChecked(_serviceActive);
+        enableOptions(_serviceActive);
     }
 
     public boolean isServiceRunning(Context context)
@@ -301,12 +302,16 @@ public class SettingsFragment extends PreferenceFragment
         }
     }
 
-    private void showServiceDialog(int message)
+    private void showServiceDialog(int messageId)
     {
-        new AlertDialog.Builder(getActivity()).setMessage(message).setCancelable(false).
-                setPositiveButton(android.R.string.ok, (alertDialog, id) ->
-                {
-                    startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
-                }).show();
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+
+        dialogBuilder.setTitle(R.string.Notice);
+        dialogBuilder.setMessage(messageId);
+        dialogBuilder.setPositiveButton(R.string.IUnderstand, (alertDialog, id) ->
+                startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS")));
+        dialogBuilder.setCancelable(false);
+
+        dialogBuilder.show();
     }
 }
