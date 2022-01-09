@@ -31,7 +31,7 @@ import com.lesorin.sparknotifications.view.services.NotificationListener;
 public class SettingsFragment extends PreferenceFragment
 {
     private boolean _serviceActive;
-    private SwitchPreference _servicePreference, _fullBrightnessPreference;
+    private SwitchPreference _servicePreference, _fullBrightnessPreference, _notificationsDrawerPreference;
     private Preference _enabledAppsPreference, _recentActivityPreference, _screenTimeoutPreference,
             _screenDelayPreference;
     private DevicePolicyManager mDPM;
@@ -107,7 +107,13 @@ public class SettingsFragment extends PreferenceFragment
 
     private void initializeNotificationsDrawer()
     {
-        //todo
+        _notificationsDrawerPreference = (SwitchPreference)findPreference("NotificationsTrayKey");
+
+        _notificationsDrawerPreference.setOnPreferenceClickListener(preference ->
+        {
+           //todo
+            return true;
+        });
     }
 
     private void initializeFullBrightness()
@@ -116,6 +122,7 @@ public class SettingsFragment extends PreferenceFragment
 
         _fullBrightnessPreference.setOnPreferenceClickListener(preference ->
         {
+
             //todo
             return true;
         });
@@ -375,7 +382,7 @@ public class SettingsFragment extends PreferenceFragment
         findPreference("QuietHoursKey").setEnabled(enable);
         findPreference("QuietHoursStartKey").setEnabled(enable);
         findPreference("QuietHoursStopKey").setEnabled(enable);
-        findPreference("NotificationsTrayKey").setEnabled(enable);
+        _notificationsDrawerPreference.setEnabled(enable);
     }
 
     private String handleTime(String time)
