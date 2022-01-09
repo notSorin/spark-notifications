@@ -32,7 +32,7 @@ public class SettingsFragment extends PreferenceFragment
 {
     private boolean _serviceActive;
     private SwitchPreference _servicePreference, _fullBrightnessPreference, _notificationsDrawerPreference,
-        _proximitySensorPreference;
+        _proximitySensorPreference, _detectPickUpPreference;
     private Preference _enabledAppsPreference, _recentActivityPreference, _screenTimeoutPreference,
             _screenDelayPreference;
     private DevicePolicyManager mDPM;
@@ -98,7 +98,13 @@ public class SettingsFragment extends PreferenceFragment
 
     private void initializeDetectPickUp()
     {
-        //todo
+        _detectPickUpPreference = (SwitchPreference)findPreference("DetectPickUpKey");
+
+        _detectPickUpPreference.setOnPreferenceClickListener(preference ->
+        {
+            //todo
+            return true;
+        });
     }
 
     private void initializeProximitySensor()
@@ -385,7 +391,7 @@ public class SettingsFragment extends PreferenceFragment
         _screenDelayPreference.setEnabled(enable);
         _fullBrightnessPreference.setEnabled(enable);
         _proximitySensorPreference.setEnabled(enable);
-        findPreference("DetectPickUpKey").setEnabled(enable);
+        _detectPickUpPreference.setEnabled(enable);
         findPreference("QuietHoursKey").setEnabled(enable);
         findPreference("QuietHoursStartKey").setEnabled(enable);
         findPreference("QuietHoursStopKey").setEnabled(enable);
