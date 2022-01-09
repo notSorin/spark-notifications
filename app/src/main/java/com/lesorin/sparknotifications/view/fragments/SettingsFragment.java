@@ -31,7 +31,7 @@ import com.lesorin.sparknotifications.view.services.NotificationListener;
 public class SettingsFragment extends PreferenceFragment
 {
     private boolean _serviceActive;
-    private SwitchPreference _servicePreference;
+    private SwitchPreference _servicePreference, _fullBrightnessPreference;
     private Preference _enabledAppsPreference, _recentActivityPreference, _screenTimeoutPreference,
             _screenDelayPreference;
     private DevicePolicyManager mDPM;
@@ -47,6 +47,11 @@ public class SettingsFragment extends PreferenceFragment
 
         _activity = (MainActivity)getActivity();
 
+        initializeAllPreferences();
+    }
+
+    private void initializeAllPreferences()
+    {
         //Service.
         initializeService();
         initializeEnabledApps();
@@ -56,12 +61,58 @@ public class SettingsFragment extends PreferenceFragment
         initializeDeviceAdmin();
         initializeScreenTimeout();
         initializeScreenDelay();
-        initializeTime();
+        initializeFullBrightness();
+        initializeNotificationsDrawer();
+        initializeProximitySensor();
+        initializeDetectPickUp();
+        initializeQuietHours();
+        initializeQuietHoursStart();
+        initializeQuietHoursStop();
 
         //Other.
         initializeContactDeveloper();
-        //initializeDonations();
+        initializeDonations();
         initializeAppVersion();
+    }
+
+    private void initializeDonations()
+    {
+        //todo
+    }
+
+    private void initializeQuietHoursStop()
+    {
+        //todo
+    }
+
+    private void initializeQuietHoursStart()
+    {
+        //todo
+    }
+
+    private void initializeQuietHours()
+    {
+        //todo
+    }
+
+    private void initializeDetectPickUp()
+    {
+        //todo
+    }
+
+    private void initializeProximitySensor()
+    {
+        //todo
+    }
+
+    private void initializeNotificationsDrawer()
+    {
+        //todo
+    }
+
+    private void initializeFullBrightness()
+    {
+        //todo
     }
 
     private void initializeScreenDelay()
