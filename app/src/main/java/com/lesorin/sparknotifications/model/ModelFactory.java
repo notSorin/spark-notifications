@@ -7,6 +7,6 @@ public class ModelFactory
 {
     public static Contract.Model getRealmModel(Context context)
     {
-        return new RealmModel(context);
+        return new MainModel(context);
     }
 }

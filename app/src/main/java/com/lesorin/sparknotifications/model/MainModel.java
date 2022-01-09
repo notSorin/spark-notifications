@@ -4,11 +4,11 @@ import android.content.Context;
 import com.lesorin.sparknotifications.presenter.Contract;
 import io.realm.Realm;
 
-public class RealmModel implements Contract.Model
+public class MainModel implements Contract.Model
 {
     private Contract.PresenterModel _presenter;
 
-    public RealmModel(Context context)
+    public MainModel(Context context)
     {
         Realm.init(context);
     }
