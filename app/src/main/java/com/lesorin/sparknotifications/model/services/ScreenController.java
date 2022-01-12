@@ -22,7 +22,7 @@ import java.util.concurrent.atomic.AtomicLong;
 //TODO figure out where the methods from this class go.
 class ScreenController
 {
-    private static AtomicLong sLastNotificationTime = new AtomicLong();
+    private final AtomicLong _lastNotificationTime;
     private final Context _context;
     private final SharedPreferences mPrefs;
     private final PowerManager mPowerManager;
@@ -30,13 +30,14 @@ class ScreenController
     public ScreenController(Context context)
     {
         _context = context;
+        _lastNotificationTime = new AtomicLong();
         mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         mPowerManager = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
     }
 
     public void handleNotification(String packageName, boolean isProximitySensorEnabled, boolean isObjectCoveringDevice)
     {
-        sLastNotificationTime.set(System.currentTimeMillis());
+        _lastNotificationTime.set(System.currentTimeMillis());
 
         if(shouldTurnOnScreen(isProximitySensorEnabled, isObjectCoveringDevice))
         {
@@ -113,7 +114,7 @@ class ScreenController
         {
             //mLogger.debug("Sleeping for " + actualWakeLength);
             SystemClock.sleep(actualWakeLength);
-            actualWakeLength = sLastNotificationTime.get() + desiredWakeLength - System.currentTimeMillis();
+            actualWakeLength = _lastNotificationTime.get() + desiredWakeLength - System.currentTimeMillis();
         }
         while(actualWakeLength > 1000);
 
