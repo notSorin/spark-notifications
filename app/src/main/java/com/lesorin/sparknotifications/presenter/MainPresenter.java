@@ -36,6 +36,20 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
         _view.deviceAdministratorPreferenceChanged(_model.isDeviceAdministratorEnabled(), _model.getScreenTimeoutValue());
     }
 
+    @Override
+    public void deviceAdminPreferencePressed(boolean deviceAdminEnabled)
+    {
+        if(_model.isDeviceAdministratorEnabled())
+        {
+            _model.disableDeviceAdministrator();
+            _view.deviceAdministratorPreferenceChanged(_model.isDeviceAdministratorEnabled(), _model.getScreenTimeoutValue());
+        }
+        else
+        {
+            _view.startDeviceAdministratorActivity(_model.getAdminComponent());
+        }
+    }
+
     public void setModel(Contract.Model model)
     {
         _model = model;

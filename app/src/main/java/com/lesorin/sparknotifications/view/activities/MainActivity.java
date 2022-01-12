@@ -1,6 +1,8 @@
 package com.lesorin.sparknotifications.view.activities;
 
 import android.app.AlertDialog;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -76,5 +78,20 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     {
         super.onResume();
         _presenter.appResumed();
+    }
+
+    public void deviceAdminPreferencePressed(boolean deviceAdminEnabled)
+    {
+        _presenter.deviceAdminPreferencePressed(deviceAdminEnabled);
+    }
+
+    @Override
+    public void startDeviceAdministratorActivity(ComponentName adminComponent)
+    {
+        //Launch the activity to have the user enable the admin option.
+        Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+
+        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, adminComponent);
+        startActivity(intent);
     }
 }

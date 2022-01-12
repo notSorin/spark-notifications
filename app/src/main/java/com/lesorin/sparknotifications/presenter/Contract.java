@@ -1,5 +1,7 @@
 package com.lesorin.sparknotifications.presenter;
 
+import android.content.ComponentName;
+
 public interface Contract
 {
     interface PresenterView
@@ -7,6 +9,7 @@ public interface Contract
         void setView(View view);
         void notificationsServicePreferencePressed(boolean serviceEnabled);
         void appResumed();
+        void deviceAdminPreferencePressed(boolean deviceAdminEnabled);
     }
 
     interface PresenterModel
@@ -21,6 +24,7 @@ public interface Contract
         void showDialogForEnablingService();
         void servicePreferenceChanged(boolean isServiceEnabled);
         void deviceAdministratorPreferenceChanged(boolean deviceAdministratorEnabled, int screenTimeoutValue);
+        void startDeviceAdministratorActivity(ComponentName adminComponent);
     }
 
     interface Model
@@ -29,5 +33,7 @@ public interface Contract
         boolean isNotificationsServiceEnabled();
         boolean isDeviceAdministratorEnabled();
         int getScreenTimeoutValue();
+        void disableDeviceAdministrator();
+        ComponentName getAdminComponent();
     }
 }

@@ -2,24 +2,31 @@ package com.lesorin.sparknotifications.model;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import com.lesorin.sparknotifications.presenter.Contract;
+import com.lesorin.sparknotifications.view.receivers.ScreenNotificationsDeviceAdminReceiver;
 import com.lesorin.sparknotifications.view.services.NotificationListener;
 import java.util.List;
 import io.realm.Realm;
 
 public class MainModel implements Contract.Model
 {
-    private Context _context;
+    private final Context _context;
     private Contract.PresenterModel _presenter;
-    private SharedPreferences _preferences;
+    private final SharedPreferences _preferences;
+    private final DevicePolicyManager _devicePolicyManager;
+    private final ComponentName _adminComponent;
 
     public MainModel(Context context)
     {
         _context = context;
         _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
+        _devicePolicyManager = (DevicePolicyManager)_context.getSystemService(Context.DEVICE_POLICY_SERVICE);
+        _adminComponent = new ComponentName(_context, ScreenNotificationsDeviceAdminReceiver.class);
 
         Realm.init(_context);
 
@@ -53,7 +60,7 @@ public class MainModel implements Contract.Model
     @Override
     public boolean isDeviceAdministratorEnabled()
     {
-        return false;
+        return _devicePolicyManager.isAdminActive(_adminComponent);
     }
 
     @Override
@@ -63,19 +70,15 @@ public class MainModel implements Contract.Model
         return 0;
     }
 
-    /*private void checkForRunningService()
+    @Override
+    public void disableDeviceAdministrator()
     {
-        _serviceActive = isServiceRunning(getActivity());
-
-        _servicePreference.setChecked(_serviceActive);
-        enableOptions(_serviceActive);
+        _devicePolicyManager.removeActiveAdmin(_adminComponent);
     }
 
-    private void checkForActiveDeviceAdmin()
+    @Override
+    public ComponentName getAdminComponent()
     {
-        boolean adminActive = _devicePolicyManager.isAdminActive(_adminComponent);
-
-        _deviceAdminPreference.setChecked(adminActive);
-        enableScreenTimeout(adminActive);
-    }*/
+        return _adminComponent;
+    }
 }

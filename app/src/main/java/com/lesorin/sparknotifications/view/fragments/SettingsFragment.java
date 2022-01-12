@@ -1,8 +1,6 @@
 package com.lesorin.sparknotifications.view.fragments;
 
 import android.app.AlertDialog;
-import android.app.admin.DevicePolicyManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -22,7 +20,6 @@ import com.lesorin.sparknotifications.view.TimePreference;
 import com.lesorin.sparknotifications.view.activities.AppsActivity;
 import com.lesorin.sparknotifications.view.activities.MainActivity;
 import com.lesorin.sparknotifications.view.activities.RecentAppsActivity;
-import com.lesorin.sparknotifications.view.receivers.ScreenNotificationsDeviceAdminReceiver;
 
 //TODO make the preferences keys constants.
 public class SettingsFragment extends PreferenceFragment
@@ -33,8 +30,6 @@ public class SettingsFragment extends PreferenceFragment
             _screenDelayPreference;
     private TimePreference _quietHoursStartPreference, _quietHoursStopPreference;
 
-    private DevicePolicyManager _devicePolicyManager;
-    private ComponentName _adminComponent;
     private MainActivity _activity;
 
     @Override
@@ -44,8 +39,6 @@ public class SettingsFragment extends PreferenceFragment
         addPreferencesFromResource(R.xml.settings_layout);
 
         _activity = (MainActivity)getActivity();
-        _devicePolicyManager = (DevicePolicyManager)_activity.getSystemService(Context.DEVICE_POLICY_SERVICE);
-        _adminComponent = new ComponentName(_activity, ScreenNotificationsDeviceAdminReceiver.class);
 
         initializeAllPreferences();
     }
@@ -297,32 +290,13 @@ public class SettingsFragment extends PreferenceFragment
 
         _deviceAdminPreference.setOnPreferenceChangeListener((preference, newValue) ->
         {
-            //todo
-            /*if((Boolean)newValue)
-            {
-                //Launch the activity to have the user enable the admin option.
-                Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-
-                intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, _adminComponent);
-                startActivity(intent);
-
-                //Don't update checkbox until we're really active.
-                return false;
-            }
-            else
-            {
-                _devicePolicyManager.removeActiveAdmin(_adminComponent);
-                setScreenTimeoutState(false);
-                updateScreenTimeoutSummary(false, 98382);
-
-                return true;
-            }*/
+            _activity.deviceAdminPreferencePressed((boolean)newValue);
 
             return true;
         });
     }
 
-    private void updateScreenTimeoutSummary(boolean deviceAdministratorEnabled, int screenTimeoutValue)
+    public void updateScreenTimeoutSummary(boolean deviceAdministratorEnabled, int screenTimeoutValue)
     {
         if(deviceAdministratorEnabled)
         {
