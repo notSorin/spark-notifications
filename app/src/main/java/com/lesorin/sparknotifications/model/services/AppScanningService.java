@@ -1,4 +1,4 @@
-package com.lesorin.sparknotifications.view.services;
+package com.lesorin.sparknotifications.model.services;
 
 import android.app.IntentService;
 import android.content.Intent;

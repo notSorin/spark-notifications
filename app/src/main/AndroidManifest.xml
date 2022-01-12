@@ -36,10 +36,10 @@
             android:name="com.lesorin.sparknotifications.view.activities.RecentAppsActivity"
             android:label="@string/RecentAppsTitle" />
 
-        <service android:name=".view.services.AppScanningService" />
+        <service android:name=".model.services.AppScanningService" />
 
         <service
-            android:name=".view.services.NotificationListener"
+            android:name=".model.services.NotificationListener"
             android:exported="false"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">

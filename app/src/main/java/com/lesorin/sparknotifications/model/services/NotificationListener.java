@@ -1,4 +1,4 @@
-package com.lesorin.sparknotifications.view.services;
+package com.lesorin.sparknotifications.model.services;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,19 +12,51 @@ import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import com.lesorin.sparknotifications.model.AppHelper;
-import com.lesorin.sparknotifications.view.ScreenController;
+import com.lesorin.sparknotifications.model.PreferencesKeys;
 
 public class NotificationListener extends NotificationListenerService implements SensorEventListener,
         SharedPreferences.OnSharedPreferenceChangeListener
 {
     private String mLastNotifyingPackage;
+    private TriggerEventListener _pickUpListener;
+    private ScreenController _screenController;
+    private SensorManager _sensorManager;
+    private Sensor _pickupSensor;
 
     @Override
     public void onCreate()
     {
         super.onCreate();
-
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
+
+        _sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
+        _pickupSensor = _sensorManager.getDefaultSensor(25);
+        _screenController = new ScreenController(this, false);
+
+        initializePickUpListener();
+
+        if(isDetectDevicePickUpEnabled())
+        {
+            registerPickupListener();
+        }
+    }
+
+    private void initializePickUpListener()
+    {
+        _pickUpListener = new TriggerEventListener()
+        {
+            @Override
+            public void onTrigger(TriggerEvent triggerEvent)
+            {
+                _screenController.handlePickup();
+
+                //Need to register the listener again if the option is enabled.
+                if(isDetectDevicePickUpEnabled())
+                {
+                    registerPickupListener();
+                }
+            }
+        };
     }
 
     @Override
@@ -32,6 +64,7 @@ public class NotificationListener extends NotificationListenerService implements
     {
         super.onDestroy();
         PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+        unregisterPickupListener();
     }
 
     @Override
@@ -108,47 +141,40 @@ public class NotificationListener extends NotificationListenerService implements
         ((SensorManager)getSystemService(Context.SENSOR_SERVICE)).unregisterListener(this);
     }
 
-    private boolean isWakeOnPickupEnabled()
+    private boolean isDetectDevicePickUpEnabled()
     {
-        return PreferenceManager.getDefaultSharedPreferences(this).getBoolean("DetectPickUpKey", false);
-    }
-
-    private void registerPickupListener()
-    {
-        SensorManager sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
-        Sensor pickupSensor = sensorManager.getDefaultSensor(25); //TODO 25 which is Sensor.TYPE_PICK_UP_GESTURE may not work on Android 11 and later.
-
-        if(pickupSensor != null)
-        {
-            sensorManager.requestTriggerSensor(new TriggerEventListener()
-            {
-                @Override
-                public void onTrigger(TriggerEvent triggerEvent)
-                {
-                    new ScreenController(NotificationListener.this, false).handlePickup();
-
-                    if(isWakeOnPickupEnabled())
-                    {
-                        registerPickupListener();
-                    }
-                }
-            }, pickupSensor);
-        }
-        else
-        {
-            //LoggerFactory.getLogger("NotificationListener").debug("No pickup listener available");
-        }
+        return PreferenceManager.getDefaultSharedPreferences(this).getBoolean(PreferencesKeys.DETECT_PICK_UP, false);
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
-        if(key.equals("DetectPickUpKey"))
+        if(key.equals(PreferencesKeys.DETECT_PICK_UP))
         {
-            if(isWakeOnPickupEnabled())
+            if(isDetectDevicePickUpEnabled())
             {
                 registerPickupListener();
             }
+            else
+            {
+                unregisterPickupListener();
+            }
+        }
+    }
+
+    private void registerPickupListener()
+    {
+        if(_pickupSensor != null)
+        {
+            _sensorManager.requestTriggerSensor(_pickUpListener, _pickupSensor);
+        }
+    }
+
+    private void unregisterPickupListener()
+    {
+        if(_pickupSensor != null)
+        {
+            _sensorManager.cancelTriggerSensor(_pickUpListener, _pickupSensor);
         }
     }
 

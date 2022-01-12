@@ -9,7 +9,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import com.lesorin.sparknotifications.presenter.Contract;
 import com.lesorin.sparknotifications.view.receivers.ScreenNotificationsDeviceAdminReceiver;
-import com.lesorin.sparknotifications.view.services.NotificationListener;
+import com.lesorin.sparknotifications.model.services.NotificationListener;
 import java.util.List;
 import io.realm.Realm;
 
@@ -46,8 +46,6 @@ public class MainModel implements Contract.Model
         //Check if any of the running services is the notifications listener service.
         for(ActivityManager.RunningServiceInfo serviceInfo : runningServices)
         {
-            //TODO may need to pass the name of the service name instead of accessing NotificationListener from here,
-            // or maybe move NotificationListener to the model layer.
             if(serviceInfo.service.getClassName().equals(NotificationListener.class.getName()))
             {
                 return true;
