@@ -23,12 +23,10 @@ import com.lesorin.sparknotifications.view.activities.AppsActivity;
 import com.lesorin.sparknotifications.view.activities.MainActivity;
 import com.lesorin.sparknotifications.view.activities.RecentAppsActivity;
 import com.lesorin.sparknotifications.view.receivers.ScreenNotificationsDeviceAdminReceiver;
-import com.lesorin.sparknotifications.view.services.NotificationListener;
 
 //TODO make the preferences keys constants.
 public class SettingsFragment extends PreferenceFragment
 {
-    private boolean _serviceActive;
     private SwitchPreference _deviceAdminPreference, _servicePreference, _fullBrightnessPreference, _notificationsDrawerPreference,
         _proximitySensorPreference, _detectPickUpPreference, _quietHoursPreference;
     private Preference _enabledAppsPreference, _recentActivityPreference, _screenTimeoutPreference,
@@ -60,8 +58,6 @@ public class SettingsFragment extends PreferenceFragment
         initializeRecentActivity();
 
         //Options.
-        initializeDeviceAdmin();
-        initializeScreenTimeout();
         initializeScreenDelay();
         initializeFullBrightness();
         initializeNotificationsDrawer();
@@ -70,6 +66,10 @@ public class SettingsFragment extends PreferenceFragment
         initializeQuietHours();
         initializeQuietHoursStart();
         initializeQuietHoursStop();
+
+        //Admin options.
+        initializeDeviceAdmin();
+        initializeScreenTimeout();
 
         //Other.
         initializeContactDeveloper();
