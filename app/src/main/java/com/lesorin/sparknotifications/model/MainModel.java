@@ -1,9 +1,13 @@
 package com.lesorin.sparknotifications.model;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import com.lesorin.sparknotifications.presenter.Contract;
+import com.lesorin.sparknotifications.view.services.NotificationListener;
+import java.util.List;
 import io.realm.Realm;
 
 public class MainModel implements Contract.Model
