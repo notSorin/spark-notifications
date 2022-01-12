@@ -9,11 +9,6 @@
             android:summary="@string/SparkNotificationsServiceSummary"
             android:title="@string/SparkNotificationsServiceTitle" />
 
-        <SwitchPreference
-            android:key="DeviceAdminKey"
-            android:summary="@string/DeviceAdminSummary"
-            android:title="@string/DeviceAdminTitle" />
-
         <Preference
             android:key="EnabledAppsKey"
             android:summary="@string/EnabledAppsSummary"
@@ -26,10 +21,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/PreferenceCategoryOptions">
-        <Preference
-            android:key="ScreenTimeoutKey"
-            android:title="@string/ScreenTimeoutKey" />
-
         <Preference
             android:key="ScreenOnDelayKey"
             android:summary="@string/ScreenOnDelaySummary"
@@ -76,6 +67,17 @@
             android:key="QuietHoursStopKey"
             android:showDefault="true"
             android:title="@string/QuietHoursStopTitle" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/PreferenceCategoryAdminOptions">
+        <SwitchPreference
+            android:key="DeviceAdminKey"
+            android:summary="@string/DeviceAdminSummary"
+            android:title="@string/DeviceAdminTitle" />
+
+        <Preference
+            android:key="ScreenTimeoutKey"
+            android:title="@string/ScreenTimeoutKey" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/PreferenceCategoryOther">
