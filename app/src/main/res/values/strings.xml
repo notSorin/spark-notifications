@@ -85,7 +85,7 @@
     <string name="FullBrightnessSummary">When enabled, the screen will always turn on at full brightness.</string>
 
     <string name="ProximitySensorTitle">Use Proximity Sensor</string>
-    <string name="ProximitySensorSummary">When enabled, the screen will not turn on when the device is in your pocket.</string>
+    <string name="ProximitySensorSummary">When enabled, the screen will not turn on when an object is close to the device\'s screen, or when the device is in your pocket.</string>
 
     <string name="DetectPickUpTitle">Detect Device Pick Up</string>
     <string name="DetectPickUpSummary">When enabled, the screen will turn on when the device is picked up.</string>
