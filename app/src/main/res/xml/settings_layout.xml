@@ -9,25 +9,23 @@
             android:summary="@string/SparkNotificationsServiceSummary"
             android:title="@string/SparkNotificationsServiceTitle" />
 
-        <Preference
-            android:key="EnabledAppsKey"
-            android:summary="@string/EnabledAppsSummary"
-            android:title="@string/EnabledAppsTitle">
-        </Preference>
-
-        <Preference
-            android:key="RecentAppsKey"
-            android:summary="@string/RecentAppsSummary"
-            android:title="@string/RecentAppsTitle">
-        </Preference>
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/PreferenceCategoryOptions">
         <SwitchPreference
             android:key="DeviceAdminKey"
             android:summary="@string/DeviceAdminSummary"
             android:title="@string/DeviceAdminTitle" />
 
+        <Preference
+            android:key="EnabledAppsKey"
+            android:summary="@string/EnabledAppsSummary"
+            android:title="@string/EnabledAppsTitle" />
+
+        <Preference
+            android:key="RecentAppsKey"
+            android:summary="@string/RecentAppsSummary"
+            android:title="@string/RecentAppsTitle" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/PreferenceCategoryOptions">
         <Preference
             android:key="ScreenTimeoutKey"
             android:title="@string/ScreenTimeoutKey" />
