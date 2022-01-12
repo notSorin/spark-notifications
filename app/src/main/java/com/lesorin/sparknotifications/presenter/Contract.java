@@ -20,5 +20,8 @@ public interface Contract
     interface Model
     {
         void setPresenter(PresenterModel presenter);
+        boolean isNotificationsServiceEnabled();
+        boolean isDeviceAdministratorEnabled();
+        int getScreenTimeoutValue();
     }
 }
