@@ -6,6 +6,9 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.NumberPicker;
 import androidx.appcompat.app.AppCompatActivity;
 import com.lesorin.sparknotifications.MainApplication;
 import com.lesorin.sparknotifications.R;
@@ -93,5 +96,35 @@ public class MainActivity extends AppCompatActivity implements Contract.View
 
         intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, adminComponent);
         startActivity(intent);
+    }
+
+    @Override
+    public void openScreenTimeoutNumberPicker(int screenTimeoutValue, int minValue, int maxValue)
+    {
+        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+        View numberPickerView = inflater.inflate(R.layout.number_picker_dialog, null);
+        final NumberPicker numberPicker = numberPickerView.findViewById(R.id.NumberPicker);
+
+        numberPicker.setMinValue(minValue);
+        numberPicker.setMaxValue(maxValue);
+        numberPicker.setValue(screenTimeoutValue);
+
+        new AlertDialog.Builder(this).setTitle(R.string.ScreenTimeoutKey).setView(numberPickerView).
+                setPositiveButton(android.R.string.ok, (dialog, whichButton) ->
+                {
+                    _presenter.screenTimeoutChanged(numberPicker.getValue());
+                    dialog.dismiss();
+                }).setNegativeButton(android.R.string.cancel, (dialog, whichButton) -> dialog.dismiss()).show();
+    }
+
+    @Override
+    public void screenTimeoutPreferenceChanged(int value)
+    {
+        _settingsFragment.updateScreenTimeoutSummary(true, value);
+    }
+
+    public void screenTimeoutPreferencePressed()
+    {
+        _presenter.screenTimeoutPreferencePressed();
     }
 }

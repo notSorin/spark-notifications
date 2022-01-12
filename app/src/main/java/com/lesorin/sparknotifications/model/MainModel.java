@@ -64,15 +64,16 @@ public class MainModel implements Contract.Model
     }
 
     @Override
-    public int getScreenTimeoutValue()
+    public int getScreenTimeoutValue(int defaultValue)
     {
-        //todo read value from the preferences
-        return 0;
+        return _preferences.getInt(PreferencesKeys.SCREEN_TIMEOUT, defaultValue);
     }
 
     @Override
     public void disableDeviceAdministrator()
     {
+        //removeActiveAdmin() is an asynchronous method, so isAdminActive() may still return true
+        // if called immediately after removeActiveAdmin().
         _devicePolicyManager.removeActiveAdmin(_adminComponent);
     }
 
@@ -80,5 +81,11 @@ public class MainModel implements Contract.Model
     public ComponentName getAdminComponent()
     {
         return _adminComponent;
+    }
+
+    @Override
+    public void setScreenTimeoutValue(int value)
+    {
+        _preferences.edit().putInt(PreferencesKeys.SCREEN_TIMEOUT, value).apply();
     }
 }

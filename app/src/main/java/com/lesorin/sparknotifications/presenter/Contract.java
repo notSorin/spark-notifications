@@ -10,6 +10,8 @@ public interface Contract
         void notificationsServicePreferencePressed(boolean serviceEnabled);
         void appResumed();
         void deviceAdminPreferencePressed(boolean deviceAdminEnabled);
+        void screenTimeoutPreferencePressed();
+        void screenTimeoutChanged(int value);
     }
 
     interface PresenterModel
@@ -25,6 +27,8 @@ public interface Contract
         void servicePreferenceChanged(boolean isServiceEnabled);
         void deviceAdministratorPreferenceChanged(boolean deviceAdministratorEnabled, int screenTimeoutValue);
         void startDeviceAdministratorActivity(ComponentName adminComponent);
+        void openScreenTimeoutNumberPicker(int screenTimeoutValue, int minValue, int maxValue);
+        void screenTimeoutPreferenceChanged(int value);
     }
 
     interface Model
@@ -32,8 +36,9 @@ public interface Contract
         void setPresenter(PresenterModel presenter);
         boolean isNotificationsServiceEnabled();
         boolean isDeviceAdministratorEnabled();
-        int getScreenTimeoutValue();
+        int getScreenTimeoutValue(int defaultValue);
         void disableDeviceAdministrator();
         ComponentName getAdminComponent();
+        void setScreenTimeoutValue(int value);
     }
 }

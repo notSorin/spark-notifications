@@ -186,22 +186,7 @@ public class SettingsFragment extends PreferenceFragment
 
         _screenTimeoutPreference.setOnPreferenceClickListener(preference ->
         {
-            //todo
-            /*LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View numberPickerView = inflater.inflate(R.layout.number_picker_dialog, null);
-            final NumberPicker numberPicker = numberPickerView.findViewById(R.id.NumberPicker);
-
-            numberPicker.setMinValue(3);
-            numberPicker.setMaxValue(30);
-            //numberPicker.setValue(mPrefs.getInt("ScreenTimeoutKey", 10));
-
-            new AlertDialog.Builder(getActivity()).setTitle(R.string.ScreenTimeoutKey).setView(numberPickerView).
-                    setPositiveButton(android.R.string.ok, (dialog, whichButton) ->
-                    {
-                        //mPrefs.edit().putInt("ScreenTimeoutKey", numberPicker.getValue()).apply();
-                        //setScreenTimeoutSummary();
-                        dialog.dismiss();
-                    }).setNegativeButton(android.R.string.cancel, (dialog, whichButton) -> dialog.dismiss()).show();*/
+            _activity.screenTimeoutPreferencePressed();
 
             return true;
         });

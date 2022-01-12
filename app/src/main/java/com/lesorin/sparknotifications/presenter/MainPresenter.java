@@ -2,6 +2,8 @@ package com.lesorin.sparknotifications.presenter;
 
 public class MainPresenter implements Contract.PresenterView, Contract.PresenterModel
 {
+    private final int MIN_SCREEN_TIMEOUT = 3, MAX_SCREEN_TIMEOUT = 30;
+
     private Contract.View _view;
     private Contract.Model _model;
 
@@ -33,7 +35,7 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
     public void appResumed()
     {
         _view.servicePreferenceChanged(_model.isNotificationsServiceEnabled());
-        _view.deviceAdministratorPreferenceChanged(_model.isDeviceAdministratorEnabled(), _model.getScreenTimeoutValue());
+        _view.deviceAdministratorPreferenceChanged(_model.isDeviceAdministratorEnabled(), _model.getScreenTimeoutValue(MIN_SCREEN_TIMEOUT));
     }
 
     @Override
@@ -42,11 +44,27 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
         if(_model.isDeviceAdministratorEnabled())
         {
             _model.disableDeviceAdministrator();
-            _view.deviceAdministratorPreferenceChanged(_model.isDeviceAdministratorEnabled(), _model.getScreenTimeoutValue());
+            _view.deviceAdministratorPreferenceChanged(false, _model.getScreenTimeoutValue(MIN_SCREEN_TIMEOUT));
         }
         else
         {
             _view.startDeviceAdministratorActivity(_model.getAdminComponent());
+        }
+    }
+
+    @Override
+    public void screenTimeoutPreferencePressed()
+    {
+        _view.openScreenTimeoutNumberPicker(_model.getScreenTimeoutValue(MIN_SCREEN_TIMEOUT), MIN_SCREEN_TIMEOUT, MAX_SCREEN_TIMEOUT);
+    }
+
+    @Override
+    public void screenTimeoutChanged(int value)
+    {
+        if(value >= MIN_SCREEN_TIMEOUT && value <= MAX_SCREEN_TIMEOUT)
+        {
+            _model.setScreenTimeoutValue(value);
+            _view.screenTimeoutPreferenceChanged(value);
         }
     }
 
