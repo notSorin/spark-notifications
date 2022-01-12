@@ -12,7 +12,7 @@ import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import com.lesorin.sparknotifications.BuildConfig;
 import com.lesorin.sparknotifications.model.AppHelper;
-import com.lesorin.sparknotifications.view.receivers.ScreenNotificationsDeviceAdminReceiver;
+import com.lesorin.sparknotifications.model.receivers.ScreenNotificationsDeviceAdminReceiver;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,26 +23,22 @@ import java.util.concurrent.atomic.AtomicLong;
 class ScreenController
 {
     private static AtomicLong sLastNotificationTime = new AtomicLong();
-    private Context mContext;
-    //private Logger mLogger;
-    private SharedPreferences mPrefs;
-    private PowerManager mPowerManager;
-    private boolean mCloseToProximitySensor;
+    private final Context _context;
+    private final SharedPreferences mPrefs;
+    private final PowerManager mPowerManager;
 
-    public ScreenController(Context context, boolean closeToProximitySensor)
+    public ScreenController(Context context)
     {
-        mContext = context;
-        //mLogger = LoggerFactory.getLogger("ScreenController");
+        _context = context;
         mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         mPowerManager = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
-        mCloseToProximitySensor = closeToProximitySensor;
     }
 
-    public void handleNotification(String packageName)
+    public void handleNotification(String packageName, boolean isProximitySensorEnabled, boolean isObjectCoveringDevice)
     {
         sLastNotificationTime.set(System.currentTimeMillis());
 
-        if(shouldTurnOnScreen())
+        if(shouldTurnOnScreen(isProximitySensorEnabled, isObjectCoveringDevice))
         {
             AppHelper.recordScreenWakeFromApp(packageName);
             Executors.newSingleThreadExecutor().submit(this::turnOnScreen);
@@ -106,8 +102,8 @@ class ScreenController
             expandStatusBar();
         }
 
-        DevicePolicyManager dpm = (DevicePolicyManager)mContext.getSystemService(Context.DEVICE_POLICY_SERVICE);
-        ComponentName deviceAdmin = new ComponentName(mContext, ScreenNotificationsDeviceAdminReceiver.class);
+        DevicePolicyManager dpm = (DevicePolicyManager)_context.getSystemService(Context.DEVICE_POLICY_SERVICE);
+        ComponentName deviceAdmin = new ComponentName(_context, ScreenNotificationsDeviceAdminReceiver.class);
 
         long desiredWakeLength = mPrefs.getInt("wake_length", 10) * 1000L;
         long actualWakeLength = desiredWakeLength;
@@ -135,7 +131,7 @@ class ScreenController
     {
         try
         {
-            Object statusBarService = mContext.getSystemService("statusbar");
+            Object statusBarService = _context.getSystemService("statusbar");
             Class<?> statusBarManager = Class.forName("android.app.StatusBarManager");
 
             Method showStatusBar;
@@ -161,19 +157,20 @@ class ScreenController
 
     private boolean isDeviceLocked()
     {
-        return ((KeyguardManager)mContext.getSystemService(Context.KEYGUARD_SERVICE)).inKeyguardRestrictedInputMode();
+        return ((KeyguardManager)_context.getSystemService(Context.KEYGUARD_SERVICE)).inKeyguardRestrictedInputMode();
     }
 
-    private boolean shouldTurnOnScreen()
+    private boolean shouldTurnOnScreen(boolean isProximitySensorEnabled, boolean isObjectCoveringDevice)
     {
         boolean turnOnScreen = !isInQuietTime() && !isInCall() && !mPowerManager.isScreenOn();
 
-        if(!mPrefs.getBoolean("ProximitySensorKey", false)) //TODO make sure this logic is correct because the logic of the sensor changed.
+        //If the proximity sensor is enabled, only turn on the screen if an object is not close to
+        //the device's screen.
+        if(turnOnScreen && isProximitySensorEnabled)
         {
-            turnOnScreen = turnOnScreen && !mCloseToProximitySensor;
+            turnOnScreen = !isObjectCoveringDevice;
         }
 
-        //mLogger.debug("Should turn on screen: " + turnOnScreen);
         return turnOnScreen;
     }
 
@@ -218,7 +215,7 @@ class ScreenController
 
     private boolean isInCall()
     {
-        AudioManager manager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
+        AudioManager manager = (AudioManager)_context.getSystemService(Context.AUDIO_SERVICE);
         boolean inCall = (manager.getMode() == AudioManager.MODE_IN_CALL || manager.getMode() == AudioManager.MODE_IN_COMMUNICATION);
 
         //mLogger.debug("Device is in a call: " + inCall);

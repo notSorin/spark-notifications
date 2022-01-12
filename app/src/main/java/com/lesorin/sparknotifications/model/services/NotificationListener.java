@@ -14,31 +14,79 @@ import android.service.notification.StatusBarNotification;
 import com.lesorin.sparknotifications.model.AppHelper;
 import com.lesorin.sparknotifications.model.PreferencesKeys;
 
-public class NotificationListener extends NotificationListenerService implements SensorEventListener,
-        SharedPreferences.OnSharedPreferenceChangeListener
+public class NotificationListener extends NotificationListenerService
 {
-    private String mLastNotifyingPackage;
+    private String _lastNotifyingPackage;
     private TriggerEventListener _pickUpListener;
     private ScreenController _screenController;
     private SensorManager _sensorManager;
-    private Sensor _pickupSensor;
+    private Sensor _pickupSensor, _proximitySensor;
+    private SharedPreferences.OnSharedPreferenceChangeListener _preferencesListener;
+    private SensorEventListener _proximitySensorListener;
+    private SharedPreferences _preferences;
 
     @Override
     public void onCreate()
     {
         super.onCreate();
-        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
+
+        _preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        initializePreferencesListener();
+        initializePickUpListener();
+        initializeProximitySensorListener();
+        _preferences.registerOnSharedPreferenceChangeListener(_preferencesListener);
 
         _sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         _pickupSensor = _sensorManager.getDefaultSensor(25);
-        _screenController = new ScreenController(this, false);
-
-        initializePickUpListener();
+        _proximitySensor = _sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+        _screenController = new ScreenController(this);
 
         if(isDetectDevicePickUpEnabled())
         {
             registerPickupListener();
         }
+    }
+
+    private void initializeProximitySensorListener()
+    {
+        _proximitySensorListener = new SensorEventListener()
+        {
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent)
+            {
+                //Must read first from the sensor before the listener is unregistered.
+                //TODO this is not working properly. it works while debugging but not when running...
+                boolean isObjectCoveringDevice = sensorEvent.values[0] < sensorEvent.sensor.getMaximumRange();
+
+                unregisterProximitySensorListener(); //Remove the listener so it doesn't keep triggering.
+
+                _screenController.handleNotification(_lastNotifyingPackage, true, isObjectCoveringDevice);
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int i)
+            {
+            }
+        };
+    }
+
+    private void initializePreferencesListener()
+    {
+        _preferencesListener = (sharedPreferences, key) ->
+        {
+            if(key.equals(PreferencesKeys.DETECT_PICK_UP))
+            {
+                if(isDetectDevicePickUpEnabled())
+                {
+                    registerPickupListener();
+                }
+                else
+                {
+                    unregisterPickupListener();
+                }
+            }
+        };
     }
 
     private void initializePickUpListener()
@@ -63,103 +111,51 @@ public class NotificationListener extends NotificationListenerService implements
     public void onDestroy()
     {
         super.onDestroy();
-        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+        _preferences.unregisterOnSharedPreferenceChangeListener(_preferencesListener);
         unregisterPickupListener();
+        unregisterProximitySensorListener();
     }
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn)
     {
-        if(sbn.isOngoing())
+        if(!sbn.isOngoing() && AppHelper.isAppEnabled(sbn.getPackageName()))
         {
-            return;
-        }
+            _lastNotifyingPackage = sbn.getPackageName();
 
-        AppHelper.recordNotificationFromApp(sbn.getPackageName());
-
-        if(!AppHelper.isAppEnabled(sbn.getPackageName()))
-        {
-            return;
-        }
-
-        //LoggerFactory.getLogger("NotificationListener").debug("Got a non-ongoing notification for an enabled app. " + sbn.getPackageName());
-
-        mLastNotifyingPackage = sbn.getPackageName();
-
-        //TODO make sure this logic is correct because the logic of the sensor changed.
-        if(isProximitySensorEnabled())
-        {
-            if(!registerProximitySensorListener())
+            //If the proximity sensor is disabled, handle the notification directly.
+            if(!isProximitySensorEnabled())
             {
-                new ScreenController(this, false).handleNotification(mLastNotifyingPackage);
+                _screenController.handleNotification(_lastNotifyingPackage, false, false);
             }
-        }
-        else
-        {
-            new ScreenController(this, false).handleNotification(mLastNotifyingPackage);
-        }
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent event)
-    {
-        if(event.sensor.getType() == Sensor.TYPE_PROXIMITY)
-        {
-            unregisterProximitySensorListener();
-
-            boolean close = event.values[0] < event.sensor.getMaximumRange();
-
-            new ScreenController(this, close).handleNotification(mLastNotifyingPackage);
+            else if(!registerProximitySensorListener())
+            {
+                //If the proximity sensor is registered, it will take care of handling the
+                //notification, otherwise handle the notification here as if the proximity
+                //sensor was disabled.
+                _screenController.handleNotification(_lastNotifyingPackage, false, false);
+            }
         }
     }
 
     private boolean isProximitySensorEnabled()
     {
-        //TODO make sure this logic is correct because the logic of the sensor changed.
-        return PreferenceManager.getDefaultSharedPreferences(this).getBoolean("ProximitySensorKey", true);
+        return _preferences.getBoolean(PreferencesKeys.PROXIMITY_SENSOR_ENABLED, true);
     }
 
     private boolean registerProximitySensorListener()
     {
-        SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        Sensor proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
-
-        if(proximitySensor == null)
-        {
-            return false;
-        }
-        else
-        {
-            sensorManager.registerListener(this, proximitySensor, SensorManager.SENSOR_DELAY_NORMAL);
-
-            return true;
-        }
+        return _sensorManager.registerListener(_proximitySensorListener, _proximitySensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     private void unregisterProximitySensorListener()
     {
-        ((SensorManager)getSystemService(Context.SENSOR_SERVICE)).unregisterListener(this);
+        _sensorManager.unregisterListener(_proximitySensorListener);
     }
 
     private boolean isDetectDevicePickUpEnabled()
     {
-        return PreferenceManager.getDefaultSharedPreferences(this).getBoolean(PreferencesKeys.DETECT_PICK_UP, false);
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
-    {
-        if(key.equals(PreferencesKeys.DETECT_PICK_UP))
-        {
-            if(isDetectDevicePickUpEnabled())
-            {
-                registerPickupListener();
-            }
-            else
-            {
-                unregisterPickupListener();
-            }
-        }
+        return _preferences.getBoolean(PreferencesKeys.DETECT_PICK_UP, false);
     }
 
     private void registerPickupListener()
@@ -181,10 +177,6 @@ public class NotificationListener extends NotificationListenerService implements
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn)
     {
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy)
-    {
+        //Nothing to do here.
     }
 }

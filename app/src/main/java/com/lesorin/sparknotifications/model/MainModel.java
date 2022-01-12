@@ -8,7 +8,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import com.lesorin.sparknotifications.presenter.Contract;
-import com.lesorin.sparknotifications.view.receivers.ScreenNotificationsDeviceAdminReceiver;
+import com.lesorin.sparknotifications.model.receivers.ScreenNotificationsDeviceAdminReceiver;
 import com.lesorin.sparknotifications.model.services.NotificationListener;
 import java.util.List;
 import io.realm.Realm;
