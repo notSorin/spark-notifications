@@ -1,7 +1,5 @@
 package com.lesorin.sparknotifications.view.fragments;
 
-import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
@@ -12,7 +10,6 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
-import android.provider.Settings;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -196,7 +193,8 @@ public class SettingsFragment extends PreferenceFragment
 
         _screenTimeoutPreference.setOnPreferenceClickListener(preference ->
         {
-            LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            //todo
+            /*LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View numberPickerView = inflater.inflate(R.layout.number_picker_dialog, null);
             final NumberPicker numberPicker = numberPickerView.findViewById(R.id.NumberPicker);
 
@@ -208,9 +206,9 @@ public class SettingsFragment extends PreferenceFragment
                     setPositiveButton(android.R.string.ok, (dialog, whichButton) ->
                     {
                         //mPrefs.edit().putInt("ScreenTimeoutKey", numberPicker.getValue()).apply();
-                        setScreenTimeoutSummary();
+                        //setScreenTimeoutSummary();
                         dialog.dismiss();
-                    }).setNegativeButton(android.R.string.cancel, (dialog, whichButton) -> dialog.dismiss()).show();
+                    }).setNegativeButton(android.R.string.cancel, (dialog, whichButton) -> dialog.dismiss()).show();*/
 
             return true;
         });
@@ -279,55 +277,18 @@ public class SettingsFragment extends PreferenceFragment
         });
     }
 
-    public void onResume()
-    {
-        super.onResume();
-        checkForRunningService();
-        checkForActiveDeviceAdmin();
-    }
-
     private void initializeService()
     {
         _servicePreference = (SwitchPreference)findPreference("SparkNotificationsServiceKey");
 
-        _servicePreference.setOnPreferenceClickListener(preference ->
+        _servicePreference.setOnPreferenceChangeListener((preference, newValue) ->
         {
-            if(_serviceActive)
-            {
-                showServiceDialog(R.string.ServiceDisableInfo);
-            }
-            else
-            {
-                showServiceDialog(R.string.ServiceEnableInfo);
-            }
+            _activity.notificationsServicePreferencePressed((boolean)newValue);
 
             //The state of the preference will update when checkForRunningService() is called later.
 
-            return false;
+            return true;
         });
-    }
-
-    private void checkForRunningService()
-    {
-        _serviceActive = isServiceRunning(getActivity());
-
-        _servicePreference.setChecked(_serviceActive);
-        enableOptions(_serviceActive);
-    }
-
-    public boolean isServiceRunning(Context context)
-    {
-        ActivityManager manager = (ActivityManager)context.getSystemService(Activity.ACTIVITY_SERVICE);
-
-        for(ActivityManager.RunningServiceInfo serviceInfo : manager.getRunningServices(Integer.MAX_VALUE))
-        {
-            if(serviceInfo.service.getClassName().equals(NotificationListener.class.getName()))
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     private void initializeDeviceAdmin()
@@ -336,7 +297,8 @@ public class SettingsFragment extends PreferenceFragment
 
         _deviceAdminPreference.setOnPreferenceChangeListener((preference, newValue) ->
         {
-            if((Boolean)newValue)
+            //todo
+            /*if((Boolean)newValue)
             {
                 //Launch the activity to have the user enable the admin option.
                 Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
@@ -350,32 +312,21 @@ public class SettingsFragment extends PreferenceFragment
             else
             {
                 _devicePolicyManager.removeActiveAdmin(_adminComponent);
-                enableScreenTimeout(false);
+                setScreenTimeoutState(false);
+                updateScreenTimeoutSummary(false, 98382);
 
                 return true;
-            }
+            }*/
+
+            return true;
         });
     }
 
-    private void checkForActiveDeviceAdmin()
+    private void updateScreenTimeoutSummary(boolean deviceAdministratorEnabled, int screenTimeoutValue)
     {
-        boolean adminActive = _devicePolicyManager.isAdminActive(_adminComponent);
-
-        _deviceAdminPreference.setChecked(adminActive);
-        enableScreenTimeout(adminActive);
-    }
-
-    private void enableScreenTimeout(boolean enabled)
-    {
-        _screenTimeoutPreference.setEnabled(enabled);
-        setScreenTimeoutSummary();
-    }
-
-    private void setScreenTimeoutSummary()
-    {
-        if(_screenTimeoutPreference.isEnabled())
+        if(deviceAdministratorEnabled)
         {
-            //wakeLength.setSummary(String.format(getString(R.string.ScreenTimeoutSummaryEnabled), mPrefs.getInt("ScreenTimeoutKey", 10)));
+            _screenTimeoutPreference.setSummary(String.format(getString(R.string.ScreenTimeoutSummaryEnabled), screenTimeoutValue));
         }
         else
         {
@@ -388,18 +339,17 @@ public class SettingsFragment extends PreferenceFragment
         //findPreference("ScreenOnDelayKey").setSummary(getString(R.string.ScreenOnDelaySummary, mPrefs.getInt("ScreenOnDelayKey", 0)));
     }
 
-    private void enableOptions(boolean enable)
+    private void setOptionsState(boolean enabled)
     {
-        _enabledAppsPreference.setEnabled(enable);
-        _screenTimeoutPreference.setEnabled(enable);
-        _screenDelayPreference.setEnabled(enable);
-        _fullBrightnessPreference.setEnabled(enable);
-        _proximitySensorPreference.setEnabled(enable);
-        _detectPickUpPreference.setEnabled(enable);
-        _quietHoursPreference.setEnabled(enable);
-        _quietHoursStartPreference.setEnabled(enable);
-        _quietHoursStopPreference.setEnabled(enable);
-        _notificationsDrawerPreference.setEnabled(enable);
+        _enabledAppsPreference.setEnabled(enabled);
+        _screenDelayPreference.setEnabled(enabled);
+        _fullBrightnessPreference.setEnabled(enabled);
+        _notificationsDrawerPreference.setEnabled(enabled);
+        _proximitySensorPreference.setEnabled(enabled);
+        _detectPickUpPreference.setEnabled(enabled);
+        _quietHoursPreference.setEnabled(enabled);
+        _quietHoursStartPreference.setEnabled(enabled);
+        _quietHoursStopPreference.setEnabled(enabled);
     }
 
     private String handleTime(String time)
@@ -422,16 +372,16 @@ public class SettingsFragment extends PreferenceFragment
         }
     }
 
-    private void showServiceDialog(int messageId)
+    public void servicePreferenceChanged(boolean isServiceEnabled)
     {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+        _servicePreference.setChecked(isServiceEnabled);
+        setOptionsState(isServiceEnabled);
+    }
 
-        dialogBuilder.setTitle(R.string.Notice);
-        dialogBuilder.setMessage(messageId);
-        dialogBuilder.setPositiveButton(R.string.IUnderstand, (alertDialog, id) ->
-                startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)));
-        dialogBuilder.setCancelable(false);
-
-        dialogBuilder.show();
+    public void deviceAdministratorPreferenceChanged(boolean deviceAdministratorEnabled, int screenTimeoutValue)
+    {
+        _deviceAdminPreference.setChecked(deviceAdministratorEnabled);
+        _screenTimeoutPreference.setEnabled(deviceAdministratorEnabled);
+        updateScreenTimeoutSummary(deviceAdministratorEnabled, screenTimeoutValue);
     }
 }
