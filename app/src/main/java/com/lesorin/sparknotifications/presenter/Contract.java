@@ -14,6 +14,7 @@ public interface Contract
         void screenTimeoutChanged(int value);
         void screenDelayPreferencePressed();
         void screenDelayChanged(int value);
+        void fullBrightnessChanged(boolean enabled);
     }
 
     interface PresenterModel
@@ -46,5 +47,6 @@ public interface Contract
         void setScreenTimeoutValue(int value);
         int getScreenDelayValue(int defaultValue);
         void setScreenDelayValue(int value);
+        void setFullBrightnessValue(boolean enabled);
     }
 }

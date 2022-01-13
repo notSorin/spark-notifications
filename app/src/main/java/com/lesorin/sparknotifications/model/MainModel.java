@@ -98,4 +98,10 @@ public class MainModel implements Contract.Model
     {
         _preferences.edit().putInt(PreferencesKeys.SCREEN_ON_DELAY, value).apply();
     }
+
+    @Override
+    public void setFullBrightnessValue(boolean enabled)
+    {
+        _preferences.edit().putBoolean(PreferencesKeys.FULL_BRIGHTNESS_ENABLED, enabled).apply();
+    }
 }

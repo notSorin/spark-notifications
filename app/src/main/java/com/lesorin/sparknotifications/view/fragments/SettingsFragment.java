@@ -144,8 +144,8 @@ public class SettingsFragment extends PreferenceFragment
 
         _fullBrightnessPreference.setOnPreferenceClickListener(preference ->
         {
+            _activity.fullBrightnessPreferencePressed(_fullBrightnessPreference.isChecked());
 
-            //todo
             return true;
         });
     }

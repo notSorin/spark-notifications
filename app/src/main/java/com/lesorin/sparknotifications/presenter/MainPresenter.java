@@ -86,6 +86,12 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
         }
     }
 
+    @Override
+    public void fullBrightnessChanged(boolean enabled)
+    {
+        _model.setFullBrightnessValue(enabled);
+    }
+
     public void setModel(Contract.Model model)
     {
         _model = model;

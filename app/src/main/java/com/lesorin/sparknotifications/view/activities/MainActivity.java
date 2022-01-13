@@ -157,4 +157,9 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     {
         _presenter.screenDelayPreferencePressed();
     }
+
+    public void fullBrightnessPreferencePressed(boolean enabled)
+    {
+        _presenter.fullBrightnessChanged(enabled);
+    }
 }
