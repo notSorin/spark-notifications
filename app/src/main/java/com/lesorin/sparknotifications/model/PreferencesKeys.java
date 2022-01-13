@@ -8,4 +8,7 @@ public class PreferencesKeys
     public static final String FULL_BRIGHTNESS_ENABLED = "FullBrightnessKey";
     public static final String SCREEN_ON_DELAY = "ScreenOnDelayKey";
     public static final String NOTIFICATIONS_DRAWER_ENABLED = "NotificationsTrayKey";
+    public static final String QUIET_HOURS_ENABLED = "QuietHoursKey";
+    public static final String QUIET_HOURS_START = "QuietHoursStartKey";
+    public static final String QUIET_HOURS_STOP = "QuietHoursStopKey";
 }

@@ -76,7 +76,7 @@ public class SettingsFragment extends PreferenceFragment
 
         _quietHoursStopPreference.setOnPreferenceChangeListener((preference, newValue) ->
         {
-            preference.setSummary(handleTime(newValue.toString()));
+            //todo
 
             return true;
         });
@@ -88,7 +88,7 @@ public class SettingsFragment extends PreferenceFragment
 
         _quietHoursStartPreference.setOnPreferenceChangeListener((preference, newValue) ->
         {
-            preference.setSummary(handleTime(newValue.toString()));
+            //todo
 
             return true;
         });
@@ -100,7 +100,8 @@ public class SettingsFragment extends PreferenceFragment
 
         _quietHoursPreference.setOnPreferenceClickListener(preference ->
         {
-           //todo
+           _activity.quietHoursPreferencePressed(_quietHoursPreference.isChecked());
+
             return true;
         });
     }
@@ -347,5 +348,22 @@ public class SettingsFragment extends PreferenceFragment
     public void updateDetectPickUp(boolean enabled)
     {
         _detectPickUpPreference.setChecked(enabled);
+    }
+
+    public void updateQuietHours(boolean quietHoursEnabled)
+    {
+        _quietHoursPreference.setChecked(quietHoursEnabled);
+    }
+
+    public void updateQuietHoursStart(boolean quietHoursEnabled, String quietHoursStart)
+    {
+        _quietHoursStartPreference.setEnabled(quietHoursEnabled);
+        _quietHoursStartPreference.setSummary(quietHoursStart);
+    }
+
+    public void updateQuietHoursStop(boolean quietHoursEnabled, String quietHoursStop)
+    {
+        _quietHoursStopPreference.setEnabled(quietHoursEnabled);
+        _quietHoursStopPreference.setSummary(quietHoursStop);
     }
 }

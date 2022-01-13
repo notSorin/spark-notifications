@@ -18,6 +18,7 @@ public interface Contract
         void notificationsDrawerChanged(boolean enabled);
         void proximitySensorPreferenceChanged(boolean enabled);
         void detectPickUpPreferenceChanged(boolean enabled);
+        void quietHoursPreferenceChanged(boolean enabled);
     }
 
     interface PresenterModel
@@ -41,6 +42,9 @@ public interface Contract
         void notificationsDrawerPreferenceChanged(boolean enabled);
         void proximitySensorPreferenceChanged(boolean proximitySensorEnabled);
         void detectPickUpPreferenceChanged(boolean detectPickUpEnabled);
+        void quietHoursPreferenceChanged(boolean quietHoursEnabled);
+        void quietHoursStartPreferenceChanged(boolean quietHoursEnabled, String quietHoursStart);
+        void quietHoursStopPreferenceChanged(boolean quietHoursEnabled, String quietHoursStop);
     }
 
     interface Model
@@ -62,5 +66,9 @@ public interface Contract
         boolean isProximitySensorEnabled(boolean defaultValue);
         void setDetectPickUpValue(boolean enabled);
         boolean isDetectPickUpEnabled(boolean defaultValue);
+        void setQuietHoursValue(boolean enabled);
+        boolean isQuietHoursEnabled(boolean defaultValue);
+        String getQuietHoursStart(String defaultValue);
+        String getQuietHoursStop(String defaultValue);
     }
 }

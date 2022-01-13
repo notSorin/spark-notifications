@@ -146,4 +146,28 @@ public class MainModel implements Contract.Model
     {
         return _preferences.getBoolean(PreferencesKeys.DETECT_PICK_UP, defaultValue);
     }
+
+    @Override
+    public void setQuietHoursValue(boolean enabled)
+    {
+        _preferences.edit().putBoolean(PreferencesKeys.QUIET_HOURS_ENABLED, enabled).apply();
+    }
+
+    @Override
+    public boolean isQuietHoursEnabled(boolean defaultValue)
+    {
+        return _preferences.getBoolean(PreferencesKeys.QUIET_HOURS_ENABLED, defaultValue);
+    }
+
+    @Override
+    public String getQuietHoursStart(String defaultValue)
+    {
+        return _preferences.getString(PreferencesKeys.QUIET_HOURS_START, defaultValue);
+    }
+
+    @Override
+    public String getQuietHoursStop(String defaultValue)
+    {
+        return _preferences.getString(PreferencesKeys.QUIET_HOURS_STOP, defaultValue);
+    }
 }

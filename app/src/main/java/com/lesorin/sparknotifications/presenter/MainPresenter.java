@@ -4,6 +4,7 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
 {
     private final int MIN_SCREEN_TIMEOUT = 3, MAX_SCREEN_TIMEOUT = 30;
     private final int MIN_SCREEN_DELAY = 0, MAX_SCREEN_DELAY = 10;
+    private final String DEFAULT_QUIET_HOURS_START = "23:00", DEFAULT_QUIET_HOURS_STOP = "07:00";
 
     private Contract.View _view;
     private Contract.Model _model;
@@ -44,6 +45,12 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
         _view.notificationsDrawerPreferenceChanged(_model.isNotificationsDrawerEnabled(false));
         _view.proximitySensorPreferenceChanged(_model.isProximitySensorEnabled(true));
         _view.detectPickUpPreferenceChanged(_model.isDetectPickUpEnabled(false));
+
+        boolean quietHoursEnabled = _model.isQuietHoursEnabled(false);
+
+        _view.quietHoursPreferenceChanged(quietHoursEnabled);
+        _view.quietHoursStartPreferenceChanged(quietHoursEnabled, _model.getQuietHoursStart(DEFAULT_QUIET_HOURS_START));
+        _view.quietHoursStopPreferenceChanged(quietHoursEnabled, _model.getQuietHoursStop(DEFAULT_QUIET_HOURS_STOP));
 
         //Set admin-related preferences.
         boolean deviceAdminEnabled = _model.isDeviceAdministratorEnabled();
@@ -121,6 +128,14 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
     public void detectPickUpPreferenceChanged(boolean enabled)
     {
         _model.setDetectPickUpValue(enabled);
+    }
+
+    @Override
+    public void quietHoursPreferenceChanged(boolean enabled)
+    {
+        _model.setQuietHoursValue(enabled);
+        _view.quietHoursStartPreferenceChanged(enabled, _model.getQuietHoursStart(DEFAULT_QUIET_HOURS_START));
+        _view.quietHoursStopPreferenceChanged(enabled, _model.getQuietHoursStop(DEFAULT_QUIET_HOURS_STOP));
     }
 
     public void setModel(Contract.Model model)

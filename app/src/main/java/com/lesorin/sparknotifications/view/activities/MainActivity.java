@@ -172,6 +172,24 @@ public class MainActivity extends AppCompatActivity implements Contract.View
         _settingsFragment.updateDetectPickUp(enabled);
     }
 
+    @Override
+    public void quietHoursPreferenceChanged(boolean quietHoursEnabled)
+    {
+        _settingsFragment.updateQuietHours(quietHoursEnabled);
+    }
+
+    @Override
+    public void quietHoursStartPreferenceChanged(boolean quietHoursEnabled, String quietHoursStart)
+    {
+        _settingsFragment.updateQuietHoursStart(quietHoursEnabled, quietHoursStart);
+    }
+
+    @Override
+    public void quietHoursStopPreferenceChanged(boolean quietHoursEnabled, String quietHoursStop)
+    {
+        _settingsFragment.updateQuietHoursStop(quietHoursEnabled, quietHoursStop);
+    }
+
     public void screenTimeoutPreferencePressed()
     {
         _presenter.screenTimeoutPreferencePressed();
@@ -200,5 +218,10 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     public void detectPickUpPreferencePressed(boolean enabled)
     {
         _presenter.detectPickUpPreferenceChanged(enabled);
+    }
+
+    public void quietHoursPreferencePressed(boolean enabled)
+    {
+        _presenter.quietHoursPreferenceChanged(enabled);
     }
 }
