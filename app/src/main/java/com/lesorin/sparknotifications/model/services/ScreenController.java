@@ -10,7 +10,7 @@ import android.os.PowerManager;
 import android.os.SystemClock;
 import com.lesorin.sparknotifications.BuildConfig;
 import com.lesorin.sparknotifications.model.AppHelper;
-import com.lesorin.sparknotifications.model.receivers.ScreenNotificationsDeviceAdminReceiver;
+import com.lesorin.sparknotifications.model.receivers.DeviceAdministratorReceiver;
 import java.lang.reflect.Method;
 import java.util.concurrent.Executors;
 
@@ -30,7 +30,7 @@ class ScreenController
         _context = context;
         _powerManager = (PowerManager)_context.getSystemService(Context.POWER_SERVICE);
         _devicePolicyManager = (DevicePolicyManager)_context.getSystemService(Context.DEVICE_POLICY_SERVICE);
-        _adminComponent = new ComponentName(_context, ScreenNotificationsDeviceAdminReceiver.class);
+        _adminComponent = new ComponentName(_context, DeviceAdministratorReceiver.class);
         _keyguardManager = ((KeyguardManager)_context.getSystemService(Context.KEYGUARD_SERVICE));
         _audioManager = (AudioManager)_context.getSystemService(Context.AUDIO_SERVICE);
     }

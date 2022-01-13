@@ -8,7 +8,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import com.lesorin.sparknotifications.presenter.Contract;
-import com.lesorin.sparknotifications.model.receivers.ScreenNotificationsDeviceAdminReceiver;
+import com.lesorin.sparknotifications.model.receivers.DeviceAdministratorReceiver;
 import com.lesorin.sparknotifications.model.services.NotificationListener;
 import java.util.List;
 import io.realm.Realm;
@@ -26,7 +26,7 @@ public class MainModel implements Contract.Model
         _context = context;
         _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
         _devicePolicyManager = (DevicePolicyManager)_context.getSystemService(Context.DEVICE_POLICY_SERVICE);
-        _adminComponent = new ComponentName(_context, ScreenNotificationsDeviceAdminReceiver.class);
+        _adminComponent = new ComponentName(_context, DeviceAdministratorReceiver.class);
 
         Realm.init(_context);
 
