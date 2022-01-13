@@ -40,7 +40,8 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
 
         //Set option-related preferences.
         _view.screenDelayPreferenceChanged(_model.getScreenDelayValue(MIN_SCREEN_DELAY));
-        _view.fullBrightnessPreferenceChanged(_model.getFullBrightness(false));
+        _view.fullBrightnessPreferenceChanged(_model.isFullBrightnessEnabled(false));
+        _view.notificationsDrawerPreferenceChanged(_model.isNotificationsDrawerEnabled(false));
 
         //Set admin-related preferences.
         boolean deviceAdminEnabled = _model.isDeviceAdministratorEnabled();
@@ -100,6 +101,12 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
     public void fullBrightnessChanged(boolean enabled)
     {
         _model.setFullBrightnessValue(enabled);
+    }
+
+    @Override
+    public void notificationsDrawerChanged(boolean enabled)
+    {
+        _model.setNotificationsDrawerValue(enabled);
     }
 
     public void setModel(Contract.Model model)

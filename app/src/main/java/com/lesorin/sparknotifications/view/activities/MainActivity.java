@@ -154,6 +154,12 @@ public class MainActivity extends AppCompatActivity implements Contract.View
         _settingsFragment.updateFullBrightness(enabled);
     }
 
+    @Override
+    public void notificationsDrawerPreferenceChanged(boolean enabled)
+    {
+        _settingsFragment.updateNotificationsDrawer(enabled);
+    }
+
     public void screenTimeoutPreferencePressed()
     {
         _presenter.screenTimeoutPreferencePressed();
@@ -167,5 +173,10 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     public void fullBrightnessPreferencePressed(boolean enabled)
     {
         _presenter.fullBrightnessChanged(enabled);
+    }
+
+    public void notificationsDrawerPreferencePressed(boolean enabled)
+    {
+        _presenter.notificationsDrawerChanged(enabled);
     }
 }

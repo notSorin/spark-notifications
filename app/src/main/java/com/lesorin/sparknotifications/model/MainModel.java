@@ -106,8 +106,20 @@ public class MainModel implements Contract.Model
     }
 
     @Override
-    public boolean getFullBrightness(boolean defaultValue)
+    public boolean isFullBrightnessEnabled(boolean defaultValue)
     {
         return _preferences.getBoolean(PreferencesKeys.FULL_BRIGHTNESS_ENABLED, defaultValue);
+    }
+
+    @Override
+    public void setNotificationsDrawerValue(boolean enabled)
+    {
+        _preferences.edit().putBoolean(PreferencesKeys.NOTIFICATIONS_DRAWER_ENABLED, enabled).apply();
+    }
+
+    @Override
+    public boolean isNotificationsDrawerEnabled(boolean defaultValue)
+    {
+        return _preferences.getBoolean(PreferencesKeys.NOTIFICATIONS_DRAWER_ENABLED, defaultValue);
     }
 }

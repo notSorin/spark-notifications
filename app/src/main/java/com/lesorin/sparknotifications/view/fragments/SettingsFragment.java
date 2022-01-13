@@ -133,7 +133,8 @@ public class SettingsFragment extends PreferenceFragment
 
         _notificationsDrawerPreference.setOnPreferenceClickListener(preference ->
         {
-           //todo
+           _activity.notificationsDrawerPreferencePressed(_notificationsDrawerPreference.isChecked());
+
             return true;
         });
     }
@@ -329,5 +330,10 @@ public class SettingsFragment extends PreferenceFragment
     public void updateFullBrightness(boolean enabled)
     {
         _fullBrightnessPreference.setChecked(enabled);
+    }
+
+    public void updateNotificationsDrawer(boolean enabled)
+    {
+        _notificationsDrawerPreference.setChecked(enabled);
     }
 }

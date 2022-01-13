@@ -15,6 +15,7 @@ public interface Contract
         void screenDelayPreferencePressed();
         void screenDelayChanged(int value);
         void fullBrightnessChanged(boolean enabled);
+        void notificationsDrawerChanged(boolean enabled);
     }
 
     interface PresenterModel
@@ -35,6 +36,7 @@ public interface Contract
         void screenDelayPreferenceChanged(int screenDelayValue);
         void openScreenDelayNumberPicker(int screenDelayValue, int minValue, int maxValue);
         void fullBrightnessPreferenceChanged(boolean enabled);
+        void notificationsDrawerPreferenceChanged(boolean enabled);
     }
 
     interface Model
@@ -49,6 +51,8 @@ public interface Contract
         int getScreenDelayValue(int defaultValue);
         void setScreenDelayValue(int value);
         void setFullBrightnessValue(boolean enabled);
-        boolean getFullBrightness(boolean defaultValue);
+        boolean isFullBrightnessEnabled(boolean defaultValue);
+        void setNotificationsDrawerValue(boolean enabled);
+        boolean isNotificationsDrawerEnabled(boolean defaultValue);
     }
 }
