@@ -42,6 +42,7 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
         _view.screenDelayPreferenceChanged(_model.getScreenDelayValue(MIN_SCREEN_DELAY));
         _view.fullBrightnessPreferenceChanged(_model.isFullBrightnessEnabled(false));
         _view.notificationsDrawerPreferenceChanged(_model.isNotificationsDrawerEnabled(false));
+        _view.proximitySensorPreferenceChanged(_model.isProximitySensorEnabled(true));
 
         //Set admin-related preferences.
         boolean deviceAdminEnabled = _model.isDeviceAdministratorEnabled();
@@ -107,6 +108,12 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
     public void notificationsDrawerChanged(boolean enabled)
     {
         _model.setNotificationsDrawerValue(enabled);
+    }
+
+    @Override
+    public void proximitySensorPreferenceChanged(boolean enabled)
+    {
+        _model.setProximitySensorValue(enabled);
     }
 
     public void setModel(Contract.Model model)

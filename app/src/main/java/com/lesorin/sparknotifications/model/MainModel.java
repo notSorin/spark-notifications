@@ -122,4 +122,16 @@ public class MainModel implements Contract.Model
     {
         return _preferences.getBoolean(PreferencesKeys.NOTIFICATIONS_DRAWER_ENABLED, defaultValue);
     }
+
+    @Override
+    public void setProximitySensorValue(boolean enabled)
+    {
+        _preferences.edit().putBoolean(PreferencesKeys.PROXIMITY_SENSOR_ENABLED, enabled).apply();
+    }
+
+    @Override
+    public boolean isProximitySensorEnabled(boolean defaultValue)
+    {
+        return _preferences.getBoolean(PreferencesKeys.PROXIMITY_SENSOR_ENABLED, defaultValue);
+    }
 }

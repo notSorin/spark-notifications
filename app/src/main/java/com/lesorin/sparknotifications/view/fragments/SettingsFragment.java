@@ -122,7 +122,8 @@ public class SettingsFragment extends PreferenceFragment
 
         _proximitySensorPreference.setOnPreferenceClickListener(preference ->
         {
-           //todo
+           _activity.proximitySensorPreferencePressed(_proximitySensorPreference.isChecked());
+
             return true;
         });
     }
@@ -335,5 +336,10 @@ public class SettingsFragment extends PreferenceFragment
     public void updateNotificationsDrawer(boolean enabled)
     {
         _notificationsDrawerPreference.setChecked(enabled);
+    }
+
+    public void updateProximitySensor(boolean enabled)
+    {
+        _proximitySensorPreference.setChecked(enabled);
     }
 }

@@ -160,6 +160,12 @@ public class MainActivity extends AppCompatActivity implements Contract.View
         _settingsFragment.updateNotificationsDrawer(enabled);
     }
 
+    @Override
+    public void proximitySensorPreferenceChanged(boolean enabled)
+    {
+        _settingsFragment.updateProximitySensor(enabled);
+    }
+
     public void screenTimeoutPreferencePressed()
     {
         _presenter.screenTimeoutPreferencePressed();
@@ -178,5 +184,10 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     public void notificationsDrawerPreferencePressed(boolean enabled)
     {
         _presenter.notificationsDrawerChanged(enabled);
+    }
+
+    public void proximitySensorPreferencePressed(boolean enabled)
+    {
+        _presenter.proximitySensorPreferenceChanged(enabled);
     }
 }
