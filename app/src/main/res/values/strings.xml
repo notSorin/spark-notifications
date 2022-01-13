@@ -80,6 +80,7 @@
 
     <string name="ScreenOnDelayTitle">Screen Delay</string>
     <string name="ScreenOnDelaySummary">The screen will turn on %d seconds after a notification.</string>
+    <string name="ScreenOnDelaySummarySingle">The screen will turn on %d second after a notification.</string>
 
     <string name="FullBrightnessTitle">Full Brightness</string>
     <string name="FullBrightnessSummary">When enabled, the screen will always turn on at full brightness.</string>

@@ -277,7 +277,7 @@ public class SettingsFragment extends PreferenceFragment
 
     public void updateScreenDelaySummary(int screenDelayValue)
     {
-        _screenDelayPreference.setSummary(getString(R.string.ScreenOnDelaySummary, screenDelayValue));
+        _screenDelayPreference.setSummary(getString(screenDelayValue == 1 ? R.string.ScreenOnDelaySummarySingle : R.string.ScreenOnDelaySummary, screenDelayValue));
     }
 
     private void setOptionsState(boolean enabled)
