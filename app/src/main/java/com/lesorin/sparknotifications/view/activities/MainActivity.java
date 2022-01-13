@@ -148,6 +148,12 @@ public class MainActivity extends AppCompatActivity implements Contract.View
         dialogBuilder.show();
     }
 
+    @Override
+    public void fullBrightnessPreferenceChanged(boolean enabled)
+    {
+        _settingsFragment.updateFullBrightness(enabled);
+    }
+
     public void screenTimeoutPreferencePressed()
     {
         _presenter.screenTimeoutPreferencePressed();

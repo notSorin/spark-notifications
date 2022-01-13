@@ -34,6 +34,7 @@ public interface Contract
         void screenTimeoutPreferenceChanged(int value);
         void screenDelayPreferenceChanged(int screenDelayValue);
         void openScreenDelayNumberPicker(int screenDelayValue, int minValue, int maxValue);
+        void fullBrightnessPreferenceChanged(boolean enabled);
     }
 
     interface Model
@@ -48,5 +49,6 @@ public interface Contract
         int getScreenDelayValue(int defaultValue);
         void setScreenDelayValue(int value);
         void setFullBrightnessValue(boolean enabled);
+        boolean getFullBrightness(boolean defaultValue);
     }
 }

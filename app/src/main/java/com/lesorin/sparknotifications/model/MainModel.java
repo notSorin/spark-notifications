@@ -104,4 +104,10 @@ public class MainModel implements Contract.Model
     {
         _preferences.edit().putBoolean(PreferencesKeys.FULL_BRIGHTNESS_ENABLED, enabled).apply();
     }
+
+    @Override
+    public boolean getFullBrightness(boolean defaultValue)
+    {
+        return _preferences.getBoolean(PreferencesKeys.FULL_BRIGHTNESS_ENABLED, defaultValue);
+    }
 }

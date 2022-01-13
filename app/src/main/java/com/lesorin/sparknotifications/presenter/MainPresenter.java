@@ -35,9 +35,15 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
     @Override
     public void appResumed()
     {
+        //Set service-related preferences.
         _view.servicePreferenceChanged(_model.isNotificationsServiceEnabled());
-        _view.deviceAdministratorPreferenceChanged(_model.isDeviceAdministratorEnabled(), _model.getScreenTimeoutValue(MIN_SCREEN_TIMEOUT));
+
+        //Set option-related preferences.
         _view.screenDelayPreferenceChanged(_model.getScreenDelayValue(MIN_SCREEN_DELAY));
+        _view.fullBrightnessPreferenceChanged(_model.getFullBrightness(false));
+
+        //Set admin-related preferences.
+        _view.deviceAdministratorPreferenceChanged(_model.isDeviceAdministratorEnabled(), _model.getScreenTimeoutValue(MIN_SCREEN_TIMEOUT));
     }
 
     @Override

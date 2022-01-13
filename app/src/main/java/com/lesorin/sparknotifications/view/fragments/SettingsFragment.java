@@ -325,4 +325,9 @@ public class SettingsFragment extends PreferenceFragment
         _screenTimeoutPreference.setEnabled(deviceAdministratorEnabled);
         updateScreenTimeoutSummary(deviceAdministratorEnabled, screenTimeoutValue);
     }
+
+    public void updateFullBrightness(boolean enabled)
+    {
+        _fullBrightnessPreference.setChecked(enabled);
+    }
 }
