@@ -51,15 +51,15 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     }
 
     @Override
-    public void servicePreferenceChanged(boolean isServiceEnabled)
+    public void servicePreferenceChanged(boolean serviceEnabled)
     {
-        _settingsFragment.servicePreferenceChanged(isServiceEnabled);
+        _settingsFragment.updateServicePreference(serviceEnabled);
     }
 
     @Override
     public void deviceAdministratorPreferenceChanged(boolean deviceAdministratorEnabled)
     {
-        _settingsFragment.deviceAdministratorPreferenceChanged(deviceAdministratorEnabled);
+        _settingsFragment.updateDeviceAdministrator(deviceAdministratorEnabled);
     }
 
     public void notificationsServicePreferencePressed(boolean serviceEnabled)
@@ -119,15 +119,15 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     }
 
     @Override
-    public void screenTimeoutPreferenceChanged(boolean deviceAdministratorEnabled, int value)
+    public void screenTimeoutPreferenceChanged(boolean serviceEnabled, boolean deviceAdministratorEnabled, int value)
     {
-        _settingsFragment.updateScreenTimeout(deviceAdministratorEnabled, value);
+        _settingsFragment.updateScreenTimeout(serviceEnabled, deviceAdministratorEnabled, value);
     }
 
     @Override
-    public void screenDelayPreferenceChanged(int screenDelayValue)
+    public void screenDelayPreferenceChanged(boolean serviceEnabled, int screenDelayValue)
     {
-        _settingsFragment.updateScreenDelaySummary(screenDelayValue);
+        _settingsFragment.updateScreenDelaySummary(serviceEnabled, screenDelayValue);
     }
 
     @Override
@@ -149,45 +149,51 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     }
 
     @Override
-    public void fullBrightnessPreferenceChanged(boolean enabled)
+    public void fullBrightnessPreferenceChanged(boolean serviceEnabled, boolean fullBrightnessEnabled)
     {
-        _settingsFragment.updateFullBrightness(enabled);
+        _settingsFragment.updateFullBrightness(serviceEnabled, fullBrightnessEnabled);
     }
 
     @Override
-    public void notificationsDrawerPreferenceChanged(boolean enabled)
+    public void notificationsDrawerPreferenceChanged(boolean serviceEnabled, boolean notificationsDrawerEnabled)
     {
-        _settingsFragment.updateNotificationsDrawer(enabled);
+        _settingsFragment.updateNotificationsDrawer(serviceEnabled, notificationsDrawerEnabled);
     }
 
     @Override
-    public void proximitySensorPreferenceChanged(boolean enabled)
+    public void proximitySensorPreferenceChanged(boolean serviceEnabled, boolean proximitySensorEnabled)
     {
-        _settingsFragment.updateProximitySensor(enabled);
+        _settingsFragment.updateProximitySensor(serviceEnabled, proximitySensorEnabled);
     }
 
     @Override
-    public void detectPickUpPreferenceChanged(boolean enabled)
+    public void detectPickUpPreferenceChanged(boolean serviceEnabled, boolean detectPickUpEnabled)
     {
-        _settingsFragment.updateDetectPickUp(enabled);
+        _settingsFragment.updateDetectPickUp(serviceEnabled, detectPickUpEnabled);
     }
 
     @Override
-    public void quietHoursPreferenceChanged(boolean quietHoursEnabled)
+    public void quietHoursPreferenceChanged(boolean serviceEnabled, boolean quietHoursEnabled)
     {
-        _settingsFragment.updateQuietHours(quietHoursEnabled);
+        _settingsFragment.updateQuietHours(serviceEnabled, quietHoursEnabled);
     }
 
     @Override
-    public void quietHoursStartPreferenceChanged(boolean quietHoursEnabled, String quietHoursStart)
+    public void quietHoursStartPreferenceChanged(boolean serviceEnabled, boolean quietHoursEnabled, String quietHoursStart)
     {
-        _settingsFragment.updateQuietHoursStart(quietHoursEnabled, quietHoursStart);
+        _settingsFragment.updateQuietHoursStart(serviceEnabled, quietHoursEnabled, quietHoursStart);
     }
 
     @Override
-    public void quietHoursStopPreferenceChanged(boolean quietHoursEnabled, String quietHoursStop)
+    public void quietHoursStopPreferenceChanged(boolean serviceEnabled, boolean quietHoursEnabled, String quietHoursStop)
     {
-        _settingsFragment.updateQuietHoursStop(quietHoursEnabled, quietHoursStop);
+        _settingsFragment.updateQuietHoursStop(serviceEnabled, quietHoursEnabled, quietHoursStop);
+    }
+
+    @Override
+    public void enabledAppsPreferenceChanged(boolean enabledAppsEnabled)
+    {
+        _settingsFragment.updateEnabledApps(enabledAppsEnabled);
     }
 
     public void screenTimeoutPreferencePressed()

@@ -267,22 +267,10 @@ public class SettingsFragment extends PreferenceFragment
         });
     }
 
-    public void updateScreenDelaySummary(int screenDelayValue)
+    public void updateScreenDelaySummary(boolean screenDelayEnabled, int screenDelayValue)
     {
+        _screenDelayPreference.setEnabled(screenDelayEnabled);
         _screenDelayPreference.setSummary(getString(screenDelayValue == 1 ? R.string.ScreenOnDelaySummarySingle : R.string.ScreenOnDelaySummary, screenDelayValue));
-    }
-
-    private void setOptionsState(boolean enabled)
-    {
-        _enabledAppsPreference.setEnabled(enabled);
-        _screenDelayPreference.setEnabled(enabled);
-        _fullBrightnessPreference.setEnabled(enabled);
-        _notificationsDrawerPreference.setEnabled(enabled);
-        _proximitySensorPreference.setEnabled(enabled);
-        _detectPickUpPreference.setEnabled(enabled);
-        _quietHoursPreference.setEnabled(enabled);
-        _quietHoursStartPreference.setEnabled(enabled);
-        _quietHoursStopPreference.setEnabled(enabled);
     }
 
     private String handleTime(String time)
@@ -305,65 +293,82 @@ public class SettingsFragment extends PreferenceFragment
         }
     }
 
-    public void servicePreferenceChanged(boolean isServiceEnabled)
+    public void updateServicePreference(boolean serviceEnabled)
     {
-        _servicePreference.setChecked(isServiceEnabled);
-        setOptionsState(isServiceEnabled);
+        _servicePreference.setChecked(serviceEnabled);
     }
 
-    public void deviceAdministratorPreferenceChanged(boolean deviceAdministratorEnabled)
+    public void updateDeviceAdministrator(boolean deviceAdministratorEnabled)
     {
         _deviceAdminPreference.setChecked(deviceAdministratorEnabled);
     }
 
-    public void updateScreenTimeout(boolean deviceAdministratorEnabled, int screenTimeoutValue)
+    public void updateScreenTimeout(boolean serviceEnabled, boolean deviceAdministratorEnabled, int screenTimeoutValue)
     {
-        _screenTimeoutPreference.setEnabled(deviceAdministratorEnabled);
+        _screenTimeoutPreference.setEnabled(serviceEnabled && deviceAdministratorEnabled);
 
-        if(deviceAdministratorEnabled)
+        if(serviceEnabled && deviceAdministratorEnabled)
         {
             _screenTimeoutPreference.setSummary(String.format(getString(R.string.ScreenTimeoutSummaryEnabled), screenTimeoutValue));
         }
+        else if(serviceEnabled && !deviceAdministratorEnabled)
+        {
+            _screenTimeoutPreference.setSummary(R.string.ScreenTimeoutSummaryEnableAdmin);
+        }
+        else if(!serviceEnabled && deviceAdministratorEnabled)
+        {
+            _screenTimeoutPreference.setSummary(R.string.ScreenTimeoutSummaryEnableService);
+        }
         else
         {
-            _screenTimeoutPreference.setSummary(R.string.ScreenTimeoutSummaryDisabled);
+            _screenTimeoutPreference.setSummary(R.string.ScreenTimeoutSummaryEnableServiceAndAdmin);
         }
     }
 
-    public void updateFullBrightness(boolean enabled)
+    public void updateFullBrightness(boolean serviceEnabled, boolean fullBrightnessEnabled)
     {
-        _fullBrightnessPreference.setChecked(enabled);
+        _fullBrightnessPreference.setEnabled(serviceEnabled);
+        _fullBrightnessPreference.setChecked(fullBrightnessEnabled);
     }
 
-    public void updateNotificationsDrawer(boolean enabled)
+    public void updateNotificationsDrawer(boolean serviceEnabled, boolean notificationsDrawerEnabled)
     {
-        _notificationsDrawerPreference.setChecked(enabled);
+        _notificationsDrawerPreference.setEnabled(serviceEnabled);
+        _notificationsDrawerPreference.setChecked(notificationsDrawerEnabled);
     }
 
-    public void updateProximitySensor(boolean enabled)
+    public void updateProximitySensor(boolean serviceEnabled, boolean proximitySensorEnabled)
     {
-        _proximitySensorPreference.setChecked(enabled);
+        _proximitySensorPreference.setEnabled(serviceEnabled);
+        _proximitySensorPreference.setChecked(proximitySensorEnabled);
     }
 
-    public void updateDetectPickUp(boolean enabled)
+    public void updateDetectPickUp(boolean serviceEnabled, boolean detectPickUpEnabled)
     {
-        _detectPickUpPreference.setChecked(enabled);
+        _detectPickUpPreference.setEnabled(serviceEnabled);
+        _detectPickUpPreference.setChecked(detectPickUpEnabled);
     }
 
-    public void updateQuietHours(boolean quietHoursEnabled)
+    public void updateQuietHours(boolean serviceEnabled, boolean quietHoursEnabled)
     {
+        _quietHoursPreference.setEnabled(serviceEnabled);
         _quietHoursPreference.setChecked(quietHoursEnabled);
     }
 
-    public void updateQuietHoursStart(boolean quietHoursEnabled, String quietHoursStart)
+    public void updateQuietHoursStart(boolean serviceEnabled, boolean quietHoursEnabled, String quietHoursStart)
     {
-        _quietHoursStartPreference.setEnabled(quietHoursEnabled);
+        _quietHoursStartPreference.setEnabled(serviceEnabled && quietHoursEnabled);
         _quietHoursStartPreference.setSummary(quietHoursStart);
     }
 
-    public void updateQuietHoursStop(boolean quietHoursEnabled, String quietHoursStop)
+    public void updateQuietHoursStop(boolean serviceEnabled, boolean quietHoursEnabled, String quietHoursStop)
     {
-        _quietHoursStopPreference.setEnabled(quietHoursEnabled);
+        _quietHoursStopPreference.setEnabled(serviceEnabled && quietHoursEnabled);
         _quietHoursStopPreference.setSummary(quietHoursStop);
+    }
+
+    public void updateEnabledApps(boolean enabledAppsEnabled)
+    {
+        _enabledAppsPreference.setEnabled(enabledAppsEnabled);
     }
 }

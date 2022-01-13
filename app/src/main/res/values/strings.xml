@@ -75,8 +75,10 @@
     <string name="DeviceAdminSummary">Enable this option to allow for custom screen timeouts.</string>
 
     <string name="ScreenTimeoutKey">Screen Timeout</string>
-    <string name="ScreenTimeoutSummaryDisabled">The Device Administrator option must be enabled to allow for custom screen timeouts.</string>
     <string name="ScreenTimeoutSummaryEnabled">The screen will stay on for %d seconds after a notification.</string>
+    <string name="ScreenTimeoutSummaryEnableAdmin">The Device Administrator option must be enabled to allow for custom screen timeouts.</string>
+    <string name="ScreenTimeoutSummaryEnableService">The Notifications Service must be enabled to allow for custom screen timeouts.</string>
+    <string name="ScreenTimeoutSummaryEnableServiceAndAdmin">The Notifications Service and the Device Administrator option must be enabled to allow for custom screen timeouts.</string>
 
     <string name="ScreenOnDelayTitle">Screen Delay</string>
     <string name="ScreenOnDelaySummary">The screen will turn on %d seconds after a notification.</string>

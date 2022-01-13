@@ -28,23 +28,31 @@ public interface Contract
 
     interface View
     {
+        //Service preferences changes.
+        void servicePreferenceChanged(boolean serviceEnabled);
+        void enabledAppsPreferenceChanged(boolean enabledAppsEnabled);
+
+        //Options preferences changes.
+        void screenDelayPreferenceChanged(boolean serviceEnabled, int screenDelayValue);
+        void fullBrightnessPreferenceChanged(boolean serviceEnabled, boolean fullBrightnessEnabled);
+        void notificationsDrawerPreferenceChanged(boolean serviceEnabled, boolean notificationsDrawerEnabled);
+        void proximitySensorPreferenceChanged(boolean serviceEnabled, boolean proximitySensorEnabled);
+        void detectPickUpPreferenceChanged(boolean serviceEnabled, boolean detectPickUpEnabled);
+        void quietHoursPreferenceChanged(boolean serviceEnabled, boolean quietHoursEnabled);
+        void quietHoursStartPreferenceChanged(boolean serviceEnabled, boolean quietHoursEnabled, String quietHoursStart);
+        void quietHoursStopPreferenceChanged(boolean serviceEnabled, boolean quietHoursEnabled, String quietHoursStop);
+
+        //Device administrator preferences changes.
+        void deviceAdministratorPreferenceChanged(boolean deviceAdministratorEnabled);
+        void screenTimeoutPreferenceChanged(boolean serviceEnabled, boolean deviceAdministratorEnabled, int value);
+
+        //Other methods.
         void setPresenter(PresenterView presenter);
         void showDialogForDisablingService();
         void showDialogForEnablingService();
-        void servicePreferenceChanged(boolean isServiceEnabled);
-        void deviceAdministratorPreferenceChanged(boolean deviceAdministratorEnabled);
         void startDeviceAdministratorActivity(ComponentName adminComponent);
         void openScreenTimeoutNumberPicker(int screenTimeoutValue, int minValue, int maxValue);
-        void screenTimeoutPreferenceChanged(boolean deviceAdministratorEnabled, int value);
-        void screenDelayPreferenceChanged(int screenDelayValue);
         void openScreenDelayNumberPicker(int screenDelayValue, int minValue, int maxValue);
-        void fullBrightnessPreferenceChanged(boolean enabled);
-        void notificationsDrawerPreferenceChanged(boolean enabled);
-        void proximitySensorPreferenceChanged(boolean proximitySensorEnabled);
-        void detectPickUpPreferenceChanged(boolean detectPickUpEnabled);
-        void quietHoursPreferenceChanged(boolean quietHoursEnabled);
-        void quietHoursStartPreferenceChanged(boolean quietHoursEnabled, String quietHoursStart);
-        void quietHoursStopPreferenceChanged(boolean quietHoursEnabled, String quietHoursStop);
     }
 
     interface Model

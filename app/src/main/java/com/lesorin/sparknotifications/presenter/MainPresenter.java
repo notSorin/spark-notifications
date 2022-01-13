@@ -37,26 +37,29 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
     public void appResumed()
     {
         //Set service-related preferences.
-        _view.servicePreferenceChanged(_model.isNotificationsServiceEnabled());
+        boolean serviceEnabled = _model.isNotificationsServiceEnabled();
+
+        _view.servicePreferenceChanged(serviceEnabled);
+        _view.enabledAppsPreferenceChanged(serviceEnabled);
 
         //Set option-related preferences.
-        _view.screenDelayPreferenceChanged(_model.getScreenDelayValue(MIN_SCREEN_DELAY));
-        _view.fullBrightnessPreferenceChanged(_model.isFullBrightnessEnabled(false));
-        _view.notificationsDrawerPreferenceChanged(_model.isNotificationsDrawerEnabled(false));
-        _view.proximitySensorPreferenceChanged(_model.isProximitySensorEnabled(true));
-        _view.detectPickUpPreferenceChanged(_model.isDetectPickUpEnabled(false));
+        _view.screenDelayPreferenceChanged(serviceEnabled, _model.getScreenDelayValue(MIN_SCREEN_DELAY));
+        _view.fullBrightnessPreferenceChanged(serviceEnabled, _model.isFullBrightnessEnabled(false));
+        _view.notificationsDrawerPreferenceChanged(serviceEnabled, _model.isNotificationsDrawerEnabled(false));
+        _view.proximitySensorPreferenceChanged(serviceEnabled, _model.isProximitySensorEnabled(true));
+        _view.detectPickUpPreferenceChanged(serviceEnabled, _model.isDetectPickUpEnabled(false));
 
         boolean quietHoursEnabled = _model.isQuietHoursEnabled(false);
 
-        _view.quietHoursPreferenceChanged(quietHoursEnabled);
-        _view.quietHoursStartPreferenceChanged(quietHoursEnabled, _model.getQuietHoursStart(DEFAULT_QUIET_HOURS_START));
-        _view.quietHoursStopPreferenceChanged(quietHoursEnabled, _model.getQuietHoursStop(DEFAULT_QUIET_HOURS_STOP));
+        _view.quietHoursPreferenceChanged(serviceEnabled, quietHoursEnabled);
+        _view.quietHoursStartPreferenceChanged(serviceEnabled, quietHoursEnabled, _model.getQuietHoursStart(DEFAULT_QUIET_HOURS_START));
+        _view.quietHoursStopPreferenceChanged(serviceEnabled, quietHoursEnabled, _model.getQuietHoursStop(DEFAULT_QUIET_HOURS_STOP));
 
         //Set admin-related preferences.
         boolean deviceAdminEnabled = _model.isDeviceAdministratorEnabled();
 
         _view.deviceAdministratorPreferenceChanged(deviceAdminEnabled);
-        _view.screenTimeoutPreferenceChanged(deviceAdminEnabled, _model.getScreenTimeoutValue(MIN_SCREEN_TIMEOUT));
+        _view.screenTimeoutPreferenceChanged(serviceEnabled, deviceAdminEnabled, _model.getScreenTimeoutValue(MIN_SCREEN_TIMEOUT));
     }
 
     @Override
@@ -66,7 +69,7 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
         {
             _model.disableDeviceAdministrator();
             _view.deviceAdministratorPreferenceChanged(false);
-            _view.screenTimeoutPreferenceChanged(false, _model.getScreenTimeoutValue(MIN_SCREEN_TIMEOUT));
+            _view.screenTimeoutPreferenceChanged(_model.isNotificationsServiceEnabled(), false, _model.getScreenTimeoutValue(MIN_SCREEN_TIMEOUT));
         }
         else
         {
@@ -86,7 +89,7 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
         if(value >= MIN_SCREEN_TIMEOUT && value <= MAX_SCREEN_TIMEOUT)
         {
             _model.setScreenTimeoutValue(value);
-            _view.screenTimeoutPreferenceChanged(_model.isDeviceAdministratorEnabled(), value);
+            _view.screenTimeoutPreferenceChanged(_model.isNotificationsServiceEnabled(), _model.isDeviceAdministratorEnabled(), value);
         }
     }
 
@@ -102,7 +105,7 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
         if(value >= MIN_SCREEN_DELAY && value <= MAX_SCREEN_DELAY)
         {
             _model.setScreenDelayValue(value);
-            _view.screenDelayPreferenceChanged(value);
+            _view.screenDelayPreferenceChanged(_model.isNotificationsServiceEnabled(), value);
         }
     }
 
@@ -134,8 +137,11 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
     public void quietHoursPreferenceChanged(boolean enabled)
     {
         _model.setQuietHoursValue(enabled);
-        _view.quietHoursStartPreferenceChanged(enabled, _model.getQuietHoursStart(DEFAULT_QUIET_HOURS_START));
-        _view.quietHoursStopPreferenceChanged(enabled, _model.getQuietHoursStop(DEFAULT_QUIET_HOURS_STOP));
+
+        boolean serviceEnabled = _model.isNotificationsServiceEnabled();
+
+        _view.quietHoursStartPreferenceChanged(serviceEnabled, enabled, _model.getQuietHoursStart(DEFAULT_QUIET_HOURS_START));
+        _view.quietHoursStopPreferenceChanged(serviceEnabled, enabled, _model.getQuietHoursStop(DEFAULT_QUIET_HOURS_STOP));
     }
 
     public void setModel(Contract.Model model)
