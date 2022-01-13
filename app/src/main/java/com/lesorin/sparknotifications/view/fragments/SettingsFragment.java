@@ -263,18 +263,6 @@ public class SettingsFragment extends PreferenceFragment
         });
     }
 
-    public void updateScreenTimeoutSummary(boolean deviceAdministratorEnabled, int screenTimeoutValue)
-    {
-        if(deviceAdministratorEnabled)
-        {
-            _screenTimeoutPreference.setSummary(String.format(getString(R.string.ScreenTimeoutSummaryEnabled), screenTimeoutValue));
-        }
-        else
-        {
-            _screenTimeoutPreference.setSummary(R.string.ScreenTimeoutSummaryDisabled);
-        }
-    }
-
     public void updateScreenDelaySummary(int screenDelayValue)
     {
         _screenDelayPreference.setSummary(getString(screenDelayValue == 1 ? R.string.ScreenOnDelaySummarySingle : R.string.ScreenOnDelaySummary, screenDelayValue));
@@ -319,11 +307,23 @@ public class SettingsFragment extends PreferenceFragment
         setOptionsState(isServiceEnabled);
     }
 
-    public void deviceAdministratorPreferenceChanged(boolean deviceAdministratorEnabled, int screenTimeoutValue)
+    public void deviceAdministratorPreferenceChanged(boolean deviceAdministratorEnabled)
     {
         _deviceAdminPreference.setChecked(deviceAdministratorEnabled);
+    }
+
+    public void updateScreenTimeout(boolean deviceAdministratorEnabled, int screenTimeoutValue)
+    {
         _screenTimeoutPreference.setEnabled(deviceAdministratorEnabled);
-        updateScreenTimeoutSummary(deviceAdministratorEnabled, screenTimeoutValue);
+
+        if(deviceAdministratorEnabled)
+        {
+            _screenTimeoutPreference.setSummary(String.format(getString(R.string.ScreenTimeoutSummaryEnabled), screenTimeoutValue));
+        }
+        else
+        {
+            _screenTimeoutPreference.setSummary(R.string.ScreenTimeoutSummaryDisabled);
+        }
     }
 
     public void updateFullBrightness(boolean enabled)

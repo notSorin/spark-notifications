@@ -43,7 +43,10 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
         _view.fullBrightnessPreferenceChanged(_model.getFullBrightness(false));
 
         //Set admin-related preferences.
-        _view.deviceAdministratorPreferenceChanged(_model.isDeviceAdministratorEnabled(), _model.getScreenTimeoutValue(MIN_SCREEN_TIMEOUT));
+        boolean deviceAdminEnabled = _model.isDeviceAdministratorEnabled();
+
+        _view.deviceAdministratorPreferenceChanged(deviceAdminEnabled);
+        _view.screenTimeoutPreferenceChanged(deviceAdminEnabled, _model.getScreenTimeoutValue(MIN_SCREEN_TIMEOUT));
     }
 
     @Override
@@ -52,7 +55,8 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
         if(_model.isDeviceAdministratorEnabled())
         {
             _model.disableDeviceAdministrator();
-            _view.deviceAdministratorPreferenceChanged(false, _model.getScreenTimeoutValue(MIN_SCREEN_TIMEOUT));
+            _view.deviceAdministratorPreferenceChanged(false);
+            _view.screenTimeoutPreferenceChanged(false, _model.getScreenTimeoutValue(MIN_SCREEN_TIMEOUT));
         }
         else
         {
@@ -72,7 +76,7 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
         if(value >= MIN_SCREEN_TIMEOUT && value <= MAX_SCREEN_TIMEOUT)
         {
             _model.setScreenTimeoutValue(value);
-            _view.screenTimeoutPreferenceChanged(value);
+            _view.screenTimeoutPreferenceChanged(_model.isDeviceAdministratorEnabled(), value);
         }
     }
 

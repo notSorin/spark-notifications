@@ -28,10 +28,10 @@ public interface Contract
         void showDialogForDisablingService();
         void showDialogForEnablingService();
         void servicePreferenceChanged(boolean isServiceEnabled);
-        void deviceAdministratorPreferenceChanged(boolean deviceAdministratorEnabled, int screenTimeoutValue);
+        void deviceAdministratorPreferenceChanged(boolean deviceAdministratorEnabled);
         void startDeviceAdministratorActivity(ComponentName adminComponent);
         void openScreenTimeoutNumberPicker(int screenTimeoutValue, int minValue, int maxValue);
-        void screenTimeoutPreferenceChanged(int value);
+        void screenTimeoutPreferenceChanged(boolean deviceAdministratorEnabled, int value);
         void screenDelayPreferenceChanged(int screenDelayValue);
         void openScreenDelayNumberPicker(int screenDelayValue, int minValue, int maxValue);
         void fullBrightnessPreferenceChanged(boolean enabled);

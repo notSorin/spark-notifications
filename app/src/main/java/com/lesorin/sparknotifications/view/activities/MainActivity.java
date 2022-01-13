@@ -57,9 +57,9 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     }
 
     @Override
-    public void deviceAdministratorPreferenceChanged(boolean deviceAdministratorEnabled, int screenTimeoutValue)
+    public void deviceAdministratorPreferenceChanged(boolean deviceAdministratorEnabled)
     {
-        _settingsFragment.deviceAdministratorPreferenceChanged(deviceAdministratorEnabled, screenTimeoutValue);
+        _settingsFragment.deviceAdministratorPreferenceChanged(deviceAdministratorEnabled);
     }
 
     public void notificationsServicePreferencePressed(boolean serviceEnabled)
@@ -119,9 +119,9 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     }
 
     @Override
-    public void screenTimeoutPreferenceChanged(int value)
+    public void screenTimeoutPreferenceChanged(boolean deviceAdministratorEnabled, int value)
     {
-        _settingsFragment.updateScreenTimeoutSummary(true, value);
+        _settingsFragment.updateScreenTimeout(deviceAdministratorEnabled, value);
     }
 
     @Override
