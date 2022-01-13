@@ -16,7 +16,6 @@ import android.widget.NumberPicker;
 import androidx.annotation.Nullable;
 import com.lesorin.sparknotifications.BuildConfig;
 import com.lesorin.sparknotifications.R;
-import com.lesorin.sparknotifications.view.TimePreference;
 import com.lesorin.sparknotifications.view.activities.AppsActivity;
 import com.lesorin.sparknotifications.view.activities.MainActivity;
 import com.lesorin.sparknotifications.view.activities.RecentAppsActivity;
