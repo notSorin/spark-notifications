@@ -1,169 +1,120 @@
 package com.lesorin.sparknotifications.model.services;
 
+import android.annotation.SuppressLint;
 import android.app.KeyguardManager;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.media.AudioManager;
-import android.os.Build;
 import android.os.PowerManager;
 import android.os.SystemClock;
-import android.preference.PreferenceManager;
 import com.lesorin.sparknotifications.BuildConfig;
 import com.lesorin.sparknotifications.model.AppHelper;
 import com.lesorin.sparknotifications.model.receivers.ScreenNotificationsDeviceAdminReceiver;
 import java.lang.reflect.Method;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicLong;
 
 //TODO figure out where the methods from this class go.
 class ScreenController
 {
-    private final AtomicLong _lastNotificationTime;
+    private final String TAG = "Spark Notifications:";
     private final Context _context;
-    private final SharedPreferences mPrefs;
-    private final PowerManager mPowerManager;
+    private final PowerManager _powerManager;
+    private final DevicePolicyManager _devicePolicyManager;
+    private final ComponentName _adminComponent;
+    private final KeyguardManager _keyguardManager;
+    private final AudioManager _audioManager;
 
     public ScreenController(Context context)
     {
         _context = context;
-        _lastNotificationTime = new AtomicLong();
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        mPowerManager = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
+        _powerManager = (PowerManager)_context.getSystemService(Context.POWER_SERVICE);
+        _devicePolicyManager = (DevicePolicyManager)_context.getSystemService(Context.DEVICE_POLICY_SERVICE);
+        _adminComponent = new ComponentName(_context, ScreenNotificationsDeviceAdminReceiver.class);
+        _keyguardManager = ((KeyguardManager)_context.getSystemService(Context.KEYGUARD_SERVICE));
+        _audioManager = (AudioManager)_context.getSystemService(Context.AUDIO_SERVICE);
     }
 
-    public void handleNotification(String packageName, boolean isProximitySensorEnabled, boolean isObjectCoveringDevice)
+    public void handleNotification(String packageName, boolean isProximitySensorEnabled, boolean isObjectCoveringDevice,
+                                   int screenDelay, boolean fullBrightnessEnabled, boolean notificationsDrawerEnabled,
+                                   int screenTimeoutMs)
     {
-        _lastNotificationTime.set(System.currentTimeMillis());
-
         if(shouldTurnOnScreen(isProximitySensorEnabled, isObjectCoveringDevice))
         {
             AppHelper.recordScreenWakeFromApp(packageName);
-            Executors.newSingleThreadExecutor().submit(this::turnOnScreen);
+            Executors.newSingleThreadExecutor().submit(() -> turnOnScreen(screenDelay,
+                    fullBrightnessEnabled, notificationsDrawerEnabled, screenTimeoutMs));
         }
     }
 
-    public void handlePickup()
+    public void handlePickup(boolean fullBrightnessEnabled)
     {
-        if(!isInCall() && !mPowerManager.isScreenOn())
+        if(!isInCall() && !_powerManager.isScreenOn())
         {
             AppHelper.recordScreenWakeFromApp(BuildConfig.APPLICATION_ID);
-            //mLogger.debug("Turning on screen for pickup");
 
-            int flag;
+            int flag = fullBrightnessEnabled ? PowerManager.SCREEN_BRIGHT_WAKE_LOCK : PowerManager.SCREEN_DIM_WAKE_LOCK;
 
-            if(mPrefs.getBoolean("FullBrightnessKey", false))
-            {
-                flag = PowerManager.SCREEN_BRIGHT_WAKE_LOCK;
-            }
-            else
-            {
-                flag = PowerManager.SCREEN_DIM_WAKE_LOCK;
-            }
-
-            PowerManager.WakeLock wakeLock = mPowerManager.newWakeLock(flag | PowerManager.ACQUIRE_CAUSES_WAKEUP, "Spark Notifications:");
+            PowerManager.WakeLock wakeLock = _powerManager.newWakeLock(flag | PowerManager.ACQUIRE_CAUSES_WAKEUP, TAG);
 
             wakeLock.acquire();
             wakeLock.release();
         }
     }
 
-    private void turnOnScreen()
+    private void turnOnScreen(int screenDelay, boolean fullBrightnessEnabled,
+                              boolean notificationsDrawerEnabled, int screenTimeoutMs)
     {
-       // mLogger.debug("Turning on screen");
-
-        int delay = mPrefs.getInt("delay", 0);
-
-        if(delay > 0)
+        if(screenDelay > 0)
         {
-            //mLogger.debug("Sleeping for " + delay + " seconds before turning on screen");
-            SystemClock.sleep(delay * 1000L);
+            SystemClock.sleep(screenDelay * 1000L);
         }
 
-        int flag;
-
-        if(mPrefs.getBoolean("FullBrightnessKey", false))
-        {
-            flag = PowerManager.SCREEN_BRIGHT_WAKE_LOCK;
-        }
-        else
-        {
-            flag = PowerManager.SCREEN_DIM_WAKE_LOCK;
-        }
-
-        PowerManager.WakeLock wakeLock = mPowerManager.newWakeLock(flag | PowerManager.ACQUIRE_CAUSES_WAKEUP, "Spark Notifications:");
+        int flag = fullBrightnessEnabled ? PowerManager.SCREEN_BRIGHT_WAKE_LOCK : PowerManager.SCREEN_DIM_WAKE_LOCK;
+        PowerManager.WakeLock wakeLock = _powerManager.newWakeLock(flag | PowerManager.ACQUIRE_CAUSES_WAKEUP, TAG);
 
         wakeLock.acquire();
 
-        if(mPrefs.getBoolean("NotificationsTrayKey", false))
+        if(notificationsDrawerEnabled)
         {
             expandStatusBar();
         }
 
-        DevicePolicyManager dpm = (DevicePolicyManager)_context.getSystemService(Context.DEVICE_POLICY_SERVICE);
-        ComponentName deviceAdmin = new ComponentName(_context, ScreenNotificationsDeviceAdminReceiver.class);
-
-        long desiredWakeLength = mPrefs.getInt("wake_length", 10) * 1000L;
-        long actualWakeLength = desiredWakeLength;
-
-        //TODO use while instead.
-        do
+        if(_devicePolicyManager.isAdminActive(_adminComponent) && isDeviceLocked())
         {
-            //mLogger.debug("Sleeping for " + actualWakeLength);
-            SystemClock.sleep(actualWakeLength);
-            actualWakeLength = _lastNotificationTime.get() + desiredWakeLength - System.currentTimeMillis();
+            SystemClock.sleep(screenTimeoutMs);
+            wakeLock.release();
+            _devicePolicyManager.lockNow();
         }
-        while(actualWakeLength > 1000);
-
-        wakeLock.release();
-
-        if(dpm.isAdminActive(deviceAdmin) && isDeviceLocked())
+        else
         {
-            //mLogger.debug("Device is an active admin and device is still on lock screen, locking");
-            dpm.lockNow();
+            wakeLock.release();
         }
     }
 
-    @SuppressWarnings("ResourceType")
     private void expandStatusBar()
     {
         try
         {
-            Object statusBarService = _context.getSystemService("statusbar");
+            @SuppressLint("WrongConstant") Object statusBarService = _context.getSystemService("statusbar");
             Class<?> statusBarManager = Class.forName("android.app.StatusBarManager");
-
-            Method showStatusBar;
-
-            if(Build.VERSION.SDK_INT >= 17)
-            {
-                showStatusBar = statusBarManager.getMethod("expandNotificationsPanel");
-            }
-            else
-            {
-                showStatusBar = statusBarManager.getMethod("expand");
-            }
+            Method showStatusBar = statusBarManager.getMethod("expandNotificationsPanel");
 
             showStatusBar.invoke(statusBarService);
-
-            //mLogger.debug("Expanding status bar");
         }
-        catch(Exception e)
+        catch(Exception ignored)
         {
-            //mLogger.debug("Failed to expand the status bar: " + e.getMessage());
         }
     }
 
     private boolean isDeviceLocked()
     {
-        return ((KeyguardManager)_context.getSystemService(Context.KEYGUARD_SERVICE)).inKeyguardRestrictedInputMode();
+        return _keyguardManager.inKeyguardRestrictedInputMode();
     }
 
     private boolean shouldTurnOnScreen(boolean isProximitySensorEnabled, boolean isObjectCoveringDevice)
     {
-        boolean turnOnScreen = !isInQuietTime() && !isInCall() && !mPowerManager.isScreenOn();
+        boolean turnOnScreen = !isInQuietTime() && !isInCall() && !_powerManager.isScreenOn();
 
         //If the proximity sensor is enabled, only turn on the screen if an object is not close to
         //the device's screen.
@@ -179,7 +130,8 @@ class ScreenController
     {
         boolean quietTime = false;
 
-        if(mPrefs.getBoolean("QuietHoursKey", false))
+        //todo
+        /*if(mPrefs.getBoolean("QuietHoursKey", false))
         {
             String startTime = mPrefs.getString("QuietHoursStartKey", "22:00");
             String stopTime = mPrefs.getString("QuietHoursStopKey", "08:00");
@@ -208,7 +160,7 @@ class ScreenController
             {
                 quietTime = true;
             }
-        }
+        }*/
 
         //mLogger.debug("Device is in quiet time: " + quietTime);
         return quietTime;
@@ -216,10 +168,7 @@ class ScreenController
 
     private boolean isInCall()
     {
-        AudioManager manager = (AudioManager)_context.getSystemService(Context.AUDIO_SERVICE);
-        boolean inCall = (manager.getMode() == AudioManager.MODE_IN_CALL || manager.getMode() == AudioManager.MODE_IN_COMMUNICATION);
-
-        //mLogger.debug("Device is in a call: " + inCall);
-        return inCall;
+        return (_audioManager.getMode() == AudioManager.MODE_IN_CALL ||
+                _audioManager.getMode() == AudioManager.MODE_IN_COMMUNICATION);
     }
 }
