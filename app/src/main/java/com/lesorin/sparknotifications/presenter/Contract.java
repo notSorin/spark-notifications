@@ -12,6 +12,8 @@ public interface Contract
         void deviceAdminPreferencePressed(boolean deviceAdminEnabled);
         void screenTimeoutPreferencePressed();
         void screenTimeoutChanged(int value);
+        void screenDelayPreferencePressed();
+        void screenDelayChanged(int value);
     }
 
     interface PresenterModel
@@ -30,6 +32,7 @@ public interface Contract
         void openScreenTimeoutNumberPicker(int screenTimeoutValue, int minValue, int maxValue);
         void screenTimeoutPreferenceChanged(int value);
         void screenDelayPreferenceChanged(int screenDelayValue);
+        void openScreenDelayNumberPicker(int screenDelayValue, int minValue, int maxValue);
     }
 
     interface Model
@@ -42,5 +45,6 @@ public interface Contract
         ComponentName getAdminComponent();
         void setScreenTimeoutValue(int value);
         int getScreenDelayValue(int defaultValue);
+        void setScreenDelayValue(int value);
     }
 }

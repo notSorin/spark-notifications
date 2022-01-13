@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View
 {
     private Contract.PresenterView _presenter;
     private SettingsFragment _settingsFragment;
+    private LayoutInflater _layoutInflater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View
         setContentView(R.layout.activity_main);
         ((MainApplication)getApplication()).activityChanged(this);
 
+        _layoutInflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
         _settingsFragment = (SettingsFragment)getFragmentManager().findFragmentById(R.id.SettingsFragment);
     }
 
@@ -101,20 +103,19 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     @Override
     public void openScreenTimeoutNumberPicker(int screenTimeoutValue, int minValue, int maxValue)
     {
-        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-        View numberPickerView = inflater.inflate(R.layout.number_picker_dialog, null);
+        View numberPickerView = _layoutInflater.inflate(R.layout.number_picker_dialog, null);
         final NumberPicker numberPicker = numberPickerView.findViewById(R.id.NumberPicker);
 
         numberPicker.setMinValue(minValue);
         numberPicker.setMaxValue(maxValue);
         numberPicker.setValue(screenTimeoutValue);
 
-        new AlertDialog.Builder(this).setTitle(R.string.ScreenTimeoutKey).setView(numberPickerView).
-                setPositiveButton(android.R.string.ok, (dialog, whichButton) ->
-                {
-                    _presenter.screenTimeoutChanged(numberPicker.getValue());
-                    dialog.dismiss();
-                }).setNegativeButton(android.R.string.cancel, (dialog, whichButton) -> dialog.dismiss()).show();
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+        dialogBuilder.setTitle(R.string.ScreenTimeoutKey);
+        dialogBuilder.setView(numberPickerView);
+        dialogBuilder.setPositiveButton(R.string.Set, (dialog, whichButton) -> _presenter.screenTimeoutChanged(numberPicker.getValue()));
+        dialogBuilder.show();
     }
 
     @Override
@@ -129,8 +130,31 @@ public class MainActivity extends AppCompatActivity implements Contract.View
         _settingsFragment.updateScreenDelaySummary(screenDelayValue);
     }
 
+    @Override
+    public void openScreenDelayNumberPicker(int screenDelayValue, int minValue, int maxValue)
+    {
+        View numberPickerView = _layoutInflater.inflate(R.layout.number_picker_dialog, null);
+        final NumberPicker numberPicker = numberPickerView.findViewById(R.id.NumberPicker);
+
+        numberPicker.setMinValue(minValue);
+        numberPicker.setMaxValue(maxValue);
+        numberPicker.setValue(screenDelayValue);
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+        dialogBuilder.setTitle(R.string.ScreenOnDelayTitle);
+        dialogBuilder.setView(numberPicker);
+        dialogBuilder.setPositiveButton(R.string.Set, (dialog, whichButton) -> _presenter.screenDelayChanged(numberPicker.getValue()));
+        dialogBuilder.show();
+    }
+
     public void screenTimeoutPreferencePressed()
     {
         _presenter.screenTimeoutPreferencePressed();
+    }
+
+    public void screenDelayPreferencePressed()
+    {
+        _presenter.screenDelayPreferencePressed();
     }
 }

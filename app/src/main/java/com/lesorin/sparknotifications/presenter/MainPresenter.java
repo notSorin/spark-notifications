@@ -70,6 +70,22 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
         }
     }
 
+    @Override
+    public void screenDelayPreferencePressed()
+    {
+        _view.openScreenDelayNumberPicker(_model.getScreenDelayValue(MIN_SCREEN_DELAY), MIN_SCREEN_DELAY, MAX_SCREEN_DELAY);
+    }
+
+    @Override
+    public void screenDelayChanged(int value)
+    {
+        if(value >= MIN_SCREEN_DELAY && value <= MAX_SCREEN_DELAY)
+        {
+            _model.setScreenDelayValue(value);
+            _view.screenDelayPreferenceChanged(value);
+        }
+    }
+
     public void setModel(Contract.Model model)
     {
         _model = model;

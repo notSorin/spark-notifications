@@ -107,4 +107,5 @@
     <string name="IUnderstand">I understand</string>
     <string name="Notice">Notice</string>
     <string name="PreferenceCategoryAdminOptions">Administrator Options</string>
+    <string name="Set">Set</string>
 </resources>

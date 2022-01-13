@@ -1,7 +1,5 @@
 package com.lesorin.sparknotifications.view.fragments;
 
-import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,10 +7,8 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
 import android.text.format.DateFormat;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.NumberPicker;
 import androidx.annotation.Nullable;
 import com.lesorin.sparknotifications.BuildConfig;
 import com.lesorin.sparknotifications.R;
@@ -160,20 +156,7 @@ public class SettingsFragment extends PreferenceFragment
 
         _screenDelayPreference.setOnPreferenceClickListener(preference ->
         {
-            LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View numberPickerView = inflater.inflate(R.layout.number_picker_dialog, null);
-            final NumberPicker numberPicker = numberPickerView.findViewById(R.id.NumberPicker);
-
-            numberPicker.setMinValue(0);
-            numberPicker.setMaxValue(10);
-            //numberPicker.setValue(mPrefs.getInt("ScreenOnDelayKey", 0));
-
-            new AlertDialog.Builder(getActivity()).setTitle(R.string.ScreenOnDelayTitle).setView(numberPicker).
-                    setPositiveButton(android.R.string.ok, (dialog, whichButton) ->
-                    {
-                        //mPrefs.edit().putInt("ScreenOnDelayKey", numberPicker.getValue()).apply();
-                        //setScreenDelaySummary(); //TODO this will be called by the main ac
-                    }).setNegativeButton(android.R.string.cancel, (dialog, whichButton) -> dialog.dismiss()).show();
+            _activity.screenDelayPreferencePressed();
 
             return true;
         });

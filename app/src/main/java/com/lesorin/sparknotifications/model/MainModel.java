@@ -92,4 +92,10 @@ public class MainModel implements Contract.Model
     {
         return _preferences.getInt(PreferencesKeys.SCREEN_ON_DELAY, defaultValue);
     }
+
+    @Override
+    public void setScreenDelayValue(int value)
+    {
+        _preferences.edit().putInt(PreferencesKeys.SCREEN_ON_DELAY, value).apply();
+    }
 }
