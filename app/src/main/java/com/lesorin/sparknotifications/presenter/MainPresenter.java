@@ -3,6 +3,7 @@ package com.lesorin.sparknotifications.presenter;
 public class MainPresenter implements Contract.PresenterView, Contract.PresenterModel
 {
     private final int MIN_SCREEN_TIMEOUT = 3, MAX_SCREEN_TIMEOUT = 30;
+    private final int MIN_SCREEN_DELAY = 0, MAX_SCREEN_DELAY = 10;
 
     private Contract.View _view;
     private Contract.Model _model;
@@ -36,6 +37,7 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
     {
         _view.servicePreferenceChanged(_model.isNotificationsServiceEnabled());
         _view.deviceAdministratorPreferenceChanged(_model.isDeviceAdministratorEnabled(), _model.getScreenTimeoutValue(MIN_SCREEN_TIMEOUT));
+        _view.screenDelayPreferenceChanged(_model.getScreenDelayValue(MIN_SCREEN_DELAY));
     }
 
     @Override

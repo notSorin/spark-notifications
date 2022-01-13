@@ -292,9 +292,9 @@ public class SettingsFragment extends PreferenceFragment
         }
     }
 
-    private void setScreenDelaySummary()
+    public void updateScreenDelaySummary(int screenDelayValue)
     {
-        //findPreference("ScreenOnDelayKey").setSummary(getString(R.string.ScreenOnDelaySummary, mPrefs.getInt("ScreenOnDelayKey", 0)));
+        _screenDelayPreference.setSummary(getString(R.string.ScreenOnDelaySummary, screenDelayValue));
     }
 
     private void setOptionsState(boolean enabled)

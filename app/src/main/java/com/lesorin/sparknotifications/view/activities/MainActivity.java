@@ -123,6 +123,12 @@ public class MainActivity extends AppCompatActivity implements Contract.View
         _settingsFragment.updateScreenTimeoutSummary(true, value);
     }
 
+    @Override
+    public void screenDelayPreferenceChanged(int screenDelayValue)
+    {
+        _settingsFragment.updateScreenDelaySummary(screenDelayValue);
+    }
+
     public void screenTimeoutPreferencePressed()
     {
         _presenter.screenTimeoutPreferencePressed();

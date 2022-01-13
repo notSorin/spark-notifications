@@ -86,4 +86,10 @@ public class MainModel implements Contract.Model
     {
         _preferences.edit().putInt(PreferencesKeys.SCREEN_TIMEOUT, value).apply();
     }
+
+    @Override
+    public int getScreenDelayValue(int defaultValue)
+    {
+        return _preferences.getInt(PreferencesKeys.SCREEN_ON_DELAY, defaultValue);
+    }
 }

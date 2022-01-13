@@ -29,6 +29,7 @@ public interface Contract
         void startDeviceAdministratorActivity(ComponentName adminComponent);
         void openScreenTimeoutNumberPicker(int screenTimeoutValue, int minValue, int maxValue);
         void screenTimeoutPreferenceChanged(int value);
+        void screenDelayPreferenceChanged(int screenDelayValue);
     }
 
     interface Model
@@ -40,5 +41,6 @@ public interface Contract
         void disableDeviceAdministrator();
         ComponentName getAdminComponent();
         void setScreenTimeoutValue(int value);
+        int getScreenDelayValue(int defaultValue);
     }
 }
