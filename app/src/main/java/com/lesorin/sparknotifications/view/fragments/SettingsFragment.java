@@ -111,7 +111,8 @@ public class SettingsFragment extends PreferenceFragment
 
         _detectPickUpPreference.setOnPreferenceClickListener(preference ->
         {
-            //todo
+            _activity.detectPickUpPreferencePressed(_detectPickUpPreference.isChecked());
+
             return true;
         });
     }
@@ -341,5 +342,10 @@ public class SettingsFragment extends PreferenceFragment
     public void updateProximitySensor(boolean enabled)
     {
         _proximitySensorPreference.setChecked(enabled);
+    }
+
+    public void updateDetectPickUp(boolean enabled)
+    {
+        _detectPickUpPreference.setChecked(enabled);
     }
 }

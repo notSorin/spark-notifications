@@ -17,6 +17,7 @@ public interface Contract
         void fullBrightnessChanged(boolean enabled);
         void notificationsDrawerChanged(boolean enabled);
         void proximitySensorPreferenceChanged(boolean enabled);
+        void detectPickUpPreferenceChanged(boolean enabled);
     }
 
     interface PresenterModel
@@ -39,6 +40,7 @@ public interface Contract
         void fullBrightnessPreferenceChanged(boolean enabled);
         void notificationsDrawerPreferenceChanged(boolean enabled);
         void proximitySensorPreferenceChanged(boolean proximitySensorEnabled);
+        void detectPickUpPreferenceChanged(boolean detectPickUpEnabled);
     }
 
     interface Model
@@ -58,5 +60,7 @@ public interface Contract
         boolean isNotificationsDrawerEnabled(boolean defaultValue);
         void setProximitySensorValue(boolean enabled);
         boolean isProximitySensorEnabled(boolean defaultValue);
+        void setDetectPickUpValue(boolean enabled);
+        boolean isDetectPickUpEnabled(boolean defaultValue);
     }
 }

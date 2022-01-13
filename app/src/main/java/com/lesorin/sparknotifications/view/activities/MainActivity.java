@@ -166,6 +166,12 @@ public class MainActivity extends AppCompatActivity implements Contract.View
         _settingsFragment.updateProximitySensor(enabled);
     }
 
+    @Override
+    public void detectPickUpPreferenceChanged(boolean enabled)
+    {
+        _settingsFragment.updateDetectPickUp(enabled);
+    }
+
     public void screenTimeoutPreferencePressed()
     {
         _presenter.screenTimeoutPreferencePressed();
@@ -189,5 +195,10 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     public void proximitySensorPreferencePressed(boolean enabled)
     {
         _presenter.proximitySensorPreferenceChanged(enabled);
+    }
+
+    public void detectPickUpPreferencePressed(boolean enabled)
+    {
+        _presenter.detectPickUpPreferenceChanged(enabled);
     }
 }

@@ -134,4 +134,16 @@ public class MainModel implements Contract.Model
     {
         return _preferences.getBoolean(PreferencesKeys.PROXIMITY_SENSOR_ENABLED, defaultValue);
     }
+
+    @Override
+    public void setDetectPickUpValue(boolean enabled)
+    {
+        _preferences.edit().putBoolean(PreferencesKeys.DETECT_PICK_UP, enabled).apply();
+    }
+
+    @Override
+    public boolean isDetectPickUpEnabled(boolean defaultValue)
+    {
+        return _preferences.getBoolean(PreferencesKeys.DETECT_PICK_UP, defaultValue);
+    }
 }

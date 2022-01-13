@@ -43,6 +43,7 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
         _view.fullBrightnessPreferenceChanged(_model.isFullBrightnessEnabled(false));
         _view.notificationsDrawerPreferenceChanged(_model.isNotificationsDrawerEnabled(false));
         _view.proximitySensorPreferenceChanged(_model.isProximitySensorEnabled(true));
+        _view.detectPickUpPreferenceChanged(_model.isDetectPickUpEnabled(false));
 
         //Set admin-related preferences.
         boolean deviceAdminEnabled = _model.isDeviceAdministratorEnabled();
@@ -114,6 +115,12 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
     public void proximitySensorPreferenceChanged(boolean enabled)
     {
         _model.setProximitySensorValue(enabled);
+    }
+
+    @Override
+    public void detectPickUpPreferenceChanged(boolean enabled)
+    {
+        _model.setDetectPickUpValue(enabled);
     }
 
     public void setModel(Contract.Model model)
