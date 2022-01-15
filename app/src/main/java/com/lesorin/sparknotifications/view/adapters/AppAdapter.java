@@ -18,30 +18,30 @@ import io.realm.RealmResults;
 //TODO try to make it so the adapter doesn't need to implement RealmChangeListener.
 public class AppAdapter extends BaseAdapter implements RealmChangeListener<RealmResults<App>>
 {
-    private Context mContext;
-	private LayoutInflater mInflater;
-    private Realm mRealm;
-	private RealmResults<App> mApps;
+    private Context _context;
+	private LayoutInflater _inflater;
+    private Realm _realm;
+	private RealmResults<App> _appsList;
 
 	public AppAdapter(Context context)
 	{
-        mContext = context;
-		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		mRealm = Realm.getDefaultInstance();
+		_context = context;
+		_inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		_realm = Realm.getDefaultInstance();
 
         getApps();
 	}
 
     public void tearDown()
 	{
-        mRealm.close();
+		_realm.close();
     }
 
     private void getApps()
 	{
-        mApps = mRealm.where(App.class).findAll().sort("name");
+		_appsList = _realm.where(App.class).findAll().sort("name");
 
-        mApps.addChangeListener(this); //TODO is this call really necessary?
+		_appsList.addChangeListener(this); //TODO is this call really necessary?
         notifyDataSetChanged();
     }
 
@@ -54,13 +54,13 @@ public class AppAdapter extends BaseAdapter implements RealmChangeListener<Realm
 	@Override
 	public int getCount()
 	{
-		return mApps.size();
+		return _appsList.size();
 	}
 
 	@Override
 	public String getItem(int position)
 	{
-		return mApps.get(position).getName();
+		return _appsList.get(position).getName();
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class AppAdapter extends BaseAdapter implements RealmChangeListener<Realm
 
 		if(convertView == null)
 		{
-			convertView = mInflater.inflate(R.layout.app_layout, null);
+			convertView = _inflater.inflate(R.layout.app_layout, null);
 			holder = new ViewHolder();
 			holder.icon = convertView.findViewById(R.id.AppIcon);
 			holder.name = convertView.findViewById(R.id.AppName);
@@ -89,11 +89,11 @@ public class AppAdapter extends BaseAdapter implements RealmChangeListener<Realm
 			holder = (ViewHolder)convertView.getTag();
 		}
 
-		App app = mApps.get(position);
+		App app = _appsList.get(position);
 
 		if(app != null)
 		{
-			Drawable appIcon = app.getIcon(mContext.getPackageManager());
+			Drawable appIcon = app.getIcon(_context.getPackageManager());
 
 			if(appIcon != null)
 			{
@@ -103,9 +103,9 @@ public class AppAdapter extends BaseAdapter implements RealmChangeListener<Realm
 			holder.name.setText(app.getName());
 			holder.selected.setOnCheckedChangeListener((buttonView, isChecked) ->
 			{
-				mRealm.beginTransaction();
+				_realm.beginTransaction();
 				app.setEnabled(isChecked);
-				mRealm.commitTransaction();
+				_realm.commitTransaction();
 			});
 
 			holder.selected.setChecked(app.getEnabled());

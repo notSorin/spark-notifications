@@ -15,6 +15,7 @@ import com.lesorin.sparknotifications.MainApplication;
 import com.lesorin.sparknotifications.R;
 import com.lesorin.sparknotifications.presenter.Contract;
 import com.lesorin.sparknotifications.presenter.RecentApp;
+import com.lesorin.sparknotifications.view.adapters.AppAdapter;
 import com.lesorin.sparknotifications.view.adapters.RecentAppsAdapter;
 import com.lesorin.sparknotifications.view.fragments.SettingsFragment;
 import java.util.List;
@@ -255,6 +256,24 @@ public class MainActivity extends AppCompatActivity implements Contract.View
 
         dialogBuilder.setTitle(R.string.RecentAppsTitle);
         dialogBuilder.setView(recentAppsView);
+        dialogBuilder.setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {});
+        dialogBuilder.show();
+    }
+
+    public void enabledAppsPreferencePressed()
+    {
+        //TODO call the presenter and create the dialog with the apps in another method,
+        // and figure out when the apps need to be queried in Realm...
+        View appsView = _layoutInflater.inflate(R.layout.apps_layout, null);
+        ListView listView = appsView.findViewById(R.id.AppsList);
+        AppAdapter appAdapter = new AppAdapter(this);
+
+        listView.setAdapter(appAdapter);
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+        dialogBuilder.setTitle(R.string.EnabledAppsTitle);
+        dialogBuilder.setView(appsView);
         dialogBuilder.setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {});
         dialogBuilder.show();
     }

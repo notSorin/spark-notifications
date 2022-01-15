@@ -29,10 +29,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name="com.lesorin.sparknotifications.view.activities.AppsActivity"
-            android:label="@string/EnabledAppsActivityTitle" />
-
         <service
             android:name=".model.services.NotificationListener"
             android:exported="false"

@@ -12,7 +12,6 @@ import android.widget.ListView;
 import androidx.annotation.Nullable;
 import com.lesorin.sparknotifications.BuildConfig;
 import com.lesorin.sparknotifications.R;
-import com.lesorin.sparknotifications.view.activities.AppsActivity;
 import com.lesorin.sparknotifications.view.activities.MainActivity;
 
 //TODO make the preferences keys constants.
@@ -195,7 +194,7 @@ public class SettingsFragment extends PreferenceFragment
 
         _enabledAppsPreference.setOnPreferenceClickListener(preference ->
         {
-            startActivity(new Intent(_activity, AppsActivity.class));
+            _activity.enabledAppsPreferencePressed();
 
             return true;
         });
