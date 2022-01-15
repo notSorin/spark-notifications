@@ -8,12 +8,16 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.NumberPicker;
 import androidx.appcompat.app.AppCompatActivity;
 import com.lesorin.sparknotifications.MainApplication;
 import com.lesorin.sparknotifications.R;
 import com.lesorin.sparknotifications.presenter.Contract;
+import com.lesorin.sparknotifications.presenter.RecentApp;
+import com.lesorin.sparknotifications.view.adapters.RecentAppsAdapter;
 import com.lesorin.sparknotifications.view.fragments.SettingsFragment;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements Contract.View
 {
@@ -229,5 +233,29 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     public void quietHoursPreferencePressed(boolean enabled)
     {
         _presenter.quietHoursPreferenceChanged(enabled);
+    }
+
+    public void recentActivityPreferencePressed()
+    {
+        _presenter.recentActivityPreferencePressed();
+    }
+
+    @Override
+    public void displayRecentlyActiveApps(List<RecentApp> appsList)
+    {
+        View recentAppsView = _layoutInflater.inflate(R.layout.recent_apps_layout, null);
+        ListView listView = recentAppsView.findViewById(R.id.RecentAppsList);
+        RecentAppsAdapter raa = new RecentAppsAdapter(this);
+
+        raa.setApps(appsList);
+        listView.setAdapter(raa);
+        listView.setEmptyView(recentAppsView.findViewById(R.id.NoRecentAppsText));
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+        dialogBuilder.setTitle(R.string.RecentAppsTitle);
+        dialogBuilder.setView(recentAppsView);
+        dialogBuilder.setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {});
+        dialogBuilder.show();
     }
 }

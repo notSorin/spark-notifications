@@ -14,7 +14,6 @@ import com.lesorin.sparknotifications.BuildConfig;
 import com.lesorin.sparknotifications.R;
 import com.lesorin.sparknotifications.view.activities.AppsActivity;
 import com.lesorin.sparknotifications.view.activities.MainActivity;
-import com.lesorin.sparknotifications.view.activities.RecentAppsActivity;
 
 //TODO make the preferences keys constants.
 public class SettingsFragment extends PreferenceFragment
@@ -184,7 +183,7 @@ public class SettingsFragment extends PreferenceFragment
 
         _recentActivityPreference.setOnPreferenceClickListener(preference ->
         {
-            startActivity(new Intent(_activity, RecentAppsActivity.class));
+            _activity.recentActivityPreferencePressed();
 
             return true;
         });

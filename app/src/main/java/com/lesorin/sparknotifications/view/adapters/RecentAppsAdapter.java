@@ -10,34 +10,36 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.lesorin.sparknotifications.BuildConfig;
 import com.lesorin.sparknotifications.R;
-import com.lesorin.sparknotifications.model.AppHelper;
 import com.lesorin.sparknotifications.presenter.RecentApp;
 import java.text.SimpleDateFormat;
-import io.realm.RealmResults;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RecentAppsAdapter extends BaseAdapter
 {
-    private Context mContext;
-    private LayoutInflater mInflater;
-    private RealmResults<RecentApp> mApps; //TODO must this be of type RealmResults? Use list instead?
+    private Context _context;
+    private LayoutInflater _inflater;
+    private List<RecentApp> _appsList;
+    private SimpleDateFormat _dateFormat;
 
     public RecentAppsAdapter(Context context)
     {
-        mContext = context;
-        mInflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mApps = AppHelper.getRecentNotifyingApps();
+        _context = context;
+        _inflater = (LayoutInflater)_context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        _dateFormat = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+        _appsList = new ArrayList<>();
     }
 
     @Override
     public int getCount()
     {
-        return Math.min(mApps.size(), 50);
+        return Math.min(_appsList.size(), 50);
     }
 
     @Override
     public String getItem(int position)
     {
-        return mApps.get(position).getPackageName();
+        return _appsList.get(position).getPackageName();
     }
 
     @Override
@@ -53,7 +55,7 @@ public class RecentAppsAdapter extends BaseAdapter
 
         if(convertView == null)
         {
-            convertView = mInflater.inflate(R.layout.recent_app_layout, null);
+            convertView = _inflater.inflate(R.layout.recent_app_layout, null);
             holder = new ViewHolder();
             holder.icon = convertView.findViewById(R.id.AppIcon);
             holder.name = convertView.findViewById(R.id.AppName);
@@ -67,9 +69,9 @@ public class RecentAppsAdapter extends BaseAdapter
             holder = (ViewHolder) convertView.getTag();
         }
 
-        final RecentApp app = mApps.get(position);
+        final RecentApp app = _appsList.get(position);
 
-        RecentApp.fetchInformation(app, mContext);
+        RecentApp.fetchInformation(app, _context);
 
         if(app.isInstalled())
         {
@@ -92,11 +94,18 @@ public class RecentAppsAdapter extends BaseAdapter
         }
 
         String relativeTime = DateUtils.getRelativeTimeSpanString(app.getTimestamp(), System.currentTimeMillis(), 0).toString();
-        String formattedDate = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss").format(app.getTimestamp());
+        String formattedDate = _dateFormat.format(app.getTimestamp());
+        String notificationTime = String.format(_context.getString(R.string.NotificationTime), relativeTime, formattedDate);
 
-        holder.notificationTime.setText(relativeTime + " (" + formattedDate + ")"); //TODO fix after switching to MVP.
+        holder.notificationTime.setText(notificationTime);
 
         return convertView;
+    }
+
+    public void setApps(List<RecentApp> appsList)
+    {
+        _appsList = appsList;
+        notifyDataSetChanged();
     }
 
     static class ViewHolder

@@ -1,6 +1,7 @@
 package com.lesorin.sparknotifications.presenter;
 
 import android.content.ComponentName;
+import java.util.List;
 
 public interface Contract
 {
@@ -19,6 +20,7 @@ public interface Contract
         void proximitySensorPreferenceChanged(boolean enabled);
         void detectPickUpPreferenceChanged(boolean enabled);
         void quietHoursPreferenceChanged(boolean enabled);
+        void recentActivityPreferencePressed();
     }
 
     interface PresenterModel
@@ -53,6 +55,7 @@ public interface Contract
         void startDeviceAdministratorActivity(ComponentName adminComponent);
         void openScreenTimeoutNumberPicker(int screenTimeoutValue, int minValue, int maxValue);
         void openScreenDelayNumberPicker(int screenDelayValue, int minValue, int maxValue);
+        void displayRecentlyActiveApps(List<RecentApp> appsList);
     }
 
     interface Model
@@ -78,5 +81,6 @@ public interface Contract
         boolean isQuietHoursEnabled(boolean defaultValue);
         String getQuietHoursStart(String defaultValue);
         String getQuietHoursStop(String defaultValue);
+        List<RecentApp> getRecentlyActiveApps();
     }
 }

@@ -144,6 +144,12 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
         _view.quietHoursStopPreferenceChanged(serviceEnabled, enabled, _model.getQuietHoursStop(DEFAULT_QUIET_HOURS_STOP));
     }
 
+    @Override
+    public void recentActivityPreferencePressed()
+    {
+        _view.displayRecentlyActiveApps(_model.getRecentlyActiveApps());
+    }
+
     public void setModel(Contract.Model model)
     {
         _model = model;

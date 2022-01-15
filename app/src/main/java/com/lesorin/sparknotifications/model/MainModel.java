@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import com.lesorin.sparknotifications.presenter.Contract;
 import com.lesorin.sparknotifications.model.receivers.DeviceAdministratorReceiver;
 import com.lesorin.sparknotifications.model.services.NotificationListener;
+import com.lesorin.sparknotifications.presenter.RecentApp;
 import java.util.List;
 import io.realm.Realm;
 
@@ -169,5 +170,11 @@ public class MainModel implements Contract.Model
     public String getQuietHoursStop(String defaultValue)
     {
         return _preferences.getString(PreferencesKeys.QUIET_HOURS_STOP, defaultValue);
+    }
+
+    @Override
+    public List<RecentApp> getRecentlyActiveApps()
+    {
+        return AppHelper.getRecentNotifyingApps();
     }
 }
