@@ -6,8 +6,11 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import androidx.appcompat.app.AppCompatActivity;
@@ -266,9 +269,29 @@ public class MainActivity extends AppCompatActivity implements Contract.View
         // and figure out when the apps need to be queried in Realm...
         View appsView = _layoutInflater.inflate(R.layout.apps_layout, null);
         ListView listView = appsView.findViewById(R.id.AppsList);
+        EditText searchFilter = appsView.findViewById(R.id.SearchFilter);
         AppAdapter appAdapter = new AppAdapter(this);
 
         listView.setAdapter(appAdapter);
+
+        searchFilter.addTextChangedListener(new TextWatcher()
+            {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after)
+                {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count)
+                {
+                    appAdapter.getFilter().filter(s);
+                }
+
+                @Override
+                public void afterTextChanged(Editable s)
+                {
+                }
+            });
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 
