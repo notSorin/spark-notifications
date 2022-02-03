@@ -55,7 +55,7 @@ public interface Contract
         void startDeviceAdministratorActivity(ComponentName adminComponent);
         void openScreenTimeoutNumberPicker(int screenTimeoutValue, int minValue, int maxValue);
         void openScreenDelayNumberPicker(int screenDelayValue, int minValue, int maxValue);
-        void displayRecentlyActiveApps(List<RecentApp> appsList);
+        void displayRecentlyActiveApps(List<? extends RecentApp> appsList);
     }
 
     interface Model
@@ -81,6 +81,6 @@ public interface Contract
         boolean isQuietHoursEnabled(boolean defaultValue);
         String getQuietHoursStart(String defaultValue);
         String getQuietHoursStop(String defaultValue);
-        List<RecentApp> getRecentlyActiveApps();
+        List<? extends RecentApp> getRecentlyActiveApps();
     }
 }
