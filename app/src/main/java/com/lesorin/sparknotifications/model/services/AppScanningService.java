@@ -4,7 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import com.lesorin.sparknotifications.presenter.App;
+import com.lesorin.sparknotifications.model.RealmApp;
 import java.util.ArrayList;
 import java.util.List;
 import io.realm.Realm;
@@ -43,14 +43,14 @@ public class AppScanningService extends IntentService
 
         for(String packageName : appPackages)
         {
-            App app = realm.where(App.class).equalTo("packageName", packageName).findFirst();
+            RealmApp app = realm.where(RealmApp.class).equalTo("packageName", packageName).findFirst();
 
             if(app == null) //If the app isn't in Realm, create it.
             {
                 try
                 {
                     ApplicationInfo appInfo = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA);
-                    app = realm.createObject(App.class);
+                    app = realm.createObject(RealmApp.class);
 
                     app.setPackageName(packageName);
                     app.setName(appInfo.loadLabel(packageManager).toString());
@@ -98,7 +98,7 @@ public class AppScanningService extends IntentService
         //Loop each app package and remove it from Realm.
         for(String appPackage : appPackages)
         {
-            App app = realm.where(App.class).equalTo("packageName", appPackage).findFirst();
+            RealmApp app = realm.where(RealmApp.class).equalTo("packageName", appPackage).findFirst();
 
             if(app != null)
             {
@@ -115,10 +115,10 @@ public class AppScanningService extends IntentService
     private ArrayList<String> getRealmAppPackages()
     {
         Realm realm = Realm.getDefaultInstance();
-        RealmResults<App> savedApps = realm.where(App.class).findAll();
+        RealmResults<RealmApp> savedApps = realm.where(RealmApp.class).findAll();
         ArrayList<String> appPackages = new ArrayList<>();
 
-        for(App app : savedApps)
+        for(RealmApp app : savedApps)
         {
             appPackages.add(app.getPackageName());
         }
