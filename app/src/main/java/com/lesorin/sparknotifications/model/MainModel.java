@@ -173,7 +173,7 @@ public class MainModel implements Contract.Model
     }
 
     @Override
-    public List<RecentApp> getRecentlyActiveApps()
+    public List<? extends RecentApp> getRecentlyActiveApps()
     {
         return AppHelper.getRecentNotifyingApps();
     }
