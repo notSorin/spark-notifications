@@ -1,58 +1,15 @@
 package com.lesorin.sparknotifications.presenter;
 
-import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import androidx.annotation.Nullable;
-import io.realm.RealmObject;
-import io.realm.annotations.Required;
 
-public class App extends RealmObject
+public interface App
 {
-    @Required
-    private String packageName;
-    private String name;
-    private boolean enabled;
-
-    public String getPackageName()
-    {
-        return packageName;
-    }
-
-    public void setPackageName(String packageName)
-    {
-        this.packageName = packageName;
-    }
-
-    public boolean getEnabled()
-    {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled)
-    {
-        this.enabled = enabled;
-    }
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-
-    @Nullable
-    public Drawable getIcon(PackageManager packageManager)
-    {
-        try
-        {
-            return packageManager.getApplicationInfo(getPackageName(), 0).loadIcon(packageManager);
-        }
-        catch(PackageManager.NameNotFoundException | NullPointerException | OutOfMemoryError e)
-        {
-            return null;
-        }
-    }
+    String getPackageName();
+    void setPackageName(String packageName);
+    boolean getEnabled();
+    void setEnabled(boolean enabled);
+    String getName();
+    void setName(String name);
+    void setIcon(Drawable icon);
+    Drawable getIcon();
 }
