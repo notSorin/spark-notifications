@@ -11,8 +11,9 @@ import android.hardware.TriggerEventListener;
 import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import com.lesorin.sparknotifications.model.AppHelper;
 import com.lesorin.sparknotifications.model.PreferencesKeys;
+import com.lesorin.sparknotifications.model.RealmApp;
+import io.realm.Realm;
 
 public class NotificationListener extends NotificationListenerService
 {
@@ -141,7 +142,7 @@ public class NotificationListener extends NotificationListenerService
     @Override
     public void onNotificationPosted(StatusBarNotification sbn)
     {
-        if(!sbn.isOngoing() && AppHelper.isAppEnabled(sbn.getPackageName()))
+        if(!sbn.isOngoing() && isAppEnabled(sbn.getPackageName()))
         {
             _lastNotifyingPackage = sbn.getPackageName();
 
@@ -160,6 +161,22 @@ public class NotificationListener extends NotificationListenerService
                         getScreenDelay(), isFullBrightnessEnabled(), isNotificationsDrawerEnabled(), getScreenTimeoutMs());
             }
         }
+    }
+
+    private boolean isAppEnabled(String packageName)
+    {
+        Realm realm = Realm.getDefaultInstance();
+        RealmApp existingApp = realm.where(RealmApp.class).equalTo("packageName", packageName).findFirst();
+        boolean enabled = false;
+
+        if(existingApp != null)
+        {
+            enabled = existingApp.getEnabled();
+        }
+
+        realm.close();
+
+        return enabled;
     }
 
     private boolean isProximitySensorEnabled()
