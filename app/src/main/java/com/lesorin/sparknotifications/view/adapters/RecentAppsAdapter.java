@@ -19,7 +19,7 @@ public class RecentAppsAdapter extends BaseAdapter
 {
     private Context _context;
     private LayoutInflater _inflater;
-    private List<RecentApp> _appsList;
+    private List<? extends RecentApp> _appsList;
     private SimpleDateFormat _dateFormat;
 
     public RecentAppsAdapter(Context context)
@@ -71,8 +71,6 @@ public class RecentAppsAdapter extends BaseAdapter
 
         final RecentApp app = _appsList.get(position);
 
-        RecentApp.fetchInformation(app, _context);
-
         if(app.isInstalled())
         {
             holder.icon.setImageDrawable(app.getIcon());
@@ -102,7 +100,7 @@ public class RecentAppsAdapter extends BaseAdapter
         return convertView;
     }
 
-    public void setApps(List<RecentApp> appsList)
+    public void setApps(List<? extends RecentApp> appsList)
     {
         _appsList = appsList;
         notifyDataSetChanged();
