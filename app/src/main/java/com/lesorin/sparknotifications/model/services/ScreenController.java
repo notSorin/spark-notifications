@@ -9,10 +9,11 @@ import android.media.AudioManager;
 import android.os.PowerManager;
 import android.os.SystemClock;
 import com.lesorin.sparknotifications.BuildConfig;
-import com.lesorin.sparknotifications.model.AppHelper;
+import com.lesorin.sparknotifications.model.RealmRecentApp;
 import com.lesorin.sparknotifications.model.receivers.DeviceAdministratorReceiver;
 import java.lang.reflect.Method;
 import java.util.concurrent.Executors;
+import io.realm.Realm;
 
 //TODO figure out where the methods from this class go.
 class ScreenController
@@ -41,7 +42,7 @@ class ScreenController
     {
         if(shouldTurnOnScreen(isProximitySensorEnabled, isObjectCoveringDevice))
         {
-            AppHelper.recordScreenWakeFromApp(packageName);
+            recordScreenWakeFromApp(packageName);
             Executors.newSingleThreadExecutor().submit(() -> turnOnScreen(screenDelay,
                     fullBrightnessEnabled, notificationsDrawerEnabled, screenTimeoutMs));
         }
@@ -51,7 +52,7 @@ class ScreenController
     {
         if(!isInCall() && !_powerManager.isScreenOn())
         {
-            AppHelper.recordScreenWakeFromApp(BuildConfig.APPLICATION_ID);
+            recordScreenWakeFromApp(BuildConfig.APPLICATION_ID);
 
             int flag = fullBrightnessEnabled ? PowerManager.SCREEN_BRIGHT_WAKE_LOCK : PowerManager.SCREEN_DIM_WAKE_LOCK;
 
@@ -60,6 +61,18 @@ class ScreenController
             wakeLock.acquire();
             wakeLock.release();
         }
+    }
+
+    private void recordScreenWakeFromApp(String packageName)
+    {
+        Realm realm = Realm.getDefaultInstance();
+        RealmRecentApp recentApp = realm.createObject(RealmRecentApp.class);
+
+        realm.beginTransaction();
+        recentApp.setPackageName(packageName);
+        recentApp.setTimestamp(System.currentTimeMillis());
+        realm.commitTransaction();
+        realm.close();
     }
 
     private void turnOnScreen(int screenDelay, boolean fullBrightnessEnabled,
