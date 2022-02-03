@@ -13,45 +13,21 @@ import android.widget.TextView;
 import androidx.appcompat.widget.SwitchCompat;
 import com.lesorin.sparknotifications.R;
 import com.lesorin.sparknotifications.presenter.App;
-import io.realm.Realm;
-import io.realm.RealmChangeListener;
-import io.realm.RealmResults;
+import java.util.ArrayList;
+import java.util.List;
 
-//TODO try to make it so the adapter doesn't need to implement RealmChangeListener.
-public class AppAdapter extends BaseAdapter implements RealmChangeListener<RealmResults<App>>, Filterable
+public class AppAdapter extends BaseAdapter implements Filterable
 {
     private Context _context;
 	private LayoutInflater _inflater;
-    private Realm _realm;
-	private RealmResults<App> _appsList;
+	private List<? extends App> _appsList;
 
 	public AppAdapter(Context context)
 	{
 		_context = context;
 		_inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		_realm = Realm.getDefaultInstance();
-
-        getApps();
+		_appsList = new ArrayList<>();
 	}
-
-    public void tearDown()
-	{
-		_realm.close();
-    }
-
-    private void getApps()
-	{
-		_appsList = _realm.where(App.class).findAll().sort("name");
-
-		_appsList.addChangeListener(this); //TODO is this call really necessary?
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public void onChange(RealmResults<App> element)
-	{
-        getApps();
-    }
 
 	@Override
 	public int getCount()
@@ -95,7 +71,7 @@ public class AppAdapter extends BaseAdapter implements RealmChangeListener<Realm
 
 		if(app != null)
 		{
-			Drawable appIcon = app.getIcon(_context.getPackageManager());
+			Drawable appIcon = app.getIcon();
 
 			if(appIcon != null)
 			{
@@ -105,9 +81,7 @@ public class AppAdapter extends BaseAdapter implements RealmChangeListener<Realm
 			holder.name.setText(app.getName());
 			holder.selected.setOnCheckedChangeListener((buttonView, isChecked) ->
 			{
-				_realm.beginTransaction();
-				app.setEnabled(isChecked);
-				_realm.commitTransaction();
+				//TODO Call main view with the app object, and let the presenter take care of the logic.
 			});
 
 			holder.selected.setChecked(app.getEnabled());
