@@ -15,7 +15,6 @@ import java.lang.reflect.Method;
 import java.util.concurrent.Executors;
 import io.realm.Realm;
 
-//TODO figure out where the methods from this class go.
 class ScreenController
 {
     private final String TAG = "Spark Notifications:";
