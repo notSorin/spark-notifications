@@ -245,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     }
 
     @Override
-    public void displayRecentlyActiveApps(List<RecentApp> appsList)
+    public void displayRecentlyActiveApps(List<? extends RecentApp> appsList)
     {
         View recentAppsView = _layoutInflater.inflate(R.layout.recent_apps_layout, null);
         ListView listView = recentAppsView.findViewById(R.id.RecentAppsList);
