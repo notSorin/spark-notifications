@@ -114,7 +114,7 @@ class ScreenController
 
     private boolean shouldTurnOnScreen(boolean isProximitySensorEnabled, boolean isObjectCoveringDevice)
     {
-        boolean turnOnScreen = !isInQuietTime() && !isInCall() && !_powerManager.isScreenOn();
+        boolean turnOnScreen = !isInQuietTime() && !isInCall() && !isScreenOn();
 
         //If the proximity sensor is enabled, only turn on the screen if an object is not close to
         //the device's screen.
@@ -124,6 +124,11 @@ class ScreenController
         }
 
         return turnOnScreen;
+    }
+
+    private boolean isScreenOn()
+    {
+        return _powerManager.isInteractive();
     }
 
     private boolean isInQuietTime()
