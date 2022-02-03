@@ -6,6 +6,8 @@ import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
 import com.lesorin.sparknotifications.presenter.Contract;
 import com.lesorin.sparknotifications.model.receivers.DeviceAdministratorReceiver;
@@ -13,6 +15,8 @@ import com.lesorin.sparknotifications.model.services.NotificationListener;
 import com.lesorin.sparknotifications.presenter.RecentApp;
 import java.util.List;
 import io.realm.Realm;
+import io.realm.RealmResults;
+import io.realm.Sort;
 
 public class MainModel implements Contract.Model
 {
@@ -175,6 +179,31 @@ public class MainModel implements Contract.Model
     @Override
     public List<? extends RecentApp> getRecentlyActiveApps()
     {
-        return AppHelper.getRecentNotifyingApps();
+        RealmResults<RealmRecentApp> recentApps = Realm.getDefaultInstance().where(RealmRecentApp.class).findAll().sort("timestamp", Sort.DESCENDING);
+
+        for(RealmRecentApp app: recentApps)
+        {
+            fetchAppInformation(app);
+        }
+
+        return recentApps;
+    }
+
+    private void fetchAppInformation(RecentApp app)
+    {
+        PackageManager packageManager = _context.getPackageManager();
+
+        try
+        {
+            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(app.getPackageName(), 0);
+
+            app.setInstalled(true);
+            app.setName((String)applicationInfo.loadLabel(packageManager));
+            app.setIcon(applicationInfo.loadIcon(packageManager));
+        }
+        catch(PackageManager.NameNotFoundException e)
+        {
+            app.setInstalled(false);
+        }
     }
 }
