@@ -161,12 +161,6 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     }
 
     @Override
-    public void fullBrightnessPreferenceChanged(boolean serviceEnabled, boolean fullBrightnessEnabled)
-    {
-        _settingsFragment.updateFullBrightness(serviceEnabled, fullBrightnessEnabled);
-    }
-
-    @Override
     public void notificationsDrawerPreferenceChanged(boolean serviceEnabled, boolean notificationsDrawerEnabled)
     {
         _settingsFragment.updateNotificationsDrawer(serviceEnabled, notificationsDrawerEnabled);
@@ -216,11 +210,6 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     public void screenDelayPreferencePressed()
     {
         _presenter.screenDelayPreferencePressed();
-    }
-
-    public void fullBrightnessPreferencePressed(boolean enabled)
-    {
-        _presenter.fullBrightnessChanged(enabled);
     }
 
     public void notificationsDrawerPreferencePressed(boolean enabled)

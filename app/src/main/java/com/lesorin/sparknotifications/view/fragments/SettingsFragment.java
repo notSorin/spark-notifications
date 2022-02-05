@@ -45,7 +45,6 @@ public class SettingsFragment extends PreferenceFragment
 
         //Options.
         initializeScreenDelay();
-        initializeFullBrightness();
         initializeNotificationsDrawer();
         initializeProximitySensor();
         initializeDetectPickUp();
@@ -135,18 +134,6 @@ public class SettingsFragment extends PreferenceFragment
         _notificationsDrawerPreference.setOnPreferenceClickListener(preference ->
         {
            _activity.notificationsDrawerPreferencePressed(_notificationsDrawerPreference.isChecked());
-
-            return true;
-        });
-    }
-
-    private void initializeFullBrightness()
-    {
-        _fullBrightnessPreference = (SwitchPreference)findPreference("FullBrightnessKey");
-
-        _fullBrightnessPreference.setOnPreferenceClickListener(preference ->
-        {
-            _activity.fullBrightnessPreferencePressed(_fullBrightnessPreference.isChecked());
 
             return true;
         });

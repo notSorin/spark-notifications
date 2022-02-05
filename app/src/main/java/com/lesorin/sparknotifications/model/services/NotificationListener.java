@@ -63,7 +63,7 @@ public class NotificationListener extends NotificationListenerService
                 unregisterProximitySensorListener(); //Remove the listener so it doesn't keep triggering.
 
                 _screenController.handleNotification(_lastNotifyingPackage, true, isObjectCoveringDevice,
-                        getScreenDelay(), isFullBrightnessEnabled(), isNotificationsDrawerEnabled(),
+                        getScreenDelay(), isNotificationsDrawerEnabled(),
                         getScreenTimeoutMs());
             }
 
@@ -77,11 +77,6 @@ public class NotificationListener extends NotificationListenerService
     private int getScreenDelay()
     {
         return _preferences.getInt(PreferencesKeys.SCREEN_ON_DELAY, 0);
-    }
-
-    private boolean isFullBrightnessEnabled()
-    {
-        return _preferences.getBoolean(PreferencesKeys.FULL_BRIGHTNESS_ENABLED, false);
     }
 
     private boolean isNotificationsDrawerEnabled()
@@ -119,7 +114,7 @@ public class NotificationListener extends NotificationListenerService
             @Override
             public void onTrigger(TriggerEvent triggerEvent)
             {
-                _screenController.handlePickup(isFullBrightnessEnabled());
+                _screenController.handlePickup();
 
                 //Need to register the listener again if the option is enabled.
                 if(isDetectDevicePickUpEnabled())
@@ -150,7 +145,7 @@ public class NotificationListener extends NotificationListenerService
             if(!isProximitySensorEnabled())
             {
                 _screenController.handleNotification(_lastNotifyingPackage, false, false,
-                        getScreenDelay(), isFullBrightnessEnabled(), isNotificationsDrawerEnabled(), getScreenTimeoutMs());
+                        getScreenDelay(), isNotificationsDrawerEnabled(), getScreenTimeoutMs());
             }
             else if(!registerProximitySensorListener())
             {
@@ -158,7 +153,7 @@ public class NotificationListener extends NotificationListenerService
                 //notification, otherwise handle the notification here as if the proximity
                 //sensor was disabled.
                 _screenController.handleNotification(_lastNotifyingPackage, false, false,
-                        getScreenDelay(), isFullBrightnessEnabled(), isNotificationsDrawerEnabled(), getScreenTimeoutMs());
+                        getScreenDelay(), isNotificationsDrawerEnabled(), getScreenTimeoutMs());
             }
         }
     }

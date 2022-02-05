@@ -28,12 +28,6 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="FullBrightnessKey"
-            android:summary="@string/FullBrightnessSummary"
-            android:title="@string/FullBrightnessTitle" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="NotificationsTrayKey"
             android:summary="@string/OpenNotificationsDrawerSummary"
             android:title="@string/OpenNotificationsDrawerTitle" />

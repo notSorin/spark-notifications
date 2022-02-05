@@ -36,26 +36,23 @@ class ScreenController
     }
 
     public void handleNotification(String packageName, boolean isProximitySensorEnabled, boolean isObjectCoveringDevice,
-                                   int screenDelay, boolean fullBrightnessEnabled, boolean notificationsDrawerEnabled,
+                                   int screenDelay, boolean notificationsDrawerEnabled,
                                    int screenTimeoutMs)
     {
         if(shouldTurnOnScreen(isProximitySensorEnabled, isObjectCoveringDevice))
         {
             recordScreenWakeFromApp(packageName);
-            Executors.newSingleThreadExecutor().submit(() -> turnOnScreen(screenDelay,
-                    fullBrightnessEnabled, notificationsDrawerEnabled, screenTimeoutMs));
+            Executors.newSingleThreadExecutor().submit(() -> turnOnScreen(screenDelay, notificationsDrawerEnabled, screenTimeoutMs));
         }
     }
 
-    public void handlePickup(boolean fullBrightnessEnabled)
+    public void handlePickup()
     {
         if(!isInCall() && !_powerManager.isScreenOn())
         {
             recordScreenWakeFromApp(BuildConfig.APPLICATION_ID);
 
-            int flag = fullBrightnessEnabled ? PowerManager.SCREEN_BRIGHT_WAKE_LOCK : PowerManager.SCREEN_DIM_WAKE_LOCK;
-
-            PowerManager.WakeLock wakeLock = _powerManager.newWakeLock(flag | PowerManager.ACQUIRE_CAUSES_WAKEUP, TAG);
+            PowerManager.WakeLock wakeLock = _powerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, TAG);
 
             wakeLock.acquire();
             wakeLock.release();
@@ -76,18 +73,16 @@ class ScreenController
         realm.close();
     }
 
-    private void turnOnScreen(int screenDelay, boolean fullBrightnessEnabled,
-                              boolean notificationsDrawerEnabled, int screenTimeoutMs)
+    private void turnOnScreen(int screenDelay, boolean notificationsDrawerEnabled, int screenTimeoutMs)
     {
         if(screenDelay > 0)
         {
             SystemClock.sleep(screenDelay * 1000L);
         }
 
-        int flag = fullBrightnessEnabled ? PowerManager.SCREEN_BRIGHT_WAKE_LOCK : PowerManager.SCREEN_DIM_WAKE_LOCK;
-        PowerManager.WakeLock wakeLock = _powerManager.newWakeLock(flag | PowerManager.ACQUIRE_CAUSES_WAKEUP, TAG);
+        PowerManager.WakeLock wakeLock = _powerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, TAG);
 
-        wakeLock.acquire();
+        wakeLock.acquire(60000L);
 
         if(notificationsDrawerEnabled)
         {
