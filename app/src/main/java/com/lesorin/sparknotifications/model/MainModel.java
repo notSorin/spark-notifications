@@ -25,6 +25,7 @@ public class MainModel implements Contract.Model
     private final SharedPreferences _preferences;
     private final DevicePolicyManager _devicePolicyManager;
     private final ComponentName _adminComponent;
+    private volatile boolean _deviceScanned;
 
     public MainModel(Context context)
     {
@@ -32,9 +33,24 @@ public class MainModel implements Contract.Model
         _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
         _devicePolicyManager = (DevicePolicyManager)_context.getSystemService(Context.DEVICE_POLICY_SERVICE);
         _adminComponent = new ComponentName(_context, DeviceAdministratorReceiver.class);
+        _deviceScanned = false;
 
         Realm.init(_context);
+        launchAppScanner();
+    }
 
+    /**
+     * Launches an @AppsScanner on a separate thread.
+     */
+    private void launchAppScanner()
+    {
+        Executors.newSingleThreadExecutor().submit(() ->
+        {
+            AppsScanner as = new AppsScanner(_context.getPackageManager());
+
+            as.scanAppsOnDevice();
+            _deviceScanned = true;
+        });
     }
 
     public void setPresenter(Contract.PresenterModel presenter)
