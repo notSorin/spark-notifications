@@ -66,7 +66,16 @@ public class AppAdapter extends BaseAdapter implements Filterable
 
 			holder.icon.setOnClickListener(view -> holder.selected.setChecked(!holder.selected.isChecked()));
 			holder.clickableArea.setOnClickListener(view -> holder.selected.setChecked(!holder.selected.isChecked()));
-			holder.selected.setOnCheckedChangeListener((buttonView, isChecked) -> ((MainActivity)_context).appStateChanged(_appsList.get(position), isChecked));
+			holder.selected.setOnCheckedChangeListener((buttonView, isChecked) ->
+			{
+				try
+				{
+					((MainActivity)_context).appStateChanged(_appsList.get(position), isChecked);
+				}
+				catch(Exception ignored)
+				{
+				}
+			});
 			convertView.setTag(holder);
 		}
 		else
