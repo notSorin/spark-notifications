@@ -20,13 +20,14 @@ import java.util.List;
 public class AppAdapter extends BaseAdapter implements Filterable
 {
 	private LayoutInflater _inflater;
-	private List<? extends App> _appsList;
+	private List<? extends App> _originalAppsList, _appsList;
 	private Context _context;
 
 	public AppAdapter(Context context)
 	{
 		_context = context;
 		_inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		_originalAppsList = new ArrayList<>();
 		_appsList = new ArrayList<>();
 	}
 
@@ -58,9 +59,14 @@ public class AppAdapter extends BaseAdapter implements Filterable
 			convertView = _inflater.inflate(R.layout.app_layout, null);
 			holder = new ViewHolder();
 			holder.icon = convertView.findViewById(R.id.AppIcon);
-			holder.name = convertView.findViewById(R.id.AppName);
+			holder.appName = convertView.findViewById(R.id.AppName);
+			holder.packageName = convertView.findViewById(R.id.PackageName);
 			holder.selected = convertView.findViewById(R.id.AppEnabled);
+			holder.clickableArea = convertView.findViewById(R.id.ClickableArea);
 
+			holder.icon.setOnClickListener(view -> holder.selected.setChecked(!holder.selected.isChecked()));
+			holder.clickableArea.setOnClickListener(view -> holder.selected.setChecked(!holder.selected.isChecked()));
+			holder.selected.setOnCheckedChangeListener((buttonView, isChecked) -> ((MainActivity)_context).appStateChanged(_appsList.get(position), isChecked));
 			convertView.setTag(holder);
 		}
 		else
@@ -79,9 +85,8 @@ public class AppAdapter extends BaseAdapter implements Filterable
 				holder.icon.setImageDrawable(appIcon);
 			}
 
-			holder.name.setText(app.getName());
-			holder.selected.setOnCheckedChangeListener((buttonView, isChecked) ->
-					((MainActivity)_context).appStateChanged(_appsList.get(position), isChecked));
+			holder.appName.setText(app.getName());
+			holder.packageName.setText(app.getPackageName());
 			holder.selected.setChecked(app.getEnabled());
 		}
 		
@@ -96,53 +101,51 @@ public class AppAdapter extends BaseAdapter implements Filterable
 			@Override
 			protected FilterResults performFiltering(CharSequence constraint)
 			{
-				//todo
-				/*FilterResults results = new FilterResults();        // Holds the results of a filtering operation in values
-				List<String> FilteredArrList = new ArrayList<String>();
+				FilterResults results = new FilterResults(); // Holds the results of a filtering operation in values
 
-				if (mOriginalValues == null) {
-					mOriginalValues = new ArrayList<String>(arrayList); // saves the original data in mOriginalValues
+				if(constraint == null || constraint.length() == 0)
+				{
+					results.values = _originalAppsList;
+					results.count = _originalAppsList.size();
 				}
-
-				 *
-				 *  If constraint(CharSequence that is received) is null returns the mOriginalValues(Original) values
-				 *  else does the Filtering and returns FilteredArrList(Filtered)
-				 *
-				if (constraint == null || constraint.length() == 0) {
-
-					// set the Original result to return
-					results.count = mOriginalValues.size();
-					results.values = mOriginalValues;
-				} else {
+				else
+				{
 					constraint = constraint.toString().toLowerCase();
-					for (int i = 0; i < mOriginalValues.size(); i++) {
-						String data = mOriginalValues.get(i);
-						if (data.toLowerCase().startsWith(constraint.toString())) {
-							FilteredArrList.add(data);
+
+					List<App> filteredValues = new ArrayList<>();
+
+					for(App app : _originalAppsList)
+					{
+						String appName = app.getName().toLowerCase();
+						String packageName = app.getPackageName().toLowerCase();
+
+						if(appName.contains(constraint) || packageName.contains(constraint))
+						{
+							filteredValues.add(app);
 						}
 					}
-					// set the Filtered result to return
-					results.count = FilteredArrList.size();
-					results.values = FilteredArrList;
+
+					results.values = filteredValues;
+					results.count = filteredValues.size();
 				}
 
-				return results;*/
-				return null;
+				return results;
 			}
 
 			@Override
 			protected void publishResults(CharSequence constraint, FilterResults results)
 			{
-				//todo
-				/*arrayList = (List<String>) results.values; // has the filtered values
-				notifyDataSetChanged();  // notifies the data with new filtered values*/
+				_appsList = (List<App>)results.values;
+
+				notifyDataSetChanged();
 			}
 		};
 	}
 
 	public void setApps(List<? extends App> appsList)
 	{
-		_appsList = appsList;
+		_originalAppsList = appsList;
+		_appsList = _originalAppsList;
 
 		notifyDataSetChanged();
 	}
@@ -150,7 +153,8 @@ public class AppAdapter extends BaseAdapter implements Filterable
 	private class ViewHolder
 	{
 		ImageView icon;
-		TextView name;
+		TextView appName, packageName;
 		SwitchCompat selected;
+		View clickableArea;
 	}
 }
