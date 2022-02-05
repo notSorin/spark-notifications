@@ -275,6 +275,8 @@ public class MainModel implements Contract.Model
 
     private void fetchAppIcon(RealmApp app)
     {
+        app.setIcon(null);
+
         try
         {
             PackageManager pm = _context.getPackageManager();
