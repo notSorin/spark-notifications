@@ -1,5 +1,7 @@
 package com.lesorin.sparknotifications.presenter;
 
+import java.util.List;
+
 public class MainPresenter implements Contract.PresenterView, Contract.PresenterModel
 {
     private final int MIN_SCREEN_TIMEOUT = 3, MAX_SCREEN_TIMEOUT = 30;
@@ -147,11 +149,37 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
     @Override
     public void recentActivityPreferencePressed()
     {
-        _view.displayRecentlyActiveApps(_model.getRecentlyActiveApps());
+        _view.displayLoadingRecentActivityDialog();
+        _model.requestRecentlyActiveApps();
+    }
+
+    @Override
+    public void allAppsPreferencePressed()
+    {
+        _view.displayLoadingAppsDialog();
+        _model.requestAllApps();
+    }
+
+    @Override
+    public void appStateChanged(App app, boolean enabled)
+    {
+        _model.appStateChanged(app, enabled);
     }
 
     public void setModel(Contract.Model model)
     {
         _model = model;
+    }
+
+    @Override
+    public void responseRecentlyActiveApps(List<? extends RecentApp> appsList)
+    {
+        _view.displayRecentlyActiveApps(appsList);
+    }
+
+    @Override
+    public void responseAllApps(List<? extends App> appsList)
+    {
+        _view.displayAllApps(appsList);
     }
 }
