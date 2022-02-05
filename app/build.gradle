@@ -5,12 +5,12 @@ plugins {
 apply plugin: 'realm-android'
 
 android {
-    compileSdk 29 //Don't change; last supported version for this app will be Android 10.
+    compileSdk 30 //Don't change; last supported version for this app will be Android 10.
 
     defaultConfig {
         applicationId "com.lesorin.sparknotifications"
         minSdkVersion 22
-        targetSdkVersion 29 //Don't change; last supported version for this app will be Android 10.
+        targetSdkVersion 30 //Don't change; last supported version for this app will be Android 10.
         versionCode 1
         versionName "1.0.0"
     }
