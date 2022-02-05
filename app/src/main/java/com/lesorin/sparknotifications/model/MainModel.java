@@ -8,12 +8,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
+import com.lesorin.sparknotifications.presenter.App;
 import com.lesorin.sparknotifications.presenter.Contract;
 import com.lesorin.sparknotifications.model.receivers.DeviceAdministratorReceiver;
 import com.lesorin.sparknotifications.model.services.NotificationListener;
 import com.lesorin.sparknotifications.presenter.RecentApp;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
@@ -193,33 +197,117 @@ public class MainModel implements Contract.Model
     }
 
     @Override
-    public List<? extends RecentApp> getRecentlyActiveApps()
+    public void requestRecentlyActiveApps()
     {
-        RealmResults<RealmRecentApp> recentApps = Realm.getDefaultInstance().where(RealmRecentApp.class).findAll().sort("timestamp", Sort.DESCENDING);
+        //Do it on a separate thread as it might take a while...
+        Executors.newSingleThreadExecutor().submit(() -> _presenter.responseRecentlyActiveApps(queryRecentlyActiveApps()));
+    }
+
+    private ArrayList<RealmRecentApp> queryRecentlyActiveApps()
+    {
+        ArrayList<RealmRecentApp> apps = new ArrayList<>();
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<RealmRecentApp> recentApps = realm.where(RealmRecentApp.class).findAll().sort("timestamp", Sort.DESCENDING);
 
         for(RealmRecentApp app: recentApps)
         {
-            fetchAppInformation(app);
+            RealmRecentApp appCopy = realm.copyFromRealm(app);
+
+            fetchRecentAppInformation(appCopy);
+            apps.add(appCopy);
         }
 
-        return recentApps;
+        realm.close();
+
+        return apps;
     }
 
-    private void fetchAppInformation(RecentApp app)
+    private void fetchRecentAppInformation(RecentApp app)
     {
-        PackageManager packageManager = _context.getPackageManager();
-
         try
         {
+            PackageManager packageManager = _context.getPackageManager();
             ApplicationInfo applicationInfo = packageManager.getApplicationInfo(app.getPackageName(), 0);
 
             app.setInstalled(true);
             app.setName((String)applicationInfo.loadLabel(packageManager));
             app.setIcon(applicationInfo.loadIcon(packageManager));
         }
-        catch(PackageManager.NameNotFoundException e)
+        catch(Exception ignored)
         {
             app.setInstalled(false);
+        }
+    }
+
+    @Override
+    public void requestAllApps()
+    {
+        //Do it on a separate thread as it might take a while...
+        Executors.newSingleThreadExecutor().submit(() ->
+        {
+            //Wait until the apps on the device have been scanned.
+            while(!_deviceScanned)
+            {
+                try
+                {
+                    Thread.sleep(1000);
+                }
+                catch(Exception ignored)
+                {
+                }
+            }
+
+            _presenter.responseAllApps(queryAllApps());
+        });
+    }
+
+    @Override
+    public void appStateChanged(App app, boolean enabled)
+    {
+        Realm realm = Realm.getDefaultInstance();
+        RealmApp realmApp = realm.where(RealmApp.class).equalTo("packageName", app.getPackageName()).findFirst();
+
+        if(realmApp != null)
+        {
+            realm.beginTransaction();
+            realmApp.setEnabled(enabled);
+            realm.commitTransaction();
+            app.setEnabled(enabled);
+        }
+
+        realm.close();
+    }
+
+    private ArrayList<RealmApp> queryAllApps()
+    {
+        ArrayList<RealmApp> apps = new ArrayList<>();
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<RealmApp> realmApps = realm.where(RealmApp.class).findAll().sort("name");
+
+        for(RealmApp realmApp: realmApps)
+        {
+            RealmApp appCopy = realm.copyFromRealm(realmApp);
+
+            fetchAppIcon(appCopy);
+            apps.add(appCopy);
+        }
+
+        realm.close();
+
+        return apps;
+    }
+
+    private void fetchAppIcon(RealmApp app)
+    {
+        try
+        {
+            PackageManager pm = _context.getPackageManager();
+            Drawable appIcon = pm.getApplicationInfo(app.getPackageName(), 0).loadIcon(pm);
+
+            app.setIcon(appIcon);
+        }
+        catch(Exception ignored)
+        {
         }
     }
 }
