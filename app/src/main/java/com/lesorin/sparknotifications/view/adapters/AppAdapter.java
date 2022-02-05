@@ -13,19 +13,20 @@ import android.widget.TextView;
 import androidx.appcompat.widget.SwitchCompat;
 import com.lesorin.sparknotifications.R;
 import com.lesorin.sparknotifications.presenter.App;
+import com.lesorin.sparknotifications.view.activities.MainActivity;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AppAdapter extends BaseAdapter implements Filterable
 {
-    private Context _context;
 	private LayoutInflater _inflater;
 	private List<? extends App> _appsList;
+	private Context _context;
 
 	public AppAdapter(Context context)
 	{
 		_context = context;
-		_inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		_inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		_appsList = new ArrayList<>();
 	}
 
@@ -80,10 +81,7 @@ public class AppAdapter extends BaseAdapter implements Filterable
 
 			holder.name.setText(app.getName());
 			holder.selected.setOnCheckedChangeListener((buttonView, isChecked) ->
-			{
-				//TODO Call main view with the app object, and let the presenter take care of the logic.
-			});
-
+					((MainActivity)_context).appStateChanged(_appsList.get(position), isChecked));
 			holder.selected.setChecked(app.getEnabled());
 		}
 		
@@ -140,6 +138,13 @@ public class AppAdapter extends BaseAdapter implements Filterable
 				notifyDataSetChanged();  // notifies the data with new filtered values*/
 			}
 		};
+	}
+
+	public void setApps(List<? extends App> appsList)
+	{
+		_appsList = appsList;
+
+		notifyDataSetChanged();
 	}
 
 	private class ViewHolder
