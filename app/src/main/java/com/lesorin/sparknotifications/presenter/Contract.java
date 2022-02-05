@@ -21,11 +21,15 @@ public interface Contract
         void detectPickUpPreferenceChanged(boolean enabled);
         void quietHoursPreferenceChanged(boolean enabled);
         void recentActivityPreferencePressed();
+        void allAppsPreferencePressed();
+        void appStateChanged(App app, boolean enabled);
     }
 
     interface PresenterModel
     {
         void setModel(Model model);
+        void responseRecentlyActiveApps(List<? extends RecentApp> appsList);
+        void responseAllApps(List<? extends App> appsList);
     }
 
     interface View
@@ -56,6 +60,9 @@ public interface Contract
         void openScreenTimeoutNumberPicker(int screenTimeoutValue, int minValue, int maxValue);
         void openScreenDelayNumberPicker(int screenDelayValue, int minValue, int maxValue);
         void displayRecentlyActiveApps(List<? extends RecentApp> appsList);
+        void displayAllApps(List<? extends App> appsList);
+        void displayLoadingAppsDialog();
+        void displayLoadingRecentActivityDialog();
     }
 
     interface Model
@@ -81,6 +88,8 @@ public interface Contract
         boolean isQuietHoursEnabled(boolean defaultValue);
         String getQuietHoursStart(String defaultValue);
         String getQuietHoursStop(String defaultValue);
-        List<? extends RecentApp> getRecentlyActiveApps();
+        void requestRecentlyActiveApps();
+        void requestAllApps();
+        void appStateChanged(App app, boolean enabled);
     }
 }
