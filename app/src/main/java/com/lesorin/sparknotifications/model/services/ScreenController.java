@@ -11,7 +11,6 @@ import android.os.SystemClock;
 import com.lesorin.sparknotifications.BuildConfig;
 import com.lesorin.sparknotifications.model.RealmRecentApp;
 import com.lesorin.sparknotifications.model.receivers.DeviceAdministratorReceiver;
-import java.lang.reflect.Method;
 import java.util.concurrent.Executors;
 import io.realm.Realm;
 
@@ -25,6 +24,7 @@ class ScreenController
     private final KeyguardManager _keyguardManager;
     private final AudioManager _audioManager;
 
+    @SuppressLint("WrongConstant")
     public ScreenController(Context context)
     {
         _context = context;
@@ -36,13 +36,12 @@ class ScreenController
     }
 
     public void handleNotification(String packageName, boolean isProximitySensorEnabled, boolean isObjectCoveringDevice,
-                                   int screenDelay, boolean notificationsDrawerEnabled,
-                                   int screenTimeoutMs)
+                                   int screenDelay, int screenTimeoutMs)
     {
         if(shouldTurnOnScreen(isProximitySensorEnabled, isObjectCoveringDevice))
         {
             recordScreenWakeFromApp(packageName);
-            Executors.newSingleThreadExecutor().submit(() -> turnOnScreen(screenDelay, notificationsDrawerEnabled, screenTimeoutMs));
+            Executors.newSingleThreadExecutor().submit(() -> turnOnScreen(screenDelay, screenTimeoutMs));
         }
     }
 
@@ -73,7 +72,7 @@ class ScreenController
         realm.close();
     }
 
-    private void turnOnScreen(int screenDelay, boolean notificationsDrawerEnabled, int screenTimeoutMs)
+    private void turnOnScreen(int screenDelay, int screenTimeoutMs)
     {
         if(screenDelay > 0)
         {
@@ -84,11 +83,6 @@ class ScreenController
 
         wakeLock.acquire(60000L);
 
-        if(notificationsDrawerEnabled)
-        {
-            expandStatusBar();
-        }
-
         if(_devicePolicyManager.isAdminActive(_adminComponent) && isDeviceLocked())
         {
             SystemClock.sleep(screenTimeoutMs);
@@ -98,21 +92,6 @@ class ScreenController
         else
         {
             wakeLock.release();
-        }
-    }
-
-    private void expandStatusBar()
-    {
-        try
-        {
-            @SuppressLint("WrongConstant") Object statusBarService = _context.getSystemService("statusbar");
-            Class<?> statusBarManager = Class.forName("android.app.StatusBarManager");
-            Method showStatusBar = statusBarManager.getMethod("expandNotificationsPanel");
-
-            showStatusBar.invoke(statusBarService);
-        }
-        catch(Exception ignored)
-        {
         }
     }
 

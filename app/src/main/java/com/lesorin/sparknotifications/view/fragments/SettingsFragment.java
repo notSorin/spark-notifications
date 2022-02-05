@@ -45,7 +45,6 @@ public class SettingsFragment extends PreferenceFragment
 
         //Options.
         initializeScreenDelay();
-        initializeNotificationsDrawer();
         initializeProximitySensor();
         initializeDetectPickUp();
         initializeQuietHours();
@@ -122,18 +121,6 @@ public class SettingsFragment extends PreferenceFragment
         _proximitySensorPreference.setOnPreferenceClickListener(preference ->
         {
            _activity.proximitySensorPreferencePressed(_proximitySensorPreference.isChecked());
-
-            return true;
-        });
-    }
-
-    private void initializeNotificationsDrawer()
-    {
-        _notificationsDrawerPreference = (SwitchPreference)findPreference("NotificationsTrayKey");
-
-        _notificationsDrawerPreference.setOnPreferenceClickListener(preference ->
-        {
-           _activity.notificationsDrawerPreferencePressed(_notificationsDrawerPreference.isChecked());
 
             return true;
         });

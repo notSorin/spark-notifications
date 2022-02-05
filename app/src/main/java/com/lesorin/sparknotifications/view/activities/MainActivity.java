@@ -161,12 +161,6 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     }
 
     @Override
-    public void notificationsDrawerPreferenceChanged(boolean serviceEnabled, boolean notificationsDrawerEnabled)
-    {
-        _settingsFragment.updateNotificationsDrawer(serviceEnabled, notificationsDrawerEnabled);
-    }
-
-    @Override
     public void proximitySensorPreferenceChanged(boolean serviceEnabled, boolean proximitySensorEnabled)
     {
         _settingsFragment.updateProximitySensor(serviceEnabled, proximitySensorEnabled);
@@ -210,11 +204,6 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     public void screenDelayPreferencePressed()
     {
         _presenter.screenDelayPreferencePressed();
-    }
-
-    public void notificationsDrawerPreferencePressed(boolean enabled)
-    {
-        _presenter.notificationsDrawerChanged(enabled);
     }
 
     public void proximitySensorPreferencePressed(boolean enabled)

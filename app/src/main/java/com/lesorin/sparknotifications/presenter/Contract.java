@@ -15,7 +15,6 @@ public interface Contract
         void screenTimeoutChanged(int value);
         void screenDelayPreferencePressed();
         void screenDelayChanged(int value);
-        void notificationsDrawerChanged(boolean enabled);
         void proximitySensorPreferenceChanged(boolean enabled);
         void detectPickUpPreferenceChanged(boolean enabled);
         void quietHoursPreferenceChanged(boolean enabled);
@@ -39,7 +38,6 @@ public interface Contract
 
         //Options preferences changes.
         void screenDelayPreferenceChanged(boolean serviceEnabled, int screenDelayValue);
-        void notificationsDrawerPreferenceChanged(boolean serviceEnabled, boolean notificationsDrawerEnabled);
         void proximitySensorPreferenceChanged(boolean serviceEnabled, boolean proximitySensorEnabled);
         void detectPickUpPreferenceChanged(boolean serviceEnabled, boolean detectPickUpEnabled);
         void quietHoursPreferenceChanged(boolean serviceEnabled, boolean quietHoursEnabled);
@@ -74,8 +72,6 @@ public interface Contract
         void setScreenTimeoutValue(int value);
         int getScreenDelayValue(int defaultValue);
         void setScreenDelayValue(int value);
-        void setNotificationsDrawerValue(boolean enabled);
-        boolean isNotificationsDrawerEnabled(boolean defaultValue);
         void setProximitySensorValue(boolean enabled);
         boolean isProximitySensorEnabled(boolean defaultValue);
         void setDetectPickUpValue(boolean enabled);

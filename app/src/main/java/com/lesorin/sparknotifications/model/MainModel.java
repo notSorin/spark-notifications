@@ -125,18 +125,6 @@ public class MainModel implements Contract.Model
     }
 
     @Override
-    public void setNotificationsDrawerValue(boolean enabled)
-    {
-        _preferences.edit().putBoolean(PreferencesKeys.NOTIFICATIONS_DRAWER_ENABLED, enabled).apply();
-    }
-
-    @Override
-    public boolean isNotificationsDrawerEnabled(boolean defaultValue)
-    {
-        return _preferences.getBoolean(PreferencesKeys.NOTIFICATIONS_DRAWER_ENABLED, defaultValue);
-    }
-
-    @Override
     public void setProximitySensorValue(boolean enabled)
     {
         _preferences.edit().putBoolean(PreferencesKeys.PROXIMITY_SENSOR_ENABLED, enabled).apply();

@@ -27,12 +27,6 @@
             android:title="@string/ScreenOnDelayTitle" />
 
         <SwitchPreference
-            android:defaultValue="false"
-            android:key="NotificationsTrayKey"
-            android:summary="@string/OpenNotificationsDrawerSummary"
-            android:title="@string/OpenNotificationsDrawerTitle" />
-
-        <SwitchPreference
             android:defaultValue="true"
             android:key="ProximitySensorKey"
             android:summary="@string/ProximitySensorSummary"

@@ -46,7 +46,6 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
 
         //Set option-related preferences.
         _view.screenDelayPreferenceChanged(serviceEnabled, _model.getScreenDelayValue(MIN_SCREEN_DELAY));
-        _view.notificationsDrawerPreferenceChanged(serviceEnabled, _model.isNotificationsDrawerEnabled(false));
         _view.proximitySensorPreferenceChanged(serviceEnabled, _model.isProximitySensorEnabled(true));
         _view.detectPickUpPreferenceChanged(serviceEnabled, _model.isDetectPickUpEnabled(false));
 
@@ -108,12 +107,6 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
             _model.setScreenDelayValue(value);
             _view.screenDelayPreferenceChanged(_model.isNotificationsServiceEnabled(), value);
         }
-    }
-
-    @Override
-    public void notificationsDrawerChanged(boolean enabled)
-    {
-        _model.setNotificationsDrawerValue(enabled);
     }
 
     @Override
