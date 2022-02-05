@@ -8,6 +8,8 @@
         android:id="@+id/SearchFilter"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_margin="12dp"
+        android:hint="@string/SearchApp"
         android:inputType="text" />
 
     <ListView

@@ -23,8 +23,10 @@
     <string name="uncheck_all">Uncheck all</string>
     <string name="loading">Loading. Please wait...</string>
     <string name="NotificationTime">%s (%s)</string>
-
-    <string name="set">Set</string>
+    <string name="IUnderstand">I understand</string>
+    <string name="Notice">Notice</string>
+    <string name="Set">Set</string>
+    <string name="SearchApp">Search for an app</string>
 
     <string name="market_description">
         A very simple app that turns your screen on for a specified period time when you get a notification. 
@@ -44,6 +46,7 @@
     <!--Preferences Categories-->
     <string name="PreferenceCategoryService">Service</string>
     <string name="PreferenceCategoryOptions">Options</string>
+    <string name="PreferenceCategoryAdminOptions">Administrator Options</string>
     <string name="PreferenceCategoryOther">Other</string>
 
     <!--Preferences-->
@@ -108,8 +111,4 @@
     <string name="DonateSummary">Donate to help support the app\'s development.</string>
 
     <string name="VersionTitle">App Version</string>
-    <string name="IUnderstand">I understand</string>
-    <string name="Notice">Notice</string>
-    <string name="PreferenceCategoryAdminOptions">Administrator Options</string>
-    <string name="Set">Set</string>
 </resources>
