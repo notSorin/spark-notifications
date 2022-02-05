@@ -64,18 +64,6 @@ public class AppAdapter extends BaseAdapter implements Filterable
 			holder.appEnabled = convertView.findViewById(R.id.AppEnabled);
 			holder.clickableArea = convertView.findViewById(R.id.ClickableArea);
 
-			holder.icon.setOnClickListener(view -> holder.selected.setChecked(!holder.selected.isChecked()));
-			holder.clickableArea.setOnClickListener(view -> holder.selected.setChecked(!holder.selected.isChecked()));
-			holder.selected.setOnCheckedChangeListener((buttonView, isChecked) ->
-			{
-				try
-				{
-					((MainActivity)_context).appStateChanged(_appsList.get(position), isChecked);
-				}
-				catch(Exception ignored)
-				{
-				}
-			});
 			convertView.setTag(holder);
 		}
 		else
@@ -96,10 +84,32 @@ public class AppAdapter extends BaseAdapter implements Filterable
 
 			holder.appName.setText(app.getName());
 			holder.packageName.setText(app.getPackageName());
-			holder.selected.setChecked(app.getEnabled());
+			holder.appEnabled.setChecked(app.getEnabled());
+			holder.icon.setOnClickListener(view ->
+			{
+				holder.appEnabled.setChecked(!holder.appEnabled.isChecked());
+				appStateChanged(position, holder.appEnabled.isChecked());
+			});
+			holder.clickableArea.setOnClickListener(view ->
+			{
+				holder.appEnabled.setChecked(!holder.appEnabled.isChecked());
+				appStateChanged(position, holder.appEnabled.isChecked());
+			});
+			holder.appEnabled.setOnClickListener(view -> appStateChanged(position, holder.appEnabled.isChecked()));
 		}
 		
 		return convertView;
+	}
+
+	private void appStateChanged(int position, boolean appEnabled)
+	{
+		try
+		{
+			((MainActivity)_context).appStateChanged(_appsList.get(position), appEnabled);
+		}
+		catch(Exception ignored)
+		{
+		}
 	}
 
 	@Override
