@@ -65,9 +65,11 @@ class ScreenController
     private void recordScreenWakeFromApp(String packageName)
     {
         Realm realm = Realm.getDefaultInstance();
-        RealmRecentApp recentApp = realm.createObject(RealmRecentApp.class);
 
         realm.beginTransaction();
+
+        RealmRecentApp recentApp = realm.createObject(RealmRecentApp.class);
+
         recentApp.setPackageName(packageName);
         recentApp.setTimestamp(System.currentTimeMillis());
         realm.commitTransaction();
