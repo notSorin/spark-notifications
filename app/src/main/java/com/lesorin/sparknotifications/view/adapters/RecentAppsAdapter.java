@@ -25,7 +25,7 @@ public class RecentAppsAdapter extends BaseAdapter
     public RecentAppsAdapter(Context context)
     {
         _context = context;
-        _inflater = (LayoutInflater)_context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        _inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         _dateFormat = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
         _appsList = new ArrayList<>();
     }
@@ -103,6 +103,7 @@ public class RecentAppsAdapter extends BaseAdapter
     public void setApps(List<? extends RecentApp> appsList)
     {
         _appsList = appsList;
+
         notifyDataSetChanged();
     }
 
