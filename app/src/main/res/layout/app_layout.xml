@@ -41,7 +41,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
     </LinearLayout>
 
-    <androidx.appcompat.widget.SwitchCompat
+    <CheckBox
         android:id="@+id/AppEnabled"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -6,11 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import androidx.appcompat.widget.SwitchCompat;
 import com.lesorin.sparknotifications.R;
 import com.lesorin.sparknotifications.presenter.App;
 import com.lesorin.sparknotifications.view.activities.MainActivity;
@@ -61,7 +61,7 @@ public class AppAdapter extends BaseAdapter implements Filterable
 			holder.icon = convertView.findViewById(R.id.AppIcon);
 			holder.appName = convertView.findViewById(R.id.AppName);
 			holder.packageName = convertView.findViewById(R.id.PackageName);
-			holder.selected = convertView.findViewById(R.id.AppEnabled);
+			holder.appEnabled = convertView.findViewById(R.id.AppEnabled);
 			holder.clickableArea = convertView.findViewById(R.id.ClickableArea);
 
 			holder.icon.setOnClickListener(view -> holder.selected.setChecked(!holder.selected.isChecked()));
@@ -163,7 +163,7 @@ public class AppAdapter extends BaseAdapter implements Filterable
 	{
 		ImageView icon;
 		TextView appName, packageName;
-		SwitchCompat selected;
+		CheckBox appEnabled;
 		View clickableArea;
 	}
 }
