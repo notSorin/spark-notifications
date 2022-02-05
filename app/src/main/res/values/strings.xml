@@ -27,6 +27,7 @@
     <string name="Notice">Notice</string>
     <string name="Set">Set</string>
     <string name="SearchApp">Search for an app</string>
+    <string name="PackageName">Package Name</string>
 
     <string name="market_description">
         A very simple app that turns your screen on for a specified period time when you get a notification. 
