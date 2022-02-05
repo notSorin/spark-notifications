@@ -112,4 +112,5 @@
     <string name="DonateSummary">Donate to help support the app\'s development.</string>
 
     <string name="VersionTitle">App Version</string>
+    <string name="Close">Close</string>
 </resources>

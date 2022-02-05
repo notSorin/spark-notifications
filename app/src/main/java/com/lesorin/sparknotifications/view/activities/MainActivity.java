@@ -243,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View
 
             dialogBuilder.setTitle(R.string.RecentAppsTitle);
             dialogBuilder.setView(recentAppsView);
-            dialogBuilder.setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {});
+            dialogBuilder.setPositiveButton(R.string.Close, (dialog, whichButton) -> {});
             dialogBuilder.show();
             _progressDialog.dismiss();
         });
@@ -290,7 +290,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View
 
             dialogBuilder.setTitle(R.string.EnabledAppsTitle);
             dialogBuilder.setView(appsView);
-            dialogBuilder.setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {});
+            dialogBuilder.setPositiveButton(R.string.Close, (dialog, whichButton) -> {});
             dialogBuilder.show();
             _progressDialog.dismiss();
         });
