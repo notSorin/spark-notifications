@@ -1,6 +1,7 @@
 package com.lesorin.sparknotifications.view.activities;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.widget.NumberPicker;
 import androidx.appcompat.app.AppCompatActivity;
 import com.lesorin.sparknotifications.MainApplication;
 import com.lesorin.sparknotifications.R;
+import com.lesorin.sparknotifications.presenter.App;
 import com.lesorin.sparknotifications.presenter.Contract;
 import com.lesorin.sparknotifications.presenter.RecentApp;
 import com.lesorin.sparknotifications.view.adapters.AppAdapter;
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     private Contract.PresenterView _presenter;
     private SettingsFragment _settingsFragment;
     private LayoutInflater _layoutInflater;
+    private ProgressDialog _progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View
 
         _layoutInflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
         _settingsFragment = (SettingsFragment)getFragmentManager().findFragmentById(R.id.SettingsFragment);
+        _progressDialog = new ProgressDialog(this);
     }
 
     @Override
@@ -247,34 +251,45 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     @Override
     public void displayRecentlyActiveApps(List<? extends RecentApp> appsList)
     {
-        View recentAppsView = _layoutInflater.inflate(R.layout.recent_apps_layout, null);
-        ListView listView = recentAppsView.findViewById(R.id.RecentAppsList);
-        RecentAppsAdapter raa = new RecentAppsAdapter(this);
+        runOnUiThread(() ->
+        {
+            View recentAppsView = _layoutInflater.inflate(R.layout.recent_apps_layout, null);
+            ListView listView = recentAppsView.findViewById(R.id.RecentAppsList);
+            RecentAppsAdapter raa = new RecentAppsAdapter(this);
 
-        raa.setApps(appsList);
-        listView.setAdapter(raa);
-        listView.setEmptyView(recentAppsView.findViewById(R.id.NoRecentAppsText));
+            raa.setApps(appsList);
+            listView.setAdapter(raa);
+            listView.setEmptyView(recentAppsView.findViewById(R.id.NoRecentAppsText));
 
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 
-        dialogBuilder.setTitle(R.string.RecentAppsTitle);
-        dialogBuilder.setView(recentAppsView);
-        dialogBuilder.setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {});
-        dialogBuilder.show();
+            dialogBuilder.setTitle(R.string.RecentAppsTitle);
+            dialogBuilder.setView(recentAppsView);
+            dialogBuilder.setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {});
+            dialogBuilder.show();
+            _progressDialog.dismiss();
+        });
     }
 
     public void enabledAppsPreferencePressed()
     {
-        //TODO call the presenter and create the dialog with the apps in another method,
-        // and figure out when the apps need to be queried in Realm...
-        View appsView = _layoutInflater.inflate(R.layout.apps_layout, null);
-        ListView listView = appsView.findViewById(R.id.AppsList);
-        EditText searchFilter = appsView.findViewById(R.id.SearchFilter);
-        AppAdapter appAdapter = new AppAdapter(this);
+        _presenter.allAppsPreferencePressed();
+    }
 
-        listView.setAdapter(appAdapter);
+    @Override
+    public void displayAllApps(List<? extends App> appsList)
+    {
+        runOnUiThread(() ->
+        {
+            View appsView = _layoutInflater.inflate(R.layout.apps_layout, null);
+            ListView listView = appsView.findViewById(R.id.AppsList);
+            EditText searchFilter = appsView.findViewById(R.id.SearchFilter);
+            AppAdapter appAdapter = new AppAdapter(this);
 
-        searchFilter.addTextChangedListener(new TextWatcher()
+            appAdapter.setApps(appsList);
+            listView.setAdapter(appAdapter);
+
+            searchFilter.addTextChangedListener(new TextWatcher()
             {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after)
@@ -293,11 +308,36 @@ public class MainActivity extends AppCompatActivity implements Contract.View
                 }
             });
 
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 
-        dialogBuilder.setTitle(R.string.EnabledAppsTitle);
-        dialogBuilder.setView(appsView);
-        dialogBuilder.setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {});
-        dialogBuilder.show();
+            dialogBuilder.setTitle(R.string.EnabledAppsTitle);
+            dialogBuilder.setView(appsView);
+            dialogBuilder.setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {});
+            dialogBuilder.show();
+            _progressDialog.dismiss();
+        });
+    }
+
+    @Override
+    public void displayLoadingAppsDialog()
+    {
+        _progressDialog.setTitle("Loading Apps");
+        _progressDialog.setMessage("Please wait...");
+        _progressDialog.setCancelable(false);
+        _progressDialog.show();
+    }
+
+    @Override
+    public void displayLoadingRecentActivityDialog()
+    {
+        _progressDialog.setTitle("Loading Recent Activity");
+        _progressDialog.setMessage("Please wait...");
+        _progressDialog.setCancelable(false);
+        _progressDialog.show();
+    }
+
+    public void appStateChanged(App app, boolean enabled)
+    {
+        _presenter.appStateChanged(app, enabled);
     }
 }
