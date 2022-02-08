@@ -9,7 +9,7 @@
         android:id="@+id/AppIcon"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:contentDescription="@string/app_name"
+        android:contentDescription="@string/AppName"
         android:src="@drawable/default_app_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +30,7 @@
             android:id="@+id/AppName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/app_name"
+            android:text="@string/AppName"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
