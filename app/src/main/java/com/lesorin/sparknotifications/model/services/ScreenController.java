@@ -36,9 +36,9 @@ class ScreenController
     }
 
     public void handleNotification(String packageName, boolean isProximitySensorEnabled, boolean isObjectCoveringDevice,
-                                   int screenDelay, int screenTimeoutMs)
+                                   int screenDelay, int screenTimeoutMs, boolean isInQuietHours)
     {
-        if(shouldTurnOnScreen(isProximitySensorEnabled, isObjectCoveringDevice))
+        if(shouldTurnOnScreen(isProximitySensorEnabled, isObjectCoveringDevice, isInQuietHours))
         {
             recordScreenWakeFromApp(packageName);
             Executors.newSingleThreadExecutor().submit(() -> turnOnScreen(screenDelay, screenTimeoutMs));
@@ -100,9 +100,10 @@ class ScreenController
         return _keyguardManager.inKeyguardRestrictedInputMode();
     }
 
-    private boolean shouldTurnOnScreen(boolean isProximitySensorEnabled, boolean isObjectCoveringDevice)
+    private boolean shouldTurnOnScreen(boolean isProximitySensorEnabled, boolean isObjectCoveringDevice,
+                                       boolean isInQuietHours)
     {
-        boolean turnOnScreen = !isInQuietTime() && !isInCall() && !isScreenOn();
+        boolean turnOnScreen = !isInQuietHours && !isInCall() && !isScreenOn();
 
         //If the proximity sensor is enabled, only turn on the screen if an object is not close to
         //the device's screen.
@@ -117,46 +118,6 @@ class ScreenController
     private boolean isScreenOn()
     {
         return _powerManager.isInteractive();
-    }
-
-    private boolean isInQuietTime()
-    {
-        boolean quietTime = false;
-
-        //todo
-        /*if(mPrefs.getBoolean("QuietHoursKey", false))
-        {
-            String startTime = mPrefs.getString("QuietHoursStartKey", "22:00");
-            String stopTime = mPrefs.getString("QuietHoursStopKey", "08:00");
-            SimpleDateFormat sdfDate = new SimpleDateFormat("H:mm");
-            String currentTimeStamp = sdfDate.format(new Date());
-            int currentHour = Integer.parseInt(currentTimeStamp.split("[:]+")[0]);
-            int currentMinute = Integer.parseInt(currentTimeStamp.split("[:]+")[1]);
-            int startHour = Integer.parseInt(startTime.split("[:]+")[0]);
-            int startMinute = Integer.parseInt(startTime.split("[:]+")[1]);
-            int stopHour = Integer.parseInt(stopTime.split("[:]+")[0]);
-            int stopMinute = Integer.parseInt(stopTime.split("[:]+")[1]);
-
-            if(startHour < stopHour && currentHour > startHour && currentHour < stopHour)
-            {
-                quietTime = true;
-            }
-            else if(startHour > stopHour && (currentHour > startHour || currentHour < stopHour))
-            {
-                quietTime = true;
-            }
-            else if(currentHour == startHour && currentMinute >= startMinute)
-            {
-                quietTime = true;
-            }
-            else if(currentHour == stopHour && currentMinute < stopMinute)
-            {
-                quietTime = true;
-            }
-        }*/
-
-        //mLogger.debug("Device is in quiet time: " + quietTime);
-        return quietTime;
     }
 
     private boolean isInCall()

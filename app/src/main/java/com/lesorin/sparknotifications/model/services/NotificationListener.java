@@ -13,10 +13,16 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import com.lesorin.sparknotifications.model.PreferencesKeys;
 import com.lesorin.sparknotifications.model.RealmApp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import io.realm.Realm;
 
 public class NotificationListener extends NotificationListenerService
 {
+    private final String DEFAULT_QUIET_HOURS_START_24H = "23:00", DEFAULT_QUIET_HOURS_STOP_24H = "07:00";
+    private final int START_DAY_POINT = 0, END_DAY_POINT = 24 * 60;
+
     private String _lastNotifyingPackage;
     private TriggerEventListener _pickUpListener;
     private ScreenController _screenController;
@@ -25,6 +31,7 @@ public class NotificationListener extends NotificationListenerService
     private SharedPreferences.OnSharedPreferenceChangeListener _preferencesListener;
     private SensorEventListener _proximitySensorListener;
     private SharedPreferences _preferences;
+    private SimpleDateFormat _dateFormatter;
 
     @Override
     public void onCreate()
@@ -42,6 +49,7 @@ public class NotificationListener extends NotificationListenerService
         _pickupSensor = _sensorManager.getDefaultSensor(25);
         _proximitySensor = _sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         _screenController = new ScreenController(this);
+        _dateFormatter = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
         if(isDetectDevicePickUpEnabled())
         {
@@ -63,7 +71,7 @@ public class NotificationListener extends NotificationListenerService
                 unregisterProximitySensorListener(); //Remove the listener so it doesn't keep triggering.
 
                 _screenController.handleNotification(_lastNotifyingPackage, true, isObjectCoveringDevice,
-                        getScreenDelay(), getScreenTimeoutMs());
+                        getScreenDelay(), getScreenTimeoutMs(), isInQuietHours());
             }
 
             @Override
@@ -139,7 +147,7 @@ public class NotificationListener extends NotificationListenerService
             if(!isProximitySensorEnabled())
             {
                 _screenController.handleNotification(_lastNotifyingPackage, false, false,
-                        getScreenDelay(), getScreenTimeoutMs());
+                        getScreenDelay(), getScreenTimeoutMs(), isInQuietHours());
             }
             else if(!registerProximitySensorListener())
             {
@@ -147,7 +155,7 @@ public class NotificationListener extends NotificationListenerService
                 //notification, otherwise handle the notification here as if the proximity
                 //sensor was disabled.
                 _screenController.handleNotification(_lastNotifyingPackage, false, false,
-                        getScreenDelay(), getScreenTimeoutMs());
+                        getScreenDelay(), getScreenTimeoutMs(), isInQuietHours());
             }
         }
     }
@@ -208,5 +216,69 @@ public class NotificationListener extends NotificationListenerService
     public void onNotificationRemoved(StatusBarNotification sbn)
     {
         //Nothing to do here.
+    }
+
+    private boolean isInQuietHours()
+    {
+        boolean inQuietHours = false;
+
+        if(isQuietHoursEnabled())
+        {
+            try
+            {
+                //Grab the current time, along with the start and end of the quiet hours.
+                String currentTime = _dateFormatter.format(new Date());
+                String quietHoursStart = getQuietHoursStart24H(DEFAULT_QUIET_HOURS_START_24H);
+                String quietHoursEnd = getQuietHoursStop24H(DEFAULT_QUIET_HOURS_STOP_24H);
+
+                //Grab the hours and minutes from all three times.
+                int currentHour = Integer.parseInt(currentTime.split("[:]+")[0]);
+                int currentMinute = Integer.parseInt(currentTime.split("[:]+")[1]);
+                int quietHoursStartHour = Integer.parseInt(quietHoursStart.split("[:]+")[0]);
+                int quietHoursStartMinute = Integer.parseInt(quietHoursStart.split("[:]+")[1]);
+                int quietHoursStopHour = Integer.parseInt(quietHoursEnd.split("[:]+")[0]);
+                int quietHoursStopMinute = Integer.parseInt(quietHoursEnd.split("[:]+")[1]);
+
+                //Convert all three times to minutes into the day.
+                int currentPoint = currentHour * 60 + currentMinute;
+                int quietHoursStartPoint = quietHoursStartHour * 60 + quietHoursStartMinute;
+                int quietHoursEndPoint = quietHoursStopHour * 60 + quietHoursStopMinute;
+
+                //Check if the current time is inside the range of the quiet hours.
+                if(quietHoursStartPoint < quietHoursEndPoint)
+                {
+                    inQuietHours = (currentPoint >= quietHoursStartPoint) && (currentPoint < quietHoursEndPoint);
+                }
+                else if(quietHoursStartPoint > quietHoursEndPoint)
+                {
+                    inQuietHours = (currentPoint >= quietHoursStartPoint && currentPoint < END_DAY_POINT) ||
+                            (currentPoint >= START_DAY_POINT && currentPoint < quietHoursEndPoint);
+                }
+                else
+                {
+                    inQuietHours = (currentPoint == quietHoursStartPoint);
+                }
+            }
+            catch (Exception ignored)
+            {
+            }
+        }
+
+        return inQuietHours;
+    }
+
+    private String getQuietHoursStart24H(String defaultValue)
+    {
+        return _preferences.getString(PreferencesKeys.QUIET_HOURS_START_24H, defaultValue);
+    }
+
+    private String getQuietHoursStop24H(String defaultValue)
+    {
+        return _preferences.getString(PreferencesKeys.QUIET_HOURS_STOP_24H, defaultValue);
+    }
+
+    private boolean isQuietHoursEnabled()
+    {
+        return _preferences.getBoolean(PreferencesKeys.QUIET_HOURS_ENABLED, false);
     }
 }
