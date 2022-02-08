@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
-import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.ListView;
 import androidx.annotation.Nullable;
@@ -20,9 +19,8 @@ public class SettingsFragment extends PreferenceFragment
     private SwitchPreference _deviceAdminPreference, _servicePreference, _proximitySensorPreference,
             _detectPickUpPreference, _quietHoursPreference, _darkThemePreference;
     private Preference _enabledAppsPreference, _recentActivityPreference, _screenTimeoutPreference,
-            _screenDelayPreference;
+            _screenDelayPreference, _rateAppPreference, _donatePreference;
     private TimePreference _quietHoursStartPreference, _quietHoursStopPreference;
-
     private MainActivity _activity;
 
     @Override
@@ -59,7 +57,20 @@ public class SettingsFragment extends PreferenceFragment
         //Other.
         initializeContactDeveloper();
         initializeDonations();
+        initializeRateApp();
         initializeAppVersion();
+    }
+
+    private void initializeRateApp()
+    {
+        _rateAppPreference = findPreference("RateAppKey");
+
+        _rateAppPreference.setOnPreferenceClickListener(preference ->
+        {
+            _activity.rateAppPreferencePressed();
+
+            return true;
+        });
     }
 
     private void initializeDarkTheme()
@@ -210,17 +221,7 @@ public class SettingsFragment extends PreferenceFragment
     {
         findPreference("ContactDeveloperKey").setOnPreferenceClickListener(preference ->
         {
-            String[] emails = {"contact.lesorin@gmail.com"};
-            Intent intent = new Intent(Intent.ACTION_SENDTO);
-
-            intent.setData(Uri.parse("mailto:")); // only email apps should handle this
-            intent.putExtra(Intent.EXTRA_EMAIL, emails);
-            intent.putExtra(Intent.EXTRA_SUBJECT, "Spark Notifications");
-
-            if(intent.resolveActivity(getActivity().getPackageManager()) != null)
-            {
-                getActivity().startActivity(intent);
-            }
+            _activity.contactAppDeveloperPreferencePressed();
 
             return true;
         });

@@ -14,6 +14,7 @@
     <string name="PackageName">Package Name</string>
     <string name="RecentAppTitle">App\'s title.</string>
     <string name="RecentAppNotificationTime">Notification time.</string>
+    <string name="StoreLink" translatable="false">https://play.google.com/store/apps/details?id=com.lesorin.sparknotifications</string>
 
     <!--Preferences Categories-->
     <string name="PreferenceCategoryService">Service</string>

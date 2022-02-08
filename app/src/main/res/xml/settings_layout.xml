@@ -82,6 +82,10 @@
             android:title="@string/DonateTitle" />
 
         <Preference
+            android:key="RateAppKey"
+            android:title="@string/RateAppTitle" />
+
+        <Preference
             android:key="VersionKey"
             android:title="@string/VersionTitle" />
     </PreferenceCategory>

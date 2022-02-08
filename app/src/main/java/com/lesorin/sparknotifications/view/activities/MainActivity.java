@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.Editable;
@@ -347,5 +348,25 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     public void quietHoursStopPreferencePressed(String stopTime)
     {
         _presenter.quietHoursStopPreferencePressed(stopTime, DateFormat.is24HourFormat(this));
+    }
+
+    public void rateAppPreferencePressed()
+    {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.StoreLink))));
+    }
+
+    public void contactAppDeveloperPreferencePressed()
+    {
+        String[] emails = {"contact.lesorin@gmail.com"};
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+
+        intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+        intent.putExtra(Intent.EXTRA_EMAIL, emails);
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Spark Notifications");
+
+        if(intent.resolveActivity(getPackageManager()) != null)
+        {
+            startActivity(intent);
+        }
     }
 }
