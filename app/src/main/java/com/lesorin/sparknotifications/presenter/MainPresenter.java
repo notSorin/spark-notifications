@@ -119,7 +119,7 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
     @Override
     public void screenDelayChanged(int valueSeconds)
     {
-        if(valueSeconds >= MAX_SCREEN_DELAY_SEC && valueSeconds <= MAX_SCREEN_DELAY_SEC)
+        if(valueSeconds >= MIN_SCREEN_DELAY_SEC && valueSeconds <= MAX_SCREEN_DELAY_SEC)
         {
             _model.setScreenDelayValue(valueSeconds);
             _view.screenDelayPreferenceChanged(_model.isNotificationsServiceEnabled(), valueSeconds);
