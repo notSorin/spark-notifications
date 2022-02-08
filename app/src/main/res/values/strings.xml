@@ -80,14 +80,15 @@
     <string name="DeviceAdminSummary">Enable this option to allow for custom screen timeouts.</string>
 
     <string name="ScreenTimeoutKey">Screen Timeout</string>
-    <string name="ScreenTimeoutSummaryEnabled">The screen will stay on for %d seconds after a notification.</string>
+    <string name="ScreenTimeoutSummaryEnabled">The screen will turn off %d seconds after it is turned on.\nIf the device is unlocked, the screen will not turn off.</string>
     <string name="ScreenTimeoutSummaryEnableAdmin">The Device Administrator option must be enabled to allow for custom screen timeouts.</string>
     <string name="ScreenTimeoutSummaryEnableService">The Notifications Service must be enabled to allow for custom screen timeouts.</string>
     <string name="ScreenTimeoutSummaryEnableServiceAndAdmin">The Notifications Service and the Device Administrator option must be enabled to allow for custom screen timeouts.</string>
 
     <string name="ScreenOnDelayTitle">Screen Delay</string>
-    <string name="ScreenOnDelaySummary">The screen will turn on %d seconds after a notification.</string>
-    <string name="ScreenOnDelaySummarySingle">The screen will turn on %d second after a notification.</string>
+    <string name="ScreenOnDelaySummary">The screen will turn on %d seconds after a notification is received.</string>
+    <string name="ScreenOnDelaySummarySingle">The screen will turn on %d second after a notification is received.</string>
+    <string name="ScreenOnDelaySummaryZero">The screen will turn on as soon as a notification is received.</string>
 
     <string name="FullBrightnessTitle">Full Brightness</string>
     <string name="FullBrightnessSummary">When enabled, the screen will always turn on at full brightness.</string>
@@ -115,5 +116,5 @@
     <string name="Close">Close</string>
 
     <string name="DarkThemeTitle">Dark Theme</string>
-    <string name="DarkThemeSummary">Enable and disable the dark theme.</string>
+    <string name="DarkThemeSummary">Enable or disable the dark theme.</string>
 </resources>
