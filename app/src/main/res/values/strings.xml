@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="AppName">Spark Notifications</string>
-    <string name="RateApp">Rate Screen Notifications</string>
     <string name="SelectDonationAmount">Select a donation amount</string>
     <string name="FailedBilling">There was a problem trying to make a donation, your device may not support in app billing or there may be a problem communicating with the server. Please try again later</string>
     <string name="DevicePickedUp">Device picked up</string>
@@ -13,19 +12,6 @@
     <string name="Set">Set</string>
     <string name="SearchApp">Search for an app</string>
     <string name="PackageName">Package Name</string>
-
-    <string name="market_description">
-        A very simple app that turns your screen on for a specified period time when you get a notification. 
-        If your device is in your pocket or the proximity sensor is otherwise covered, the screen will not turn on.
-
-		Any ideas or feature requests are welcome, please email me with them.
-		
-		If you would like to translate this app, please visit the following link: 
-		https://www.transifex.com/projects/p/screen-notifications/
-
-		If you have issues or enhancements, fork me on github:
-		https://github.com/lkorth/screen-notifications
-    </string>
     <string name="RecentAppTitle">App\'s title.</string>
     <string name="RecentAppNotificationTime">Notification time.</string>
 
@@ -96,6 +82,8 @@
 
     <string name="DonateTitle">Support App Development</string>
     <string name="DonateSummary">Donate to help support the app\'s development.</string>
+
+    <string name="RateAppTitle">Rate Spark Notifications</string>
 
     <string name="VersionTitle">App Version</string>
     <string name="Close">Close</string>
