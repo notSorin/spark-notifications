@@ -71,7 +71,7 @@ public class NotificationListener extends NotificationListenerService
                 unregisterProximitySensorListener(); //Remove the listener so it doesn't keep triggering.
 
                 _screenController.handleNotification(_lastNotifyingPackage, true, isObjectCoveringDevice,
-                        getScreenDelay(), getScreenTimeoutMs(), isInQuietHours());
+                        getScreenDelayMs(), getScreenTimeoutMs(), isInQuietHours());
             }
 
             @Override
@@ -81,9 +81,9 @@ public class NotificationListener extends NotificationListenerService
         };
     }
 
-    private int getScreenDelay()
+    private int getScreenDelayMs()
     {
-        return _preferences.getInt(PreferencesKeys.SCREEN_ON_DELAY, 0);
+        return _preferences.getInt(PreferencesKeys.SCREEN_ON_DELAY, 0) * 1000;
     }
 
     private int getScreenTimeoutMs()
@@ -147,7 +147,7 @@ public class NotificationListener extends NotificationListenerService
             if(!isProximitySensorEnabled())
             {
                 _screenController.handleNotification(_lastNotifyingPackage, false, false,
-                        getScreenDelay(), getScreenTimeoutMs(), isInQuietHours());
+                        getScreenDelayMs(), getScreenTimeoutMs(), isInQuietHours());
             }
             else if(!registerProximitySensorListener())
             {
@@ -155,7 +155,7 @@ public class NotificationListener extends NotificationListenerService
                 //notification, otherwise handle the notification here as if the proximity
                 //sensor was disabled.
                 _screenController.handleNotification(_lastNotifyingPackage, false, false,
-                        getScreenDelay(), getScreenTimeoutMs(), isInQuietHours());
+                        getScreenDelayMs(), getScreenTimeoutMs(), isInQuietHours());
             }
         }
     }

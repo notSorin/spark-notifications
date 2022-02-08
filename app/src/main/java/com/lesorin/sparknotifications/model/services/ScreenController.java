@@ -36,12 +36,12 @@ class ScreenController
     }
 
     public void handleNotification(String packageName, boolean isProximitySensorEnabled, boolean isObjectCoveringDevice,
-                                   int screenDelay, int screenTimeoutMs, boolean isInQuietHours)
+                                   int screenDelayMs, int screenTimeoutMs, boolean isInQuietHours)
     {
         if(shouldTurnOnScreen(isProximitySensorEnabled, isObjectCoveringDevice, isInQuietHours))
         {
             recordScreenWakeFromApp(packageName);
-            Executors.newSingleThreadExecutor().submit(() -> turnOnScreen(screenDelay, screenTimeoutMs));
+            Executors.newSingleThreadExecutor().submit(() -> turnOnScreen(screenDelayMs, screenTimeoutMs));
         }
     }
 
@@ -72,11 +72,11 @@ class ScreenController
         realm.close();
     }
 
-    private void turnOnScreen(int screenDelay, int screenTimeoutMs)
+    private void turnOnScreen(int screenDelayMs, int screenTimeoutMs)
     {
-        if(screenDelay > 0)
+        if(screenDelayMs > 0)
         {
-            SystemClock.sleep(screenDelay * 1000L);
+            SystemClock.sleep(screenDelayMs);
         }
 
         PowerManager.WakeLock wakeLock = _powerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, TAG);
