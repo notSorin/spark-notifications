@@ -22,6 +22,7 @@ public interface Contract
         void allAppsPreferencePressed();
         void appStateChanged(App app, boolean enabled);
         void darkThemePreferencePressed(boolean enabled);
+        void quietHoursStartPreferencePressed(String startTime);
     }
 
     interface PresenterModel
@@ -88,5 +89,6 @@ public interface Contract
         void appStateChanged(App app, boolean enabled);
         boolean isDarkThemeEnabled(boolean defaultValue);
         void setDarkThemeEnabled(boolean enabled);
+        void setQuietHoursStart(String startTime);
     }
 }

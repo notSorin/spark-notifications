@@ -7,6 +7,7 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
     private final int MIN_SCREEN_TIMEOUT = 3, MAX_SCREEN_TIMEOUT = 30;
     private final int MIN_SCREEN_DELAY = 0, MAX_SCREEN_DELAY = 10;
     private final String DEFAULT_QUIET_HOURS_START = "23:00", DEFAULT_QUIET_HOURS_STOP = "07:00";
+    private final boolean DEFAULT_QUIET_HOURS_ENABLED = false;
 
     private Contract.View _view;
     private Contract.Model _model;
@@ -58,7 +59,7 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
             _view.setLightTheme();
         }
 
-        boolean quietHoursEnabled = _model.isQuietHoursEnabled(false);
+        boolean quietHoursEnabled = _model.isQuietHoursEnabled(DEFAULT_QUIET_HOURS_ENABLED);
 
         _view.quietHoursPreferenceChanged(serviceEnabled, quietHoursEnabled);
         _view.quietHoursStartPreferenceChanged(serviceEnabled, quietHoursEnabled, _model.getQuietHoursStart(DEFAULT_QUIET_HOURS_START));
@@ -174,6 +175,14 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
         {
             _view.setLightTheme();
         }
+    }
+
+    @Override
+    public void quietHoursStartPreferencePressed(String startTime)
+    {
+        _model.setQuietHoursStart(startTime);
+        _view.quietHoursStartPreferenceChanged(_model.isNotificationsServiceEnabled(),
+                _model.isQuietHoursEnabled(DEFAULT_QUIET_HOURS_ENABLED), startTime);
     }
 
     public void setModel(Contract.Model model)

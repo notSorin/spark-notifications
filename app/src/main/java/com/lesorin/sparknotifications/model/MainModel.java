@@ -266,6 +266,12 @@ public class MainModel implements Contract.Model
         _preferences.edit().putBoolean(PreferencesKeys.DARK_THEME_ENABLED, enabled).apply();
     }
 
+    @Override
+    public void setQuietHoursStart(String startTime)
+    {
+        _preferences.edit().putString(PreferencesKeys.QUIET_HOURS_START, startTime).apply();
+    }
+
     private ArrayList<RealmApp> queryAllApps()
     {
         ArrayList<RealmApp> apps = new ArrayList<>();

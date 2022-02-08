@@ -337,4 +337,9 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     {
         _presenter.darkThemePreferencePressed(enabled);
     }
+
+    public void quietHoursStartPreferencePressed(String startTime)
+    {
+        _presenter.quietHoursStartPreferencePressed(startTime);
+    }
 }
