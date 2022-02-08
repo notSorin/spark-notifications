@@ -291,6 +291,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View
             dialogBuilder.setTitle(R.string.EnabledAppsTitle);
             dialogBuilder.setView(appsView);
             dialogBuilder.setPositiveButton(R.string.Close, (dialog, whichButton) -> {});
+            dialogBuilder.setCancelable(false);
             dialogBuilder.show();
             _progressDialog.dismiss();
         });
