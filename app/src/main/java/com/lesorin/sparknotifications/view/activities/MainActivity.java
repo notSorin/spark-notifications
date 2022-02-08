@@ -342,4 +342,9 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     {
         _presenter.quietHoursStartPreferencePressed(startTime);
     }
+
+    public void quietHoursStopPreferencePressed(String stopTime)
+    {
+        _presenter.quietHoursStopPreferencePressed(stopTime);
+    }
 }

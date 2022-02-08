@@ -185,6 +185,14 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
                 _model.isQuietHoursEnabled(DEFAULT_QUIET_HOURS_ENABLED), startTime);
     }
 
+    @Override
+    public void quietHoursStopPreferencePressed(String stopTime)
+    {
+        _model.setQuietHoursStop(stopTime);
+        _view.quietHoursStopPreferenceChanged(_model.isNotificationsServiceEnabled(),
+                _model.isQuietHoursEnabled(DEFAULT_QUIET_HOURS_ENABLED), stopTime);
+    }
+
     public void setModel(Contract.Model model)
     {
         _model = model;

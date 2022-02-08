@@ -272,6 +272,12 @@ public class MainModel implements Contract.Model
         _preferences.edit().putString(PreferencesKeys.QUIET_HOURS_START, startTime).apply();
     }
 
+    @Override
+    public void setQuietHoursStop(String stopTime)
+    {
+        _preferences.edit().putString(PreferencesKeys.QUIET_HOURS_STOP, stopTime).apply();
+    }
+
     private ArrayList<RealmApp> queryAllApps()
     {
         ArrayList<RealmApp> apps = new ArrayList<>();

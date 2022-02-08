@@ -85,7 +85,7 @@ public class SettingsFragment extends PreferenceFragment
 
         _quietHoursStopPreference.setOnPreferenceChangeListener((preference, newValue) ->
         {
-            //todo
+            _activity.quietHoursStopPreferencePressed(_quietHoursStopPreference.toString());
 
             return true;
         });
