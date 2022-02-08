@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     protected void onResume()
     {
         super.onResume();
-        _presenter.appResumed();
+        _presenter.appResumed(DateFormat.is24HourFormat(this));
     }
 
     public void deviceAdminPreferencePressed(boolean deviceAdminEnabled)
@@ -219,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View
 
     public void quietHoursPreferencePressed(boolean enabled)
     {
-        _presenter.quietHoursPreferenceChanged(enabled);
+        _presenter.quietHoursPreferenceChanged(enabled, DateFormat.is24HourFormat(this));
     }
 
     public void recentActivityPreferencePressed()
@@ -340,11 +341,11 @@ public class MainActivity extends AppCompatActivity implements Contract.View
 
     public void quietHoursStartPreferencePressed(String startTime)
     {
-        _presenter.quietHoursStartPreferencePressed(startTime);
+        _presenter.quietHoursStartPreferencePressed(startTime, DateFormat.is24HourFormat(this));
     }
 
     public void quietHoursStopPreferencePressed(String stopTime)
     {
-        _presenter.quietHoursStopPreferencePressed(stopTime);
+        _presenter.quietHoursStopPreferencePressed(stopTime, DateFormat.is24HourFormat(this));
     }
 }

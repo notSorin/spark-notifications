@@ -1,12 +1,16 @@
 package com.lesorin.sparknotifications.presenter;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MainPresenter implements Contract.PresenterView, Contract.PresenterModel
 {
     private final int MIN_SCREEN_TIMEOUT = 3, MAX_SCREEN_TIMEOUT = 30;
     private final int MIN_SCREEN_DELAY = 0, MAX_SCREEN_DELAY = 10;
-    private final String DEFAULT_QUIET_HOURS_START = "23:00", DEFAULT_QUIET_HOURS_STOP = "07:00";
+    private final String DEFAULT_QUIET_HOURS_START_24H = "23:00", DEFAULT_QUIET_HOURS_STOP_24H = "07:00";
+    private final String DEFAULT_QUIET_HOURS_START_12H = "11:00 PM", DEFAULT_QUIET_HOURS_STOP_12H = "07:00 AM";
     private final boolean DEFAULT_QUIET_HOURS_ENABLED = false;
 
     private Contract.View _view;
@@ -37,7 +41,7 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
     }
 
     @Override
-    public void appResumed()
+    public void appResumed(boolean hourFormat24)
     {
         //Set service-related preferences.
         boolean serviceEnabled = _model.isNotificationsServiceEnabled();
@@ -62,8 +66,10 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
         boolean quietHoursEnabled = _model.isQuietHoursEnabled(DEFAULT_QUIET_HOURS_ENABLED);
 
         _view.quietHoursPreferenceChanged(serviceEnabled, quietHoursEnabled);
-        _view.quietHoursStartPreferenceChanged(serviceEnabled, quietHoursEnabled, _model.getQuietHoursStart(DEFAULT_QUIET_HOURS_START));
-        _view.quietHoursStopPreferenceChanged(serviceEnabled, quietHoursEnabled, _model.getQuietHoursStop(DEFAULT_QUIET_HOURS_STOP));
+        _view.quietHoursStartPreferenceChanged(serviceEnabled, quietHoursEnabled,
+                _model.getQuietHoursStart(hourFormat24 ? DEFAULT_QUIET_HOURS_START_24H : DEFAULT_QUIET_HOURS_START_12H));
+        _view.quietHoursStopPreferenceChanged(serviceEnabled, quietHoursEnabled,
+                _model.getQuietHoursStop(hourFormat24 ? DEFAULT_QUIET_HOURS_STOP_24H : DEFAULT_QUIET_HOURS_STOP_12H));
 
         //Set admin-related preferences.
         boolean deviceAdminEnabled = _model.isDeviceAdministratorEnabled();
@@ -132,14 +138,16 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
     }
 
     @Override
-    public void quietHoursPreferenceChanged(boolean enabled)
+    public void quietHoursPreferenceChanged(boolean enabled, boolean hourFormat24)
     {
         _model.setQuietHoursValue(enabled);
 
         boolean serviceEnabled = _model.isNotificationsServiceEnabled();
 
-        _view.quietHoursStartPreferenceChanged(serviceEnabled, enabled, _model.getQuietHoursStart(DEFAULT_QUIET_HOURS_START));
-        _view.quietHoursStopPreferenceChanged(serviceEnabled, enabled, _model.getQuietHoursStop(DEFAULT_QUIET_HOURS_STOP));
+        _view.quietHoursStartPreferenceChanged(serviceEnabled, enabled,
+                _model.getQuietHoursStart(hourFormat24 ? DEFAULT_QUIET_HOURS_START_24H : DEFAULT_QUIET_HOURS_START_12H));
+        _view.quietHoursStopPreferenceChanged(serviceEnabled, enabled,
+                _model.getQuietHoursStop(hourFormat24 ? DEFAULT_QUIET_HOURS_STOP_24H : DEFAULT_QUIET_HOURS_STOP_12H));
     }
 
     @Override
@@ -178,19 +186,40 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
     }
 
     @Override
-    public void quietHoursStartPreferencePressed(String startTime)
+    public void quietHoursStartPreferencePressed(String startTime, boolean hourFormat24)
     {
         _model.setQuietHoursStart(startTime);
+        _model.setQuietHoursStart24H(hourFormat24 ? startTime : convertTo24HourFormat(startTime));
         _view.quietHoursStartPreferenceChanged(_model.isNotificationsServiceEnabled(),
                 _model.isQuietHoursEnabled(DEFAULT_QUIET_HOURS_ENABLED), startTime);
     }
 
     @Override
-    public void quietHoursStopPreferencePressed(String stopTime)
+    public void quietHoursStopPreferencePressed(String stopTime, boolean hourFormat24)
     {
         _model.setQuietHoursStop(stopTime);
+        _model.setQuietHoursStop24H(hourFormat24 ? stopTime : convertTo24HourFormat(stopTime));
         _view.quietHoursStopPreferenceChanged(_model.isNotificationsServiceEnabled(),
                 _model.isQuietHoursEnabled(DEFAULT_QUIET_HOURS_ENABLED), stopTime);
+    }
+
+    private String convertTo24HourFormat(String time)
+    {
+        String newTime = null;
+
+        try
+        {
+            SimpleDateFormat format24 = new SimpleDateFormat("HH:mm", Locale.getDefault());
+            SimpleDateFormat format12 = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+            Date date12 = format12.parse(time);
+
+            newTime = format24.format(date12);
+        }
+        catch (Exception ignored)
+        {
+        }
+
+        return newTime;
     }
 
     public void setModel(Contract.Model model)

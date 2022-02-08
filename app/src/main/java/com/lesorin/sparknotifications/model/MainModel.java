@@ -161,15 +161,51 @@ public class MainModel implements Contract.Model
     }
 
     @Override
+    public void setQuietHoursStart(String startTime)
+    {
+        _preferences.edit().putString(PreferencesKeys.QUIET_HOURS_START, startTime).apply();
+    }
+
+    @Override
     public String getQuietHoursStart(String defaultValue)
     {
         return _preferences.getString(PreferencesKeys.QUIET_HOURS_START, defaultValue);
     }
 
     @Override
+    public void setQuietHoursStop(String stopTime)
+    {
+        _preferences.edit().putString(PreferencesKeys.QUIET_HOURS_STOP, stopTime).apply();
+    }
+
+    @Override
     public String getQuietHoursStop(String defaultValue)
     {
         return _preferences.getString(PreferencesKeys.QUIET_HOURS_STOP, defaultValue);
+    }
+
+    @Override
+    public void setQuietHoursStart24H(String startTime)
+    {
+        _preferences.edit().putString(PreferencesKeys.QUIET_HOURS_START_24H, startTime).apply();
+    }
+
+    @Override
+    public String getQuietHoursStart24H(String defaultValue)
+    {
+        return _preferences.getString(PreferencesKeys.QUIET_HOURS_START_24H, defaultValue);
+    }
+
+    @Override
+    public void setQuietHoursStop24H(String stopTime)
+    {
+        _preferences.edit().putString(PreferencesKeys.QUIET_HOURS_STOP_24H, stopTime).apply();
+    }
+
+    @Override
+    public String getQuietHoursStop24H(String defaultValue)
+    {
+        return _preferences.getString(PreferencesKeys.QUIET_HOURS_STOP_24H, defaultValue);
     }
 
     @Override
@@ -264,18 +300,6 @@ public class MainModel implements Contract.Model
     public void setDarkThemeEnabled(boolean enabled)
     {
         _preferences.edit().putBoolean(PreferencesKeys.DARK_THEME_ENABLED, enabled).apply();
-    }
-
-    @Override
-    public void setQuietHoursStart(String startTime)
-    {
-        _preferences.edit().putString(PreferencesKeys.QUIET_HOURS_START, startTime).apply();
-    }
-
-    @Override
-    public void setQuietHoursStop(String stopTime)
-    {
-        _preferences.edit().putString(PreferencesKeys.QUIET_HOURS_STOP, stopTime).apply();
     }
 
     private ArrayList<RealmApp> queryAllApps()

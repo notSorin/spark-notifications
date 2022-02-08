@@ -9,7 +9,7 @@ public interface Contract
     {
         void setView(View view);
         void notificationsServicePreferencePressed(boolean serviceEnabled);
-        void appResumed();
+        void appResumed(boolean hourFormat24);
         void deviceAdminPreferencePressed(boolean deviceAdminEnabled);
         void screenTimeoutPreferencePressed();
         void screenTimeoutChanged(int value);
@@ -17,13 +17,13 @@ public interface Contract
         void screenDelayChanged(int value);
         void proximitySensorPreferenceChanged(boolean enabled);
         void detectPickUpPreferenceChanged(boolean enabled);
-        void quietHoursPreferenceChanged(boolean enabled);
+        void quietHoursPreferenceChanged(boolean enabled, boolean hourFormat24);
         void recentActivityPreferencePressed();
         void allAppsPreferencePressed();
         void appStateChanged(App app, boolean enabled);
         void darkThemePreferencePressed(boolean enabled);
-        void quietHoursStartPreferencePressed(String startTime);
-        void quietHoursStopPreferencePressed(String stopTime);
+        void quietHoursStartPreferencePressed(String startTime, boolean hourFormat24);
+        void quietHoursStopPreferencePressed(String stopTime, boolean hourFormat24);
     }
 
     interface PresenterModel
@@ -83,14 +83,18 @@ public interface Contract
         boolean isDetectPickUpEnabled(boolean defaultValue);
         void setQuietHoursValue(boolean enabled);
         boolean isQuietHoursEnabled(boolean defaultValue);
+        void setQuietHoursStart(String startTime);
         String getQuietHoursStart(String defaultValue);
+        void setQuietHoursStop(String stopTime);
         String getQuietHoursStop(String defaultValue);
+        void setQuietHoursStart24H(String startTime);
+        String getQuietHoursStart24H(String defaultValue);
+        void setQuietHoursStop24H(String stopTime);
+        String getQuietHoursStop24H(String defaultValue);
         void requestRecentlyActiveApps();
         void requestAllApps();
         void appStateChanged(App app, boolean enabled);
         boolean isDarkThemeEnabled(boolean defaultValue);
         void setDarkThemeEnabled(boolean enabled);
-        void setQuietHoursStart(String startTime);
-        void setQuietHoursStop(String stopTime);
     }
 }
