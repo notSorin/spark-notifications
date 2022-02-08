@@ -255,26 +255,18 @@ public class SettingsFragment extends PreferenceFragment
     public void updateScreenDelaySummary(boolean screenDelayEnabled, int screenDelayValue)
     {
         _screenDelayPreference.setEnabled(screenDelayEnabled);
-        _screenDelayPreference.setSummary(getString(screenDelayValue == 1 ? R.string.ScreenOnDelaySummarySingle : R.string.ScreenOnDelaySummary, screenDelayValue));
-    }
 
-    private String handleTime(String time)
-    {
-        String[] timeParts = time.split(":");
-        int lastHour = Integer.parseInt(timeParts[0]);
-        int lastMinute = Integer.parseInt(timeParts[1]);
-        boolean is24HourFormat = DateFormat.is24HourFormat(getActivity());
-
-        if(is24HourFormat)
+        if(screenDelayValue == 0)
         {
-            return ((lastHour < 10) ? "0" : "") + lastHour + ":" + ((lastMinute < 10) ? "0" : "") + lastMinute;
+            _screenDelayPreference.setSummary(getString(R.string.ScreenOnDelaySummaryZero));
+        }
+        else if(screenDelayValue == 1)
+        {
+            _screenDelayPreference.setSummary(getString(R.string.ScreenOnDelaySummarySingle, screenDelayValue));
         }
         else
         {
-            int myHour = lastHour % 12;
-
-            return ((myHour == 0) ? "12" : ((myHour < 10) ? "0" : "") + myHour) + ":" + ((lastMinute < 10) ? "0" : "")
-                    + lastMinute + ((lastHour >= 12) ? " PM" : " AM");
+            _screenDelayPreference.setSummary(getString(R.string.ScreenOnDelaySummary, screenDelayValue));
         }
     }
 
