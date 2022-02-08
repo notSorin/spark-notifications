@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import com.lesorin.sparknotifications.MainApplication;
 import com.lesorin.sparknotifications.R;
 import com.lesorin.sparknotifications.presenter.App;
@@ -315,8 +316,25 @@ public class MainActivity extends AppCompatActivity implements Contract.View
         _progressDialog.show();
     }
 
+    @Override
+    public void setLightTheme()
+    {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+    }
+
+    @Override
+    public void setDarkTheme()
+    {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+    }
+
     public void appStateChanged(App app, boolean enabled)
     {
         _presenter.appStateChanged(app, enabled);
+    }
+
+    public void darkThemePreferencePressed(boolean enabled)
+    {
+        _presenter.darkThemePreferencePressed(enabled);
     }
 }

@@ -9,4 +9,5 @@ public class PreferencesKeys
     public static final String QUIET_HOURS_ENABLED = "QuietHoursKey";
     public static final String QUIET_HOURS_START = "QuietHoursStartKey";
     public static final String QUIET_HOURS_STOP = "QuietHoursStopKey";
+    public static final String DARK_THEME_ENABLED = "DarkThemeKey";
 }

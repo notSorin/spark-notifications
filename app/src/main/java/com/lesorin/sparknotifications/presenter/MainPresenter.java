@@ -49,6 +49,15 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
         _view.proximitySensorPreferenceChanged(serviceEnabled, _model.isProximitySensorEnabled(true));
         _view.detectPickUpPreferenceChanged(serviceEnabled, _model.isDetectPickUpEnabled(false));
 
+        if(_model.isDarkThemeEnabled(false))
+        {
+            _view.setDarkTheme();
+        }
+        else
+        {
+            _view.setLightTheme();
+        }
+
         boolean quietHoursEnabled = _model.isQuietHoursEnabled(false);
 
         _view.quietHoursPreferenceChanged(serviceEnabled, quietHoursEnabled);
@@ -150,6 +159,21 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
     public void appStateChanged(App app, boolean enabled)
     {
         _model.appStateChanged(app, enabled);
+    }
+
+    @Override
+    public void darkThemePreferencePressed(boolean enabled)
+    {
+        _model.setDarkThemeEnabled(enabled);
+
+        if(enabled)
+        {
+            _view.setDarkTheme();
+        }
+        else
+        {
+            _view.setLightTheme();
+        }
     }
 
     public void setModel(Contract.Model model)

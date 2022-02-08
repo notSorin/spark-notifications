@@ -254,6 +254,18 @@ public class MainModel implements Contract.Model
         realm.close();
     }
 
+    @Override
+    public boolean isDarkThemeEnabled(boolean defaultValue)
+    {
+        return _preferences.getBoolean(PreferencesKeys.DARK_THEME_ENABLED, defaultValue);
+    }
+
+    @Override
+    public void setDarkThemeEnabled(boolean enabled)
+    {
+        _preferences.edit().putBoolean(PreferencesKeys.DARK_THEME_ENABLED, enabled).apply();
+    }
+
     private ArrayList<RealmApp> queryAllApps()
     {
         ArrayList<RealmApp> apps = new ArrayList<>();

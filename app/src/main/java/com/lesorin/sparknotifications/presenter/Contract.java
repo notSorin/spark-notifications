@@ -21,6 +21,7 @@ public interface Contract
         void recentActivityPreferencePressed();
         void allAppsPreferencePressed();
         void appStateChanged(App app, boolean enabled);
+        void darkThemePreferencePressed(boolean enabled);
     }
 
     interface PresenterModel
@@ -59,6 +60,8 @@ public interface Contract
         void displayAllApps(List<? extends App> appsList);
         void displayLoadingAppsDialog();
         void displayLoadingRecentActivityDialog();
+        void setLightTheme();
+        void setDarkTheme();
     }
 
     interface Model
@@ -83,5 +86,7 @@ public interface Contract
         void requestRecentlyActiveApps();
         void requestAllApps();
         void appStateChanged(App app, boolean enabled);
+        boolean isDarkThemeEnabled(boolean defaultValue);
+        void setDarkThemeEnabled(boolean enabled);
     }
 }

@@ -113,4 +113,7 @@
 
     <string name="VersionTitle">App Version</string>
     <string name="Close">Close</string>
+
+    <string name="DarkThemeTitle">Dark Theme</string>
+    <string name="DarkThemeSummary">Enable and disable the dark theme.</string>
 </resources>

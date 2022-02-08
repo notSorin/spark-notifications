@@ -17,8 +17,8 @@ import com.lesorin.sparknotifications.view.activities.MainActivity;
 //TODO make the preferences keys constants.
 public class SettingsFragment extends PreferenceFragment
 {
-    private SwitchPreference _deviceAdminPreference, _servicePreference, _fullBrightnessPreference, _notificationsDrawerPreference,
-        _proximitySensorPreference, _detectPickUpPreference, _quietHoursPreference;
+    private SwitchPreference _deviceAdminPreference, _servicePreference, _proximitySensorPreference,
+            _detectPickUpPreference, _quietHoursPreference, _darkThemePreference;
     private Preference _enabledAppsPreference, _recentActivityPreference, _screenTimeoutPreference,
             _screenDelayPreference;
     private TimePreference _quietHoursStartPreference, _quietHoursStopPreference;
@@ -47,6 +47,7 @@ public class SettingsFragment extends PreferenceFragment
         initializeScreenDelay();
         initializeProximitySensor();
         initializeDetectPickUp();
+        initializeDarkTheme();
         initializeQuietHours();
         initializeQuietHoursStart();
         initializeQuietHoursStop();
@@ -59,6 +60,18 @@ public class SettingsFragment extends PreferenceFragment
         initializeContactDeveloper();
         initializeDonations();
         initializeAppVersion();
+    }
+
+    private void initializeDarkTheme()
+    {
+        _darkThemePreference = (SwitchPreference)findPreference("DarkThemeKey");
+
+        _darkThemePreference.setOnPreferenceClickListener(preference ->
+        {
+            _activity.darkThemePreferencePressed(_darkThemePreference.isChecked());
+
+            return true;
+        });
     }
 
     private void initializeDonations()
@@ -295,18 +308,6 @@ public class SettingsFragment extends PreferenceFragment
         {
             _screenTimeoutPreference.setSummary(R.string.ScreenTimeoutSummaryEnableServiceAndAdmin);
         }
-    }
-
-    public void updateFullBrightness(boolean serviceEnabled, boolean fullBrightnessEnabled)
-    {
-        _fullBrightnessPreference.setEnabled(serviceEnabled);
-        _fullBrightnessPreference.setChecked(fullBrightnessEnabled);
-    }
-
-    public void updateNotificationsDrawer(boolean serviceEnabled, boolean notificationsDrawerEnabled)
-    {
-        _notificationsDrawerPreference.setEnabled(serviceEnabled);
-        _notificationsDrawerPreference.setChecked(notificationsDrawerEnabled);
     }
 
     public void updateProximitySensor(boolean serviceEnabled, boolean proximitySensorEnabled)

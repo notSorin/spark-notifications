@@ -40,6 +40,12 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="DarkThemeKey"
+            android:summary="@string/DarkThemeSummary"
+            android:title="@string/DarkThemeTitle" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="QuietHoursKey"
             android:summary="@string/QuietHoursSummary"
             android:title="@string/QuietHoursTitle" />
