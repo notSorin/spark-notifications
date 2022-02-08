@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+//TODO enable the most popular apps by default when the app is launched for the first time.
 public class MainPresenter implements Contract.PresenterView, Contract.PresenterModel
 {
     private final int MIN_SCREEN_TIMEOUT_SEC = 3, MAX_SCREEN_TIMEOUT_SEC = 30;
