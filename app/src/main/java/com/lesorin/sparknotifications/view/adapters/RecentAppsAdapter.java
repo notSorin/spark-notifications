@@ -77,7 +77,7 @@ public class RecentAppsAdapter extends BaseAdapter
 
             if(app.getPackageName().equals(BuildConfig.APPLICATION_ID))
             {
-                holder.name.setText(R.string.picked_up);
+                holder.name.setText(R.string.DevicePickedUp);
             }
             else
             {
@@ -87,8 +87,8 @@ public class RecentAppsAdapter extends BaseAdapter
         }
         else
         {
-            holder.icon.setImageResource(R.mipmap.ic_launcher);
-            holder.name.setText(R.string.uninstalled_app);
+            holder.icon.setImageResource(R.drawable.default_app_icon);
+            holder.name.setText(R.string.UninstalledApp);
         }
 
         String relativeTime = DateUtils.getRelativeTimeSpanString(app.getTimestamp(), System.currentTimeMillis(), 0).toString();
