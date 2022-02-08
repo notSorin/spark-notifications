@@ -87,7 +87,12 @@ class ScreenController
         {
             SystemClock.sleep(screenTimeoutMs);
             wakeLock.release();
-            _devicePolicyManager.lockNow();
+
+            //Don't lock the device if it was unlocked during the previous sleep.
+            if(isDeviceLocked())
+            {
+                _devicePolicyManager.lockNow();
+            }
         }
         else
         {
