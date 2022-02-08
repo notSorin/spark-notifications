@@ -12,9 +12,9 @@ public interface Contract
         void appResumed(boolean hourFormat24);
         void deviceAdminPreferencePressed(boolean deviceAdminEnabled);
         void screenTimeoutPreferencePressed();
-        void screenTimeoutChanged(int value);
+        void screenTimeoutChanged(int valueSeconds);
         void screenDelayPreferencePressed();
-        void screenDelayChanged(int value);
+        void screenDelayChanged(int valueSeconds);
         void proximitySensorPreferenceChanged(boolean enabled);
         void detectPickUpPreferenceChanged(boolean enabled);
         void quietHoursPreferenceChanged(boolean enabled, boolean hourFormat24);

@@ -7,8 +7,8 @@ import java.util.Locale;
 
 public class MainPresenter implements Contract.PresenterView, Contract.PresenterModel
 {
-    private final int MIN_SCREEN_TIMEOUT = 3, MAX_SCREEN_TIMEOUT = 30;
-    private final int MIN_SCREEN_DELAY = 0, MAX_SCREEN_DELAY = 10;
+    private final int MIN_SCREEN_TIMEOUT_SEC = 3, MAX_SCREEN_TIMEOUT_SEC = 30;
+    private final int MIN_SCREEN_DELAY_SEC = 0, MAX_SCREEN_DELAY_SEC = 10;
     private final String DEFAULT_QUIET_HOURS_START_24H = "23:00", DEFAULT_QUIET_HOURS_STOP_24H = "07:00";
     private final String DEFAULT_QUIET_HOURS_START_12H = "11:00 PM", DEFAULT_QUIET_HOURS_STOP_12H = "07:00 AM";
     private final boolean DEFAULT_QUIET_HOURS_ENABLED = false;
@@ -50,7 +50,7 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
         _view.enabledAppsPreferenceChanged(serviceEnabled);
 
         //Set option-related preferences.
-        _view.screenDelayPreferenceChanged(serviceEnabled, _model.getScreenDelayValue(MIN_SCREEN_DELAY));
+        _view.screenDelayPreferenceChanged(serviceEnabled, _model.getScreenDelayValue(MIN_SCREEN_DELAY_SEC));
         _view.proximitySensorPreferenceChanged(serviceEnabled, _model.isProximitySensorEnabled(true));
         _view.detectPickUpPreferenceChanged(serviceEnabled, _model.isDetectPickUpEnabled(false));
 
@@ -75,7 +75,7 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
         boolean deviceAdminEnabled = _model.isDeviceAdministratorEnabled();
 
         _view.deviceAdministratorPreferenceChanged(deviceAdminEnabled);
-        _view.screenTimeoutPreferenceChanged(serviceEnabled, deviceAdminEnabled, _model.getScreenTimeoutValue(MIN_SCREEN_TIMEOUT));
+        _view.screenTimeoutPreferenceChanged(serviceEnabled, deviceAdminEnabled, _model.getScreenTimeoutValue(MIN_SCREEN_TIMEOUT_SEC));
     }
 
     @Override
@@ -85,7 +85,7 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
         {
             _model.disableDeviceAdministrator();
             _view.deviceAdministratorPreferenceChanged(false);
-            _view.screenTimeoutPreferenceChanged(_model.isNotificationsServiceEnabled(), false, _model.getScreenTimeoutValue(MIN_SCREEN_TIMEOUT));
+            _view.screenTimeoutPreferenceChanged(_model.isNotificationsServiceEnabled(), false, _model.getScreenTimeoutValue(MIN_SCREEN_TIMEOUT_SEC));
         }
         else
         {
@@ -96,32 +96,32 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
     @Override
     public void screenTimeoutPreferencePressed()
     {
-        _view.openScreenTimeoutNumberPicker(_model.getScreenTimeoutValue(MIN_SCREEN_TIMEOUT), MIN_SCREEN_TIMEOUT, MAX_SCREEN_TIMEOUT);
+        _view.openScreenTimeoutNumberPicker(_model.getScreenTimeoutValue(MIN_SCREEN_TIMEOUT_SEC), MIN_SCREEN_TIMEOUT_SEC, MAX_SCREEN_TIMEOUT_SEC);
     }
 
     @Override
-    public void screenTimeoutChanged(int value)
+    public void screenTimeoutChanged(int valueSeconds)
     {
-        if(value >= MIN_SCREEN_TIMEOUT && value <= MAX_SCREEN_TIMEOUT)
+        if(valueSeconds >= MIN_SCREEN_TIMEOUT_SEC && valueSeconds <= MAX_SCREEN_TIMEOUT_SEC)
         {
-            _model.setScreenTimeoutValue(value);
-            _view.screenTimeoutPreferenceChanged(_model.isNotificationsServiceEnabled(), _model.isDeviceAdministratorEnabled(), value);
+            _model.setScreenTimeoutValue(valueSeconds);
+            _view.screenTimeoutPreferenceChanged(_model.isNotificationsServiceEnabled(), _model.isDeviceAdministratorEnabled(), valueSeconds);
         }
     }
 
     @Override
     public void screenDelayPreferencePressed()
     {
-        _view.openScreenDelayNumberPicker(_model.getScreenDelayValue(MIN_SCREEN_DELAY), MIN_SCREEN_DELAY, MAX_SCREEN_DELAY);
+        _view.openScreenDelayNumberPicker(_model.getScreenDelayValue(MIN_SCREEN_DELAY_SEC), MIN_SCREEN_DELAY_SEC, MAX_SCREEN_DELAY_SEC);
     }
 
     @Override
-    public void screenDelayChanged(int value)
+    public void screenDelayChanged(int valueSeconds)
     {
-        if(value >= MIN_SCREEN_DELAY && value <= MAX_SCREEN_DELAY)
+        if(valueSeconds >= MAX_SCREEN_DELAY_SEC && valueSeconds <= MAX_SCREEN_DELAY_SEC)
         {
-            _model.setScreenDelayValue(value);
-            _view.screenDelayPreferenceChanged(_model.isNotificationsServiceEnabled(), value);
+            _model.setScreenDelayValue(valueSeconds);
+            _view.screenDelayPreferenceChanged(_model.isNotificationsServiceEnabled(), valueSeconds);
         }
     }
 
