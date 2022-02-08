@@ -1,9 +1,7 @@
 package com.lesorin.sparknotifications.view.fragments;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.preference.DialogPreference;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
@@ -22,7 +20,6 @@ public class TimePreference extends DialogPreference
     private TimePicker mPicker = null;
     private TextView mTimeDisplay;
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public TimePreference(Context context)
     {
         super(context);
@@ -41,7 +38,6 @@ public class TimePreference extends DialogPreference
         init(context);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public TimePreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes)
     {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -52,7 +48,7 @@ public class TimePreference extends DialogPreference
     {
         mIs24HourFormat = DateFormat.is24HourFormat(context);
 
-        setPositiveButtonText(R.string.set);
+        setPositiveButtonText(R.string.Set);
         setNegativeButtonText(android.R.string.cancel);
     }
 
@@ -123,13 +119,8 @@ public class TimePreference extends DialogPreference
 
             mLastHour = mPicker.getCurrentHour();
             mLastMinute = mPicker.getCurrentMinute();
-            String time = mLastHour + ":" + mLastMinute;
 
-            if(callChangeListener(time))
-            {
-                persistString(time);
-                mTimeDisplay.setText(toString());
-            }
+            callChangeListener(toString());
         }
     }
 
@@ -139,7 +130,7 @@ public class TimePreference extends DialogPreference
         return a.getString(index);
     }
 
-    @Override
+    /*@Override
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue)
     {
         String time;
@@ -175,5 +166,5 @@ public class TimePreference extends DialogPreference
         String[] timeParts = time.split(":");
         mLastHour = Integer.parseInt(timeParts[0]);
         mLastMinute = Integer.parseInt(timeParts[1]);
-    }
+    }*/
 }
