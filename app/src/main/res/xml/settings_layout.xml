@@ -5,16 +5,19 @@
 
     <PreferenceCategory android:title="@string/PreferenceCategoryService">
         <SwitchPreference
+            android:icon="@drawable/service"
             android:key="SparkNotificationsServiceKey"
             android:summary="@string/SparkNotificationsServiceSummary"
             android:title="@string/SparkNotificationsServiceTitle" />
 
         <Preference
+            android:icon="@drawable/enabled_apps"
             android:key="EnabledAppsKey"
             android:summary="@string/EnabledAppsSummary"
             android:title="@string/EnabledAppsTitle" />
 
         <Preference
+            android:icon="@drawable/recent_activity"
             android:key="RecentAppsKey"
             android:summary="@string/RecentAppsSummary"
             android:title="@string/RecentAppsTitle" />
@@ -22,70 +25,83 @@
 
     <PreferenceCategory android:title="@string/PreferenceCategoryOptions">
         <Preference
+            android:icon="@drawable/delay"
             android:key="ScreenOnDelayKey"
             android:summary="@string/ScreenOnDelaySummary"
             android:title="@string/ScreenOnDelayTitle" />
 
         <SwitchPreference
             android:defaultValue="true"
+            android:icon="@drawable/sensor"
             android:key="ProximitySensorKey"
             android:summary="@string/ProximitySensorSummary"
             android:title="@string/ProximitySensorTitle" />
 
         <SwitchPreference
             android:defaultValue="false"
+            android:icon="@drawable/pickup"
             android:key="DetectPickUpKey"
             android:summary="@string/DetectPickUpSummary"
             android:title="@string/DetectPickUpTitle" />
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="DarkThemeKey"
-            android:summary="@string/DarkThemeSummary"
-            android:title="@string/DarkThemeTitle" />
-
-        <SwitchPreference
-            android:defaultValue="false"
+            android:icon="@drawable/quiet_hours"
             android:key="QuietHoursKey"
             android:summary="@string/QuietHoursSummary"
             android:title="@string/QuietHoursTitle" />
 
         <com.lesorin.sparknotifications.view.fragments.TimePreference
+            android:icon="@drawable/start"
             android:key="QuietHoursStartKey"
             android:title="@string/QuietHoursStartTitle" />
 
         <com.lesorin.sparknotifications.view.fragments.TimePreference
+            android:icon="@drawable/end"
             android:key="QuietHoursStopKey"
             android:title="@string/QuietHoursStopTitle" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/PreferenceCategoryAdminOptions">
         <SwitchPreference
+            android:icon="@drawable/admin"
             android:key="DeviceAdminKey"
             android:summary="@string/DeviceAdminSummary"
             android:title="@string/DeviceAdminTitle" />
 
         <Preference
+            android:icon="@drawable/delay"
             android:key="ScreenTimeoutKey"
             android:title="@string/ScreenTimeoutKey" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/PreferenceCategoryOther">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/theme"
+            android:key="DarkThemeKey"
+            android:summary="@string/DarkThemeSummary"
+            android:title="@string/DarkThemeTitle" />
+
         <Preference
+            android:icon="@drawable/email"
             android:key="ContactDeveloperKey"
             android:summary="@string/ContactDeveloperSummary"
             android:title="@string/ContactDeveloperTitle" />
 
         <Preference
+            android:icon="@drawable/donate"
             android:key="DonateKey"
             android:summary="@string/DonateSummary"
             android:title="@string/DonateTitle" />
 
         <Preference
+            android:icon="@drawable/rate"
             android:key="RateAppKey"
             android:title="@string/RateAppTitle" />
 
         <Preference
+            android:icon="@mipmap/ic_launcher"
             android:key="VersionKey"
             android:title="@string/VersionTitle" />
     </PreferenceCategory>
