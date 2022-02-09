@@ -26,6 +26,7 @@ import com.lesorin.sparknotifications.presenter.RecentApp;
 import com.lesorin.sparknotifications.view.adapters.AppAdapter;
 import com.lesorin.sparknotifications.view.adapters.RecentAppsAdapter;
 import com.lesorin.sparknotifications.view.fragments.SettingsFragment;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements Contract.View
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     private SettingsFragment _settingsFragment;
     private LayoutInflater _layoutInflater;
     private ProgressDialog _progressDialog;
+    private BillingManager _billingManager;
+    private String[] _purchaseItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -45,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements Contract.View
         _layoutInflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
         _settingsFragment = (SettingsFragment)getFragmentManager().findFragmentById(R.id.SettingsFragment);
         _progressDialog = new ProgressDialog(this);
+        _billingManager = new BillingManager(this);
+        _purchaseItems = null;
     }
 
     @Override
@@ -63,6 +68,16 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     public void showDialogForEnablingService()
     {
         showServiceDialog(R.string.ServiceEnableInfo);
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+
+        //Without calling _billingManager.endConnection(), onPurchasesUpdated() in the billing manager is
+        //called multiples times.
+        _billingManager.endConnection();
     }
 
     @Override
@@ -387,10 +402,69 @@ public class MainActivity extends AppCompatActivity implements Contract.View
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 
         dialogBuilder.setTitle(R.string.DonateTitle);
-        dialogBuilder.setItems(getResources().getStringArray(R.array.DonationValues), (dialog, which) ->
+
+        if(_purchaseItems != null && _purchaseItems.length > 0)
         {
-            //TODO Read https://developer.android.com/google/play/billing/integrate to implement billing.
-        });
+            final NumberPicker numberPicker = new NumberPicker(this);
+
+            numberPicker.setMinValue(1);
+            numberPicker.setMaxValue(_purchaseItems.length);
+            numberPicker.setDisplayedValues(_purchaseItems);
+            dialogBuilder.setView(numberPicker);
+            dialogBuilder.setPositiveButton(android.R.string.ok, (dialog, whichButton) ->
+            {
+                _billingManager.startBillingFlow(numberPicker.getValue());
+            });
+        }
+        else
+        {
+            dialogBuilder.setMessage(R.string.DonationErrorSummary);
+            dialogBuilder.setPositiveButton(R.string.Close, (dialog, whichButton) -> {});
+        }
+
+        dialogBuilder.show();
+    }
+
+    public void purchaseItemsAcquired(ArrayList<String> itemsList)
+    {
+        _purchaseItems = new String[itemsList.size()];
+
+        for(int i = 0; i < itemsList.size(); i++)
+        {
+            _purchaseItems[i] = itemsList.get(i);
+        }
+    }
+
+    public void purchaseCancelled()
+    {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+        dialogBuilder.setTitle(R.string.Notice);
+        dialogBuilder.setMessage(R.string.PurchaseCancelled);
+        dialogBuilder.setPositiveButton(R.string.Close, (alertDialog, id) -> {});
+        dialogBuilder.setCancelable(false);
+        dialogBuilder.show();
+    }
+
+    public void purchaseCompleted()
+    {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+        dialogBuilder.setTitle(R.string.Notice);
+        dialogBuilder.setMessage(R.string.DonationCompleted);
+        dialogBuilder.setPositiveButton(R.string.Close, (alertDialog, id) -> {});
+        dialogBuilder.setCancelable(false);
+        dialogBuilder.show();
+    }
+
+    public void cannotStartBillingFlow()
+    {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+        dialogBuilder.setTitle(R.string.Notice);
+        dialogBuilder.setMessage(R.string.DonationErrorSummary);
+        dialogBuilder.setPositiveButton(R.string.Close, (alertDialog, id) -> {});
+        dialogBuilder.setCancelable(false);
         dialogBuilder.show();
     }
 }
