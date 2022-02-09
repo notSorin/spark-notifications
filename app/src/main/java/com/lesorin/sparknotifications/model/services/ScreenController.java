@@ -79,24 +79,28 @@ class ScreenController
             SystemClock.sleep(screenDelayMs);
         }
 
-        PowerManager.WakeLock wakeLock = _powerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, TAG);
-
-        wakeLock.acquire(60000L);
-
-        if(_devicePolicyManager.isAdminActive(_adminComponent) && isDeviceLocked())
+        //Make sure that after waiting the screen was not turned on, or a call has begun.
+        if(!isInCall() && !isScreenOn())
         {
-            SystemClock.sleep(screenTimeoutMs);
-            wakeLock.release();
+            PowerManager.WakeLock wakeLock = _powerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, TAG);
 
-            //Don't lock the device if it was unlocked during the previous sleep.
-            if(isDeviceLocked())
+            wakeLock.acquire(60000L);
+
+            if(_devicePolicyManager.isAdminActive(_adminComponent) && isDeviceLocked())
             {
-                _devicePolicyManager.lockNow();
+                SystemClock.sleep(screenTimeoutMs);
+                wakeLock.release();
+
+                //Don't lock the device if it was unlocked during the previous sleep.
+                if(isDeviceLocked())
+                {
+                    _devicePolicyManager.lockNow();
+                }
             }
-        }
-        else
-        {
-            wakeLock.release();
+            else
+            {
+                wakeLock.release();
+            }
         }
     }
 
