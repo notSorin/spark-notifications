@@ -232,6 +232,7 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
     public void responseRecentlyActiveApps(List<? extends RecentApp> appsList)
     {
         _view.displayRecentlyActiveApps(appsList);
+        //TODO call model to clear older activity from db.
     }
 
     @Override
