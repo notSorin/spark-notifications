@@ -11,7 +11,6 @@ import com.lesorin.sparknotifications.BuildConfig;
 import com.lesorin.sparknotifications.R;
 import com.lesorin.sparknotifications.view.activities.MainActivity;
 
-//TODO make the preferences keys constants.
 public class SettingsFragment extends PreferenceFragment
 {
     private SwitchPreference _deviceAdminPreference, _servicePreference, _proximitySensorPreference,

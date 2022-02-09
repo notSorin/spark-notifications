@@ -65,7 +65,6 @@ public class NotificationListener extends NotificationListenerService
             public void onSensorChanged(SensorEvent sensorEvent)
             {
                 //Must read first from the sensor before the listener is unregistered.
-                //TODO this is not working properly. it works while debugging but not when running...
                 boolean isObjectCoveringDevice = sensorEvent.values[0] < sensorEvent.sensor.getMaximumRange();
 
                 unregisterProximitySensorListener(); //Remove the listener so it doesn't keep triggering.
