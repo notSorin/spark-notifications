@@ -381,4 +381,16 @@ public class MainActivity extends AppCompatActivity implements Contract.View
         dialogBuilder.setPositiveButton(R.string.Close, (alertDialog, id) -> {});
         dialogBuilder.show();
     }
+
+    public void donatePreferencePressed()
+    {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+        dialogBuilder.setTitle(R.string.DonateTitle);
+        dialogBuilder.setItems(getResources().getStringArray(R.array.DonationValues), (dialog, which) ->
+        {
+            //TODO Read https://developer.android.com/google/play/billing/integrate to implement billing.
+        });
+        dialogBuilder.show();
+    }
 }

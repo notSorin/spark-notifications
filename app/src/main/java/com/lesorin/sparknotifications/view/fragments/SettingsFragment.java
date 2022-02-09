@@ -1,7 +1,5 @@
 package com.lesorin.sparknotifications.view.fragments;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -87,7 +85,14 @@ public class SettingsFragment extends PreferenceFragment
 
     private void initializeDonations()
     {
-        //todo
+        _donatePreference = findPreference("DonateKey");
+
+        _donatePreference.setOnPreferenceClickListener(preference ->
+        {
+            _activity.donatePreferencePressed();
+
+            return true;
+        });
     }
 
     private void initializeQuietHoursStop()
