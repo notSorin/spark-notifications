@@ -30,6 +30,7 @@ public class MainModel implements Contract.Model
     private final DevicePolicyManager _devicePolicyManager;
     private final ComponentName _adminComponent;
     private volatile boolean _deviceScanned;
+    private final PackageManager _packageManager;
 
     public MainModel(Context context)
     {
@@ -38,6 +39,7 @@ public class MainModel implements Contract.Model
         _devicePolicyManager = (DevicePolicyManager)_context.getSystemService(Context.DEVICE_POLICY_SERVICE);
         _adminComponent = new ComponentName(_context, DeviceAdministratorReceiver.class);
         _deviceScanned = false;
+        _packageManager = _context.getPackageManager();
 
         Realm.init(_context);
         launchAppScanner();
@@ -312,6 +314,8 @@ public class MainModel implements Contract.Model
         {
             RealmApp appCopy = realm.copyFromRealm(realmApp);
 
+            //Comment the next line to significantly speed up the query time, at the expense of not
+            //loading the app's icon.
             fetchAppIcon(appCopy);
             apps.add(appCopy);
         }
@@ -327,8 +331,7 @@ public class MainModel implements Contract.Model
 
         try
         {
-            PackageManager pm = _context.getPackageManager();
-            Drawable appIcon = pm.getApplicationInfo(app.getPackageName(), 0).loadIcon(pm);
+            Drawable appIcon = _packageManager.getApplicationInfo(app.getPackageName(), 0).loadIcon(_packageManager);
 
             app.setIcon(appIcon);
         }
