@@ -4,15 +4,27 @@
         <item>$1</item>
         <item>$2</item>
         <item>$3</item>
+        <item>$4</item>
         <item>$5</item>
+        <item>$6</item>
+        <item>$7</item>
+        <item>$8</item>
+        <item>$9</item>
         <item>$10</item>
+        <item>$100</item>
     </string-array>
 
     <string-array name="billing_items">
-        <item>screennotifications.donation.1</item>
-        <item>screennotifications.donation.2</item>
-        <item>screennotifications.donation.3</item>
-        <item>screennotifications.donation.5</item>
-        <item>screennotifications.donation.10</item>
+        <item>sparknotifications.donation.1</item>
+        <item>sparknotifications.donation.2</item>
+        <item>sparknotifications.donation.3</item>
+        <item>sparknotifications.donation.4</item>
+        <item>sparknotifications.donation.5</item>
+        <item>sparknotifications.donation.6</item>
+        <item>sparknotifications.donation.7</item>
+        <item>sparknotifications.donation.8</item>
+        <item>sparknotifications.donation.9</item>
+        <item>sparknotifications.donation.10</item>
+        <item>sparknotifications.donation.100</item>
     </string-array>
 </resources>
