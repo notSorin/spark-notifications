@@ -14,7 +14,18 @@
     <string name="PackageName">Package Name</string>
     <string name="RecentAppTitle">App\'s title.</string>
     <string name="RecentAppNotificationTime">Notification time.</string>
+    <string name="Close">Close</string>
     <string name="StoreLink" translatable="false">https://play.google.com/store/apps/details?id=com.lesorin.sparknotifications</string>
+    <string name="AboutSparkNotifications" translatable="false">
+        Spark Notifications is currently under development by Sorin Drăghici.\n
+        \n
+        This is an open-source project that can be found at <i>https://github.com/notSorin/spark-notifications</i> .\n
+        \n
+        Spark Notifications uses icons from <i>flaticon.com</i>. Icons used were designed by <i>Freepik https://www.flaticon.com/authors/freepik</i> .\n
+        \n
+        *** v. 1.0.0 (add date) ***\n
+        -Initial app release.\n
+    </string>
 
     <!--Preferences Categories-->
     <string name="PreferenceCategoryService">Service</string>
@@ -24,7 +35,7 @@
 
     <!--Preferences-->
     <string name="ContactDeveloperTitle">Contact Developer</string>
-    <string name="ContactDeveloperSummary">Send an email to contact.lesorin@gmail.com.</string>
+    <string name="ContactDeveloperSummary">For bug reports, ideas, or if you want to say \"hello\" (with an ironic tone), send an email to contact.lesorin@gmail.com.</string>
 
     <string name="SparkNotificationsServiceTitle">Spark Notifications Service</string>
     <string name="SparkNotificationsServiceSummary">When the service is enabled, the screen will turn on when notifications are received.</string>
@@ -46,13 +57,13 @@
     <string name="EnabledAppsSummary">Select which apps can turn the screen on when notifications are received.</string>
 
     <string name="RecentAppsTitle">Recent Activity</string>
-    <string name="RecentAppsSummary">Displays a list of apps that have recently turned the screen on.</string>
+    <string name="RecentAppsSummary">Displays a list with the last 50 apps that have turned the screen on. Older activity is automatically deleted.</string>
 
     <string name="DeviceAdminTitle">Device Administrator</string>
     <string name="DeviceAdminSummary">Enable this option to allow for custom screen timeouts.</string>
 
     <string name="ScreenTimeoutKey">Screen Timeout</string>
-    <string name="ScreenTimeoutSummaryEnabled">The screen will turn off %d seconds after it is turned on by a notification.\nIf the device is unlocked, the screen will not turn off.</string>
+    <string name="ScreenTimeoutSummaryEnabled">The screen will turn off %d seconds after it is turned on by a notification.\n\nIf the device is unlocked, the screen will not turn off.</string>
     <string name="ScreenTimeoutSummaryEnableAdmin">The Device Administrator option must be enabled to allow for custom screen timeouts.</string>
     <string name="ScreenTimeoutSummaryEnableService">The Notifications Service must be enabled to allow for custom screen timeouts.</string>
     <string name="ScreenTimeoutSummaryEnableServiceAndAdmin">The Notifications Service and the Device Administrator option must be enabled to allow for custom screen timeouts.</string>
@@ -66,10 +77,10 @@
     <string name="FullBrightnessSummary">When enabled, the screen will always turn on at full brightness.</string>
 
     <string name="ProximitySensorTitle">Use Proximity Sensor</string>
-    <string name="ProximitySensorSummary">When enabled, the screen will not turn on when an object is close to the device\'s screen, or when the device is in your pocket.\n\nThis option is not supported on all devices.</string>
+    <string name="ProximitySensorSummary">When enabled, the screen will not turn on when an object is close to the device\'s screen, or when the device is in your pocket.\n\nThis option is not supported by all devices.</string>
 
     <string name="DetectPickUpTitle">Detect Device Pick Up</string>
-    <string name="DetectPickUpSummary">When enabled, the screen will turn on when the device is picked up.\n\nThis option is not supported on all devices.</string>
+    <string name="DetectPickUpSummary">When enabled, the screen will turn on when the device is picked up.\n\nThis option is not supported by all devices.</string>
 
     <string name="OpenNotificationsDrawerTitle">Open Notifications Drawer</string>
     <string name="OpenNotificationsDrawerSummary">When enabled, the notifications drawer will open when the screen is turned on for notifications.</string>
@@ -81,14 +92,16 @@
 
     <string name="QuietHoursStopTitle">Quiet Hours Stop</string>
 
-    <string name="DonateTitle">Support App Development</string>
-    <string name="DonateSummary">Donate to help support the app\'s development.</string>
+    <string name="DonateTitle">Support App</string>
+    <string name="DonateSummary">Your support helps with the app\'s development.</string>
 
-    <string name="RateAppTitle">Rate Spark Notifications</string>
+    <string name="RateAppTitle">Rate App</string>
+    <string name="RateAppSummary">Your rate and review helps improve the app.</string>
 
-    <string name="VersionTitle">App Version</string>
-    <string name="Close">Close</string>
+    <string name="AboutAppTitle">About App</string>
 
     <string name="DarkThemeTitle">Dark Theme</string>
-    <string name="DarkThemeSummary">Enable or disable the dark theme.</string>
+    <string name="DarkThemeTitleEasterEgg">Dark Side Overloaded</string>
+    <string name="DarkThemeSummary">Enable or disable the dark side of the force.</string>
+    <string name="DarkThemeSummaryEasterEgg">Don\'t let Obi-Wan find out about this…</string>
 </resources>
