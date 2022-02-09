@@ -211,10 +211,15 @@ public class SettingsFragment extends PreferenceFragment
 
     private void initializeAppVersion()
     {
-        //TODO open an activity showing the update logs when the version is pressed.
-        Preference versionPreference = findPreference("VersionKey");
+        Preference versionPreference = findPreference("AboutAppKey");
 
         versionPreference.setSummary(BuildConfig.VERSION_NAME);
+        versionPreference.setOnPreferenceClickListener(preference ->
+        {
+            _activity.aboutAppPreferencePressed();
+
+            return true;
+        });
     }
 
     private void initializeContactDeveloper()
@@ -336,5 +341,19 @@ public class SettingsFragment extends PreferenceFragment
     public void updateEnabledApps(boolean enabledAppsEnabled)
     {
         _enabledAppsPreference.setEnabled(enabledAppsEnabled);
+    }
+
+    public void lightThemeEnabled()
+    {
+        _darkThemePreference.setTitle(R.string.DarkThemeTitle);
+        _darkThemePreference.setSummary(R.string.DarkThemeSummary);
+        _darkThemePreference.setIcon(R.drawable.theme);
+    }
+
+    public void darkThemeEnabled()
+    {
+        _darkThemePreference.setTitle(R.string.DarkThemeTitleEasterEgg);
+        _darkThemePreference.setSummary(R.string.DarkThemeSummaryEasterEgg);
+        _darkThemePreference.setIcon(R.drawable.evil);
     }
 }

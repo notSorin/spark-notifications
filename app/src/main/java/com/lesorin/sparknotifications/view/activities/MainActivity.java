@@ -322,12 +322,14 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     public void setLightTheme()
     {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        _settingsFragment.lightThemeEnabled();
     }
 
     @Override
     public void setDarkTheme()
     {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        _settingsFragment.darkThemeEnabled();
     }
 
     public void appStateChanged(App app, boolean enabled)
@@ -360,7 +362,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View
         String[] emails = {"contact.lesorin@gmail.com"};
         Intent intent = new Intent(Intent.ACTION_SENDTO);
 
-        intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+        intent.setData(Uri.parse("mailto:"));
         intent.putExtra(Intent.EXTRA_EMAIL, emails);
         intent.putExtra(Intent.EXTRA_SUBJECT, "Spark Notifications");
 
@@ -368,5 +370,15 @@ public class MainActivity extends AppCompatActivity implements Contract.View
         {
             startActivity(intent);
         }
+    }
+
+    public void aboutAppPreferencePressed()
+    {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+        dialogBuilder.setTitle(R.string.AboutAppTitle);
+        dialogBuilder.setMessage(R.string.AboutSparkNotifications);
+        dialogBuilder.setPositiveButton(R.string.Close, (alertDialog, id) -> {});
+        dialogBuilder.show();
     }
 }

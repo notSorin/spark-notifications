@@ -98,11 +98,12 @@
         <Preference
             android:icon="@drawable/rate"
             android:key="RateAppKey"
+            android:summary="@string/RateAppSummary"
             android:title="@string/RateAppTitle" />
 
         <Preference
             android:icon="@mipmap/ic_launcher"
-            android:key="VersionKey"
-            android:title="@string/VersionTitle" />
+            android:key="AboutAppKey"
+            android:title="@string/AboutAppTitle" />
     </PreferenceCategory>
 </PreferenceScreen>
