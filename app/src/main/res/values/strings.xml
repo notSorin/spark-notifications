@@ -42,7 +42,7 @@
 
     <string name="ServiceDisableInfo">You will now be taken to your device\'s <i>Notification Access</i> screen.\n
         \n
-        If you wish to stop Spark Notifications, disable its notifications access.</string>
+        If you wish to stop <i>Spark Notifications</i>, disable its notifications access.</string>
     <string name="ServiceEnableInfo">You will now be taken to your device\'s <i>Notification Access</i> screen.\n
         \n
         For this app to work, it is required to enable its access to
@@ -50,7 +50,7 @@
         \n
         Spark Notifications never reads the content of your notifications. This is an open-source app,
         which means that anyone can see exactly what the app does by looking at its source code,
-        available at <b>github.com/notSorin/spark-notifications</b> .
+        available at <i>github.com/notSorin/spark-notifications</i> .
     </string>
 
     <string name="EnabledAppsTitle">Enabled Apps</string>
