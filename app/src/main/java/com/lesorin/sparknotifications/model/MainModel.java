@@ -304,6 +304,27 @@ public class MainModel implements Contract.Model
         _preferences.edit().putBoolean(PreferencesKeys.DARK_THEME_ENABLED, enabled).apply();
     }
 
+    @Override
+    public void clearOldActivity(int maxRecentActivity)
+    {
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<RealmRecentApp> recentApps = realm.where(RealmRecentApp.class).findAll().sort("timestamp", Sort.DESCENDING);
+
+        if(recentApps.size() > maxRecentActivity)
+        {
+            realm.beginTransaction();
+
+            while(recentApps.size() > maxRecentActivity)
+            {
+                recentApps.get(maxRecentActivity).deleteFromRealm();
+            }
+
+            realm.commitTransaction();
+        }
+
+        realm.close();
+    }
+
     private ArrayList<RealmApp> queryAllApps()
     {
         ArrayList<RealmApp> apps = new ArrayList<>();

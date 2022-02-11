@@ -96,5 +96,6 @@ public interface Contract
         void appStateChanged(App app, boolean enabled);
         boolean isDarkThemeEnabled(boolean defaultValue);
         void setDarkThemeEnabled(boolean enabled);
+        void clearOldActivity(int maxRecentActivity);
     }
 }

@@ -10,6 +10,7 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
 {
     private final int MIN_SCREEN_TIMEOUT_SEC = 3, MAX_SCREEN_TIMEOUT_SEC = 30;
     private final int MIN_SCREEN_DELAY_SEC = 0, MAX_SCREEN_DELAY_SEC = 10;
+    private final int MAX_RECENT_ACTIVITY = 50;
     private final String DEFAULT_QUIET_HOURS_START_24H = "23:00", DEFAULT_QUIET_HOURS_STOP_24H = "07:00";
     private final String DEFAULT_QUIET_HOURS_START_12H = "11:00 PM", DEFAULT_QUIET_HOURS_STOP_12H = "07:00 AM";
     private final boolean DEFAULT_QUIET_HOURS_ENABLED = false;
@@ -56,6 +57,9 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
         boolean deviceAdminEnabled = _model.isDeviceAdministratorEnabled();
 
         handleDeviceAdminPreferences(serviceEnabled, deviceAdminEnabled);
+
+        //Clear old activity.
+        _model.clearOldActivity(MAX_RECENT_ACTIVITY);
     }
 
     private void handleDeviceAdminPreferences(boolean serviceEnabled, boolean deviceAdminEnabled)
@@ -247,7 +251,6 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
     public void responseRecentlyActiveApps(List<? extends RecentApp> appsList)
     {
         _view.displayRecentlyActiveApps(appsList);
-        //TODO call model to clear older activity from db.
     }
 
     @Override
