@@ -31,21 +31,18 @@
             android:title="@string/ScreenOnDelayTitle" />
 
         <SwitchPreference
-            android:defaultValue="true"
             android:icon="@drawable/sensor"
             android:key="ProximitySensorKey"
             android:summary="@string/ProximitySensorSummary"
             android:title="@string/ProximitySensorTitle" />
 
         <SwitchPreference
-            android:defaultValue="false"
             android:icon="@drawable/pickup"
             android:key="DetectPickUpKey"
             android:summary="@string/DetectPickUpSummary"
             android:title="@string/DetectPickUpTitle" />
 
         <SwitchPreference
-            android:defaultValue="false"
             android:icon="@drawable/quiet_hours"
             android:key="QuietHoursKey"
             android:summary="@string/QuietHoursSummary"
@@ -77,7 +74,6 @@
 
     <PreferenceCategory android:title="@string/PreferenceCategoryOther">
         <SwitchPreference
-            android:defaultValue="false"
             android:icon="@drawable/theme"
             android:key="DarkThemeKey"
             android:summary="@string/DarkThemeSummary"
