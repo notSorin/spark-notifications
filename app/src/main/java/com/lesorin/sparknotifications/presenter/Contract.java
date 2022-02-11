@@ -25,6 +25,7 @@ public interface Contract
         void quietHoursStartPreferencePressed(String startTime, boolean hourFormat24);
         void quietHoursStopPreferencePressed(String stopTime, boolean hourFormat24);
         void allAppsEnabledPreferencePressed(boolean enabled);
+        void allAppsViewClosed();
     }
 
     interface PresenterModel
@@ -39,7 +40,7 @@ public interface Contract
         //Service preferences changes.
         void servicePreferenceChanged(boolean serviceEnabled);
         void allAppsEnabledPreferenceChanged(boolean serviceEnabled, boolean allAppsEnabled);
-        void enabledAppsPreferenceChanged(boolean serviceEnabled, boolean allAppsEnabled);
+        void enabledAppsPreferenceChanged(boolean serviceEnabled, boolean allAppsEnabled, int appsEnabledAmount);
 
         //Options preferences changes.
         void screenDelayPreferenceChanged(boolean serviceEnabled, int screenDelayValue);
@@ -101,5 +102,6 @@ public interface Contract
         void clearOldActivity(int maxRecentActivity);
         boolean isAllAppsEnabled(boolean default_all_apps_enabled);
         void setAllAppsEnabled(boolean enabled);
+        int getEnabledAppsAmount();
     }
 }

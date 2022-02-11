@@ -99,7 +99,7 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
 
         _view.servicePreferenceChanged(serviceEnabled);
         _view.allAppsEnabledPreferenceChanged(serviceEnabled, allAppsEnabled);
-        _view.enabledAppsPreferenceChanged(serviceEnabled, allAppsEnabled);
+        _view.enabledAppsPreferenceChanged(serviceEnabled, allAppsEnabled, _model.getEnabledAppsAmount());
     }
 
     @Override
@@ -231,7 +231,14 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
     public void allAppsEnabledPreferencePressed(boolean enabled)
     {
         _model.setAllAppsEnabled(enabled);
-        _view.enabledAppsPreferenceChanged(_model.isNotificationsServiceEnabled(), enabled);
+        _view.enabledAppsPreferenceChanged(_model.isNotificationsServiceEnabled(), enabled, _model.getEnabledAppsAmount());
+    }
+
+    @Override
+    public void allAppsViewClosed()
+    {
+        _view.enabledAppsPreferenceChanged(_model.isNotificationsServiceEnabled(), _model.isAllAppsEnabled(DEFAULT_ALL_APPS_ENABLED),
+                _model.getEnabledAppsAmount());
     }
 
     private String convertTo24HourFormat(String time)

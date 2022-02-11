@@ -57,7 +57,8 @@
     <string name="AllAppsEnabledSummary">When enabled, all apps will turn the screen on when a notification is received.</string>
 
     <string name="EnabledAppsTitle">Enabled Apps</string>
-    <string name="EnabledAppsSummary">Select which apps can turn the screen on when notifications are received.</string>
+    <string name="EnabledAppsSummary">Select which apps can turn the screen on when notifications are received.\n\nEnabled apps: %d</string>
+    <string name="EnabledAppsOffSummary">Select which apps can turn the screen on when notifications are received.</string>
 
     <string name="RecentAppsTitle">Recent Activity</string>
     <string name="RecentAppsSummary">Displays a list with the last 50 apps that have turned the screen on. Older activity is automatically deleted.</string>

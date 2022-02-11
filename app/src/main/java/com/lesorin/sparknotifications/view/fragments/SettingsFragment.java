@@ -355,9 +355,18 @@ public class SettingsFragment extends PreferenceFragment
         _quietHoursStopPreference.setSummary(quietHoursStop);
     }
 
-    public void updateEnabledApps(boolean serviceEnabled, boolean allAppsEnabled)
+    public void updateEnabledApps(boolean serviceEnabled, boolean allAppsEnabled, int appsEnabledAmount)
     {
         _enabledAppsPreference.setEnabled(serviceEnabled && !allAppsEnabled);
+
+        if(serviceEnabled && !allAppsEnabled)
+        {
+            _enabledAppsPreference.setSummary(getString(R.string.EnabledAppsSummary, appsEnabledAmount));
+        }
+        else
+        {
+            _enabledAppsPreference.setSummary(R.string.EnabledAppsOffSummary);
+        }
     }
 
     public void updateAllAppsPreference(boolean serviceEnabled, boolean allAppsEnabled)
