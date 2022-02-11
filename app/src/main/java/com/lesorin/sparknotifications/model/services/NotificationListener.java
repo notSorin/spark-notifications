@@ -138,7 +138,7 @@ public class NotificationListener extends NotificationListenerService
     @Override
     public void onNotificationPosted(StatusBarNotification sbn)
     {
-        if(!sbn.isOngoing() && isAppEnabled(sbn.getPackageName()))
+        if(!sbn.isOngoing() && (isAppEnabled(sbn.getPackageName()) || isAllAppsEnabled()))
         {
             _lastNotifyingPackage = sbn.getPackageName();
 
@@ -157,6 +157,11 @@ public class NotificationListener extends NotificationListenerService
                         getScreenDelayMs(), getScreenTimeoutMs(), isInQuietHours());
             }
         }
+    }
+
+    private boolean isAllAppsEnabled()
+    {
+        return _preferences.getBoolean(PreferencesKeys.ALL_APPS_ENABLED, false);
     }
 
     private boolean isAppEnabled(String packageName)
