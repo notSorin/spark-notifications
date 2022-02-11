@@ -47,10 +47,25 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
         //Set service-related preferences.
         boolean serviceEnabled = _model.isNotificationsServiceEnabled();
 
-        _view.servicePreferenceChanged(serviceEnabled);
-        _view.enabledAppsPreferenceChanged(serviceEnabled);
+        handleServicePreferences(serviceEnabled);
 
         //Set option-related preferences.
+        handleOptionsPreferences(serviceEnabled, hourFormat24);
+
+        //Set admin-related preferences.
+        boolean deviceAdminEnabled = _model.isDeviceAdministratorEnabled();
+
+        handleDeviceAdminPreferences(serviceEnabled, deviceAdminEnabled);
+    }
+
+    private void handleDeviceAdminPreferences(boolean serviceEnabled, boolean deviceAdminEnabled)
+    {
+        _view.deviceAdministratorPreferenceChanged(deviceAdminEnabled);
+        _view.screenTimeoutPreferenceChanged(serviceEnabled, deviceAdminEnabled, _model.getScreenTimeoutValue(MIN_SCREEN_TIMEOUT_SEC));
+    }
+
+    private void handleOptionsPreferences(boolean serviceEnabled, boolean hourFormat24)
+    {
         _view.screenDelayPreferenceChanged(serviceEnabled, _model.getScreenDelayValue(MIN_SCREEN_DELAY_SEC));
         _view.proximitySensorPreferenceChanged(serviceEnabled, _model.isProximitySensorEnabled(true));
         _view.detectPickUpPreferenceChanged(serviceEnabled, _model.isDetectPickUpEnabled(false));
@@ -71,12 +86,12 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
                 _model.getQuietHoursStart(hourFormat24 ? DEFAULT_QUIET_HOURS_START_24H : DEFAULT_QUIET_HOURS_START_12H));
         _view.quietHoursStopPreferenceChanged(serviceEnabled, quietHoursEnabled,
                 _model.getQuietHoursStop(hourFormat24 ? DEFAULT_QUIET_HOURS_STOP_24H : DEFAULT_QUIET_HOURS_STOP_12H));
+    }
 
-        //Set admin-related preferences.
-        boolean deviceAdminEnabled = _model.isDeviceAdministratorEnabled();
-
-        _view.deviceAdministratorPreferenceChanged(deviceAdminEnabled);
-        _view.screenTimeoutPreferenceChanged(serviceEnabled, deviceAdminEnabled, _model.getScreenTimeoutValue(MIN_SCREEN_TIMEOUT_SEC));
+    private void handleServicePreferences(boolean serviceEnabled)
+    {
+        _view.servicePreferenceChanged(serviceEnabled);
+        _view.enabledAppsPreferenceChanged(serviceEnabled);
     }
 
     @Override
