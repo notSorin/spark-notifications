@@ -215,9 +215,9 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     }
 
     @Override
-    public void enabledAppsPreferenceChanged(boolean serviceEnabled, boolean allAppsEnabled)
+    public void enabledAppsPreferenceChanged(boolean serviceEnabled, boolean allAppsEnabled, int appsEnabledAmount)
     {
-        _settingsFragment.updateEnabledApps(serviceEnabled, allAppsEnabled);
+        _settingsFragment.updateEnabledApps(serviceEnabled, allAppsEnabled, appsEnabledAmount);
     }
 
     public void screenTimeoutPreferencePressed()
@@ -314,7 +314,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View
 
             dialogBuilder.setTitle(R.string.EnabledAppsTitle);
             dialogBuilder.setView(appsView);
-            dialogBuilder.setPositiveButton(R.string.Close, (dialog, whichButton) -> {});
+            dialogBuilder.setPositiveButton(R.string.Close, (dialog, whichButton) -> _presenter.allAppsViewClosed());
             dialogBuilder.setCancelable(false);
             dialogBuilder.show();
             _progressDialog.dismiss();
