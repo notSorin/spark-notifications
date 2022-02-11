@@ -14,7 +14,7 @@ import com.lesorin.sparknotifications.view.activities.MainActivity;
 public class SettingsFragment extends PreferenceFragment
 {
     private SwitchPreference _deviceAdminPreference, _servicePreference, _proximitySensorPreference,
-            _detectPickUpPreference, _quietHoursPreference, _darkThemePreference;
+            _detectPickUpPreference, _quietHoursPreference, _darkThemePreference, _allAppsPreference;
     private Preference _enabledAppsPreference, _recentActivityPreference, _screenTimeoutPreference,
             _screenDelayPreference, _rateAppPreference, _donatePreference;
     private TimePreference _quietHoursStartPreference, _quietHoursStopPreference;
@@ -35,6 +35,7 @@ public class SettingsFragment extends PreferenceFragment
     {
         //Service.
         initializeService();
+        initializeAllAppsEnabled();
         initializeEnabledApps();
         initializeRecentActivity();
 
@@ -56,6 +57,18 @@ public class SettingsFragment extends PreferenceFragment
         initializeDonations();
         initializeRateApp();
         initializeAppVersion();
+    }
+
+    private void initializeAllAppsEnabled()
+    {
+        _allAppsPreference = (SwitchPreference)findPreference("AllAppsEnabledKey");
+
+        _allAppsPreference.setOnPreferenceClickListener(preference ->
+        {
+            _activity.allAppsEnabledPreferencePressed(_allAppsPreference.isChecked());
+
+            return true;
+        });
     }
 
     private void initializeRateApp()
@@ -342,9 +355,15 @@ public class SettingsFragment extends PreferenceFragment
         _quietHoursStopPreference.setSummary(quietHoursStop);
     }
 
-    public void updateEnabledApps(boolean enabledAppsEnabled)
+    public void updateEnabledApps(boolean serviceEnabled, boolean allAppsEnabled)
     {
-        _enabledAppsPreference.setEnabled(enabledAppsEnabled);
+        _enabledAppsPreference.setEnabled(serviceEnabled && !allAppsEnabled);
+    }
+
+    public void updateAllAppsPreference(boolean serviceEnabled, boolean allAppsEnabled)
+    {
+        _allAppsPreference.setEnabled(serviceEnabled);
+        _allAppsPreference.setChecked(allAppsEnabled);
     }
 
     public void lightThemeEnabled()

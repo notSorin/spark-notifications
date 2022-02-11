@@ -53,6 +53,9 @@
         available at <i>github.com/notSorin/spark-notifications</i> .
     </string>
 
+    <string name="AllAppsEnabledTitle">Enable All Apps</string>
+    <string name="AllAppsEnabledSummary">When enabled, all apps will turn the screen on when a notification is received.</string>
+
     <string name="EnabledAppsTitle">Enabled Apps</string>
     <string name="EnabledAppsSummary">Select which apps can turn the screen on when notifications are received.</string>
 

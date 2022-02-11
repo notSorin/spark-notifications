@@ -10,6 +10,12 @@
             android:summary="@string/SparkNotificationsServiceSummary"
             android:title="@string/SparkNotificationsServiceTitle" />
 
+        <SwitchPreference
+            android:icon="@drawable/all"
+            android:key="AllAppsEnabledKey"
+            android:summary="@string/AllAppsEnabledSummary"
+            android:title="@string/AllAppsEnabledTitle" />
+
         <Preference
             android:icon="@drawable/enabled_apps"
             android:key="EnabledAppsKey"

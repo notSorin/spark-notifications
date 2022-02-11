@@ -87,6 +87,12 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     }
 
     @Override
+    public void allAppsEnabledPreferenceChanged(boolean serviceEnabled, boolean allAppsEnabled)
+    {
+        _settingsFragment.updateAllAppsPreference(serviceEnabled, allAppsEnabled);
+    }
+
+    @Override
     public void deviceAdministratorPreferenceChanged(boolean deviceAdministratorEnabled)
     {
         _settingsFragment.updateDeviceAdministrator(deviceAdministratorEnabled);
@@ -209,9 +215,9 @@ public class MainActivity extends AppCompatActivity implements Contract.View
     }
 
     @Override
-    public void enabledAppsPreferenceChanged(boolean enabledAppsEnabled)
+    public void enabledAppsPreferenceChanged(boolean serviceEnabled, boolean allAppsEnabled)
     {
-        _settingsFragment.updateEnabledApps(enabledAppsEnabled);
+        _settingsFragment.updateEnabledApps(serviceEnabled, allAppsEnabled);
     }
 
     public void screenTimeoutPreferencePressed()
@@ -466,5 +472,10 @@ public class MainActivity extends AppCompatActivity implements Contract.View
         dialogBuilder.setPositiveButton(R.string.Close, (alertDialog, id) -> {});
         dialogBuilder.setCancelable(false);
         dialogBuilder.show();
+    }
+
+    public void allAppsEnabledPreferencePressed(boolean enabled)
+    {
+        _presenter.allAppsEnabledPreferencePressed(enabled);
     }
 }

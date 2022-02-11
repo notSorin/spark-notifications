@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-//TODO enable the most popular apps by default when the app is launched for the first time.
 public class MainPresenter implements Contract.PresenterView, Contract.PresenterModel
 {
     private final int MIN_SCREEN_TIMEOUT_SEC = 3, MAX_SCREEN_TIMEOUT_SEC = 30;
@@ -14,7 +13,8 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
     private final String DEFAULT_QUIET_HOURS_START_24H = "23:00", DEFAULT_QUIET_HOURS_STOP_24H = "07:00";
     private final String DEFAULT_QUIET_HOURS_START_12H = "11:00 PM", DEFAULT_QUIET_HOURS_STOP_12H = "07:00 AM";
     private final boolean DEFAULT_QUIET_HOURS_ENABLED = false, DEFAULT_PROXIMITY_SENSOR_ENABLED = false,
-            DEFAULT_DETECT_PICK_UP_ENABLED = false, DEFAULT_DARK_THEME_ENABLED = false;
+            DEFAULT_DETECT_PICK_UP_ENABLED = false, DEFAULT_DARK_THEME_ENABLED = false,
+            DEFAULT_ALL_APPS_ENABLED = false;
 
     private Contract.View _view;
     private Contract.Model _model;
@@ -95,8 +95,11 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
 
     private void handleServicePreferences(boolean serviceEnabled)
     {
+        boolean allAppsEnabled = _model.isAllAppsEnabled(DEFAULT_ALL_APPS_ENABLED);
+
         _view.servicePreferenceChanged(serviceEnabled);
-        _view.enabledAppsPreferenceChanged(serviceEnabled);
+        _view.allAppsEnabledPreferenceChanged(serviceEnabled, allAppsEnabled);
+        _view.enabledAppsPreferenceChanged(serviceEnabled, allAppsEnabled);
     }
 
     @Override
@@ -222,6 +225,13 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
         _model.setQuietHoursStop24H(hourFormat24 ? stopTime : convertTo24HourFormat(stopTime));
         _view.quietHoursStopPreferenceChanged(_model.isNotificationsServiceEnabled(),
                 _model.isQuietHoursEnabled(DEFAULT_QUIET_HOURS_ENABLED), stopTime);
+    }
+
+    @Override
+    public void allAppsEnabledPreferencePressed(boolean enabled)
+    {
+        _model.setAllAppsEnabled(enabled);
+        _view.enabledAppsPreferenceChanged(_model.isNotificationsServiceEnabled(), enabled);
     }
 
     private String convertTo24HourFormat(String time)

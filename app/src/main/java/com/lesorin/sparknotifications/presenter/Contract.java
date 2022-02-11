@@ -24,6 +24,7 @@ public interface Contract
         void darkThemePreferencePressed(boolean enabled);
         void quietHoursStartPreferencePressed(String startTime, boolean hourFormat24);
         void quietHoursStopPreferencePressed(String stopTime, boolean hourFormat24);
+        void allAppsEnabledPreferencePressed(boolean enabled);
     }
 
     interface PresenterModel
@@ -37,7 +38,8 @@ public interface Contract
     {
         //Service preferences changes.
         void servicePreferenceChanged(boolean serviceEnabled);
-        void enabledAppsPreferenceChanged(boolean enabledAppsEnabled);
+        void allAppsEnabledPreferenceChanged(boolean serviceEnabled, boolean allAppsEnabled);
+        void enabledAppsPreferenceChanged(boolean serviceEnabled, boolean allAppsEnabled);
 
         //Options preferences changes.
         void screenDelayPreferenceChanged(boolean serviceEnabled, int screenDelayValue);
@@ -97,5 +99,7 @@ public interface Contract
         boolean isDarkThemeEnabled(boolean defaultValue);
         void setDarkThemeEnabled(boolean enabled);
         void clearOldActivity(int maxRecentActivity);
+        boolean isAllAppsEnabled(boolean default_all_apps_enabled);
+        void setAllAppsEnabled(boolean enabled);
     }
 }

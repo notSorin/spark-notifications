@@ -325,6 +325,18 @@ public class MainModel implements Contract.Model
         realm.close();
     }
 
+    @Override
+    public boolean isAllAppsEnabled(boolean defaultValue)
+    {
+        return _preferences.getBoolean(PreferencesKeys.ALL_APPS_ENABLED, defaultValue);
+    }
+
+    @Override
+    public void setAllAppsEnabled(boolean enabled)
+    {
+        _preferences.edit().putBoolean(PreferencesKeys.ALL_APPS_ENABLED, enabled).apply();
+    }
+
     private ArrayList<RealmApp> queryAllApps()
     {
         ArrayList<RealmApp> apps = new ArrayList<>();

@@ -12,4 +12,5 @@ public class PreferencesKeys
     public static final String QUIET_HOURS_START_24H = "QuietHoursStart24HKey";
     public static final String QUIET_HOURS_STOP_24H = "QuietHoursStop24HKey";
     public static final String DARK_THEME_ENABLED = "DarkThemeKey";
+    public static final String ALL_APPS_ENABLED = "AllAppsEnabledKey";
 }
