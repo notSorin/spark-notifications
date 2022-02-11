@@ -13,7 +13,8 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
     private final int MAX_RECENT_ACTIVITY = 50;
     private final String DEFAULT_QUIET_HOURS_START_24H = "23:00", DEFAULT_QUIET_HOURS_STOP_24H = "07:00";
     private final String DEFAULT_QUIET_HOURS_START_12H = "11:00 PM", DEFAULT_QUIET_HOURS_STOP_12H = "07:00 AM";
-    private final boolean DEFAULT_QUIET_HOURS_ENABLED = false;
+    private final boolean DEFAULT_QUIET_HOURS_ENABLED = false, DEFAULT_PROXIMITY_SENSOR_ENABLED = false,
+            DEFAULT_DETECT_PICK_UP_ENABLED = false, DEFAULT_DARK_THEME_ENABLED = false;
 
     private Contract.View _view;
     private Contract.Model _model;
@@ -71,10 +72,10 @@ public class MainPresenter implements Contract.PresenterView, Contract.Presenter
     private void handleOptionsPreferences(boolean serviceEnabled, boolean hourFormat24)
     {
         _view.screenDelayPreferenceChanged(serviceEnabled, _model.getScreenDelayValue(MIN_SCREEN_DELAY_SEC));
-        _view.proximitySensorPreferenceChanged(serviceEnabled, _model.isProximitySensorEnabled(true));
-        _view.detectPickUpPreferenceChanged(serviceEnabled, _model.isDetectPickUpEnabled(false));
+        _view.proximitySensorPreferenceChanged(serviceEnabled, _model.isProximitySensorEnabled(DEFAULT_PROXIMITY_SENSOR_ENABLED));
+        _view.detectPickUpPreferenceChanged(serviceEnabled, _model.isDetectPickUpEnabled(DEFAULT_DETECT_PICK_UP_ENABLED));
 
-        if(_model.isDarkThemeEnabled(false))
+        if(_model.isDarkThemeEnabled(DEFAULT_DARK_THEME_ENABLED))
         {
             _view.setDarkTheme();
         }
